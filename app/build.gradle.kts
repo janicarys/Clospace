@@ -5,7 +5,7 @@ plugins {
 android {
     namespace = "com.mobdeve.s15.reyes.janicamegan.clospace"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
