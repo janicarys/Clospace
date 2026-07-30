@@ -113,7 +113,7 @@
             android:layout_marginTop="2dp"
             android:background="@drawable/edittext_background"
             android:paddingHorizontal="12dp"
-            android:hint="Enter password"
+            android:hint="@string/hint_password"
             android:textColorHint="@color/brown"
             android:inputType="textPassword"
             android:autofillHints="password"
@@ -131,7 +131,7 @@
 
             android:layout_marginTop="32dp"
 
-            android:text="Choose an avatar"/>
+            android:text="@string/signup_choose_avatar"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -146,8 +146,10 @@
                 android:layout_height="72dp"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_avatar_male"/>
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_avatar_male"
+                android:contentDescription="@string/avatar_male"/>
 
             <ImageButton
                 android:id="@+id/ivAvatarFemale"
@@ -155,8 +157,10 @@
                 android:layout_height="72dp"
                 android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_avatar_female"/>
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_avatar_female"
+                android:contentDescription="@string/avatar_female"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -167,7 +171,7 @@
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:background="@drawable/button_background"
-        android:text="CREATE ACCOUNT"
+        android:text="@string/signup_button"
         android:textAllCaps="true"
 
         android:layout_marginTop="32dp"
@@ -193,14 +197,14 @@
             style="@style/ClospaceSmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Have an account? " />
+            android:text="@string/signup_have_account"/>
 
         <TextView
             android:id="@+id/tvSignIn"
             style="@style/ClospaceSmallLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="@string/signup_sign_in"
             android:clickable="true"
             android:focusable="true" />
 
