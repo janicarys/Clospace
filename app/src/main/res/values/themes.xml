@@ -17,6 +17,12 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
+    <style name="ClospaceSquiggle">
+        <item name="android:fontFamily">@font/redactedscript_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/lavender</item>
+    </style>
+
     <!-- Form Labels -->
     <style name="ClospaceLabel">
         <item name="android:fontFamily">@font/rokkitt_regular</item>
@@ -48,6 +54,31 @@
         <item name="android:fontFamily">@font/rokkitt_bold</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/violet</item>
+    </style>
+
+    <!-- Empty Garment Placeholder -->
+    <style name="ClospacePlaceholderCard">
+        <item name="android:layout_width">110dp</item>
+        <item name="android:layout_height">110dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/garment_placeholder</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Placeholder Icon -->
+    <style name="ClospacePlaceholderIcon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:tint">@android:color/white</item>
+    </style>
+
+    <!-- Placeholder Text -->
+    <style name="ClospacePlaceholderText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/rokkitt_medium</item>
+        <item name="android:layout_marginTop">12dp</item>
     </style>
 
     <style name="Theme.Clospace" parent="Base.Theme.Clospace" />

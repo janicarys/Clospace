@@ -24,4 +24,18 @@
     <string name="signup_sign_in">Sign In</string>
     <string name="avatar_male">Male avatar</string>
     <string name="avatar_female">Female avatar</string>
+
+    <!-- Main Page -->
+    <string name="search_closet">Search your closet...</string>
+    <string name="tops">TOPS</string>
+    <string name="bottoms">BOTTOMS</string>
+    <string name="footwear">FOOTWEAR</string>
+    <string name="accessories">ACCESSORIES</string>
+    <string name="add_top">Add Top</string>
+    <string name="add_bottom">Add Bottom</string>
+    <string name="add_footwear">Add Shoes</string>
+    <string name="add_accessory">Add Accessory</string>
+    <string name="add_item">Add garment</string>
+
+
 </resources>
