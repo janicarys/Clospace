@@ -1,0 +1,26 @@
+*.iml
+.gradle
+/local.properties
+
+# Android Studio
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/compiler.xml
+/.idea/runConfigurations.xml
+/.idea/gradle.xml
+
+# Keep these tracked
+!/.idea/misc.xml
+!/.idea/vcs.xml
+
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx

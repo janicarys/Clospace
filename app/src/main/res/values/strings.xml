@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Clospace</string>
+
+    <string name="app_tagline">Your digital wardrobe</string>
+
+    <!-- Login -->
+    <string name="login_title">Clospace</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="hint_username">Enter username</string>
+    <string name="hint_password">Enter password</string>
+    <string name="login_button">LOG IN</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_sign_up">Sign Up</string>
+
+    <!-- Sign Up -->
+    <string name="signup_title">Let\'s Get Started</string>
+    <string name="signup_subtitle">Create your Clospace account</string>
+    <string name="signup_display_name">Display Name</string>
+    <string name="hint_display_name">Enter display name</string>
+    <string name="signup_choose_avatar">Choose an avatar</string>
+    <string name="signup_button">CREATE ACCOUNT</string>
+    <string name="signup_have_account">Have an account?\ </string>
+    <string name="signup_sign_in">Sign In</string>
+    <string name="avatar_male">Male avatar</string>
+    <string name="avatar_female">Female avatar</string>
+
+    <!-- Main Page -->
+    <string name="search_closet">Search your closet...</string>
+    <string name="tops">TOPS</string>
+    <string name="bottoms">BOTTOMS</string>
+    <string name="footwear">FOOTWEAR</string>
+    <string name="accessories">ACCESSORIES</string>
+    <string name="add_top">Add Top</string>
+    <string name="add_bottom">Add Bottom</string>
+    <string name="add_footwear">Add Shoes</string>
+    <string name="add_accessory">Add Accessory</string>
+    <string name="add_item">Add garment</string>
+
+    <!-- Settings Page -->
+    <string name="notifications">Notifications</string>
+    <string name="about">About</string>
+    <string name="contact_support">Contact Support</string>
+
+    <string name="about_description">
+Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
+</string>
+
+    <string name="version">Version</string>
+    <string name="version_number">v1.0.0</string>
+
+    <string name="developer">Developers</string>
+    <string name="developer_name">Janica Megan Reyes\nGabriel Esguerra\nYuyang Guo</string>
+
+
+    <string name="back">Back</string>
+
+    <string name="support_title">Need Help?</string>
+
+    <string name="support_description">
+        Experiencing an issue?\nThis feature will allow users to contact the Clospace development team for technical support, bug reports, and feedback.\nSupport functionality will be available in a future update.</string>
+
+
+</resources>
