@@ -5,55 +5,87 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Large page title -->
     <style name="ClospaceTitle">
         <item name="android:fontFamily">@font/rokkitt_bold</item>
         <item name="android:textSize">42sp</item>
         <item name="android:textColor">@color/violet</item>
     </style>
 
-    <style name="ClospaceSubtitle">
-        <item name="android:fontFamily">@font/rokkitt_regular</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/brown</item>
-    </style>
-
+    <!-- Decorative app name -->
     <style name="ClospaceSquiggle">
         <item name="android:fontFamily">@font/redactedscript_regular</item>
         <item name="android:textSize">34sp</item>
         <item name="android:textColor">@color/lavender</item>
     </style>
 
-    <!-- Form Labels -->
+    <!-- Short subtitle -->
+    <style name="ClospaceSubtitle">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+    <!-- Section headings -->
     <style name="ClospaceLabel">
         <item name="android:fontFamily">@font/rokkitt_regular</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/violet</item>
     </style>
 
-    <!-- EditText -->
-    <style name="ClospaceEditText">
+    <!-- Normal paragraph text -->
+    <style name="ClospaceBody">
         <item name="android:fontFamily">@font/rokkitt_regular</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:lineSpacingExtra">6dp</item>
     </style>
 
-    <!-- Buttons -->
-    <style name="ClospaceButtonText">
-        <item name="android:fontFamily">@font/rokkitt_bold</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="ClospaceSmallText">
+    <!-- Secondary / helper text -->
+    <style name="ClospaceCaption">
         <item name="android:fontFamily">@font/rokkitt_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/brown</item>
     </style>
 
-    <style name="ClospaceSmallLink">
+    <!-- Links -->
+    <style name="ClospaceLink">
         <item name="android:fontFamily">@font/rokkitt_bold</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/violet</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="ClospaceEditText">
+
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+
+        <item name="android:textSize">18sp</item>
+
+        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColorHint">@color/brown</item>
+
+        <item name="android:background">@drawable/edittext_background</item>
+
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+
+    </style>
+
+    <!-- Button -->
+    <style name="ClospacePrimaryButton">
+
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">56dp</item>
+
+        <item name="android:background">@drawable/button_background</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
     </style>
 
     <!-- Empty Garment Placeholder -->

@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
 
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
         android:layout_marginTop="36dp"
 
         app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
@@ -62,10 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="2dp"
-            android:background="@drawable/edittext_background"
-            android:paddingHorizontal="12dp"
             android:hint="@string/hint_username"
-            android:textColorHint="@color/brown"
             android:inputType="text"
             android:autofillHints="username"
             android:imeOptions="actionNext"
@@ -77,7 +74,7 @@
             style="@style/ClospaceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/signup_display_name"
             android:labelFor="@id/etDisplayName"/>
 
@@ -87,10 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="2dp"
-            android:background="@drawable/edittext_background"
-            android:paddingHorizontal="12dp"
             android:hint="@string/hint_display_name"
-            android:textColorHint="@color/brown"
             android:inputType="textPersonName"
             android:autofillHints="name"
             android:imeOptions="actionNext" />
@@ -101,7 +95,7 @@
             style="@style/ClospaceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/login_password"
             android:labelFor="@id/etPassword"/>
 
@@ -111,10 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="2dp"
-            android:background="@drawable/edittext_background"
-            android:paddingHorizontal="12dp"
             android:hint="@string/hint_password"
-            android:textColorHint="@color/brown"
             android:inputType="textPassword"
             android:autofillHints="password"
             android:imeOptions="actionDone"
@@ -142,8 +133,8 @@
 
             <ImageButton
                 android:id="@+id/ivAvatarMale"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 android:padding="3dp"
@@ -153,8 +144,8 @@
 
             <ImageButton
                 android:id="@+id/ivAvatarFemale"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
                 android:padding="3dp"
@@ -167,15 +158,10 @@
 
     <Button
         android:id="@+id/btnSubmit"
-        style="@style/ClospaceButtonText"
-        android:layout_width="220dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_background"
+        style="@style/ClospacePrimaryButton"
         android:text="@string/signup_button"
-        android:textAllCaps="true"
 
         android:layout_marginTop="32dp"
-        android:paddingHorizontal="18dp"
 
         app:layout_constraintTop_toBottomOf="@id/layoutSignUpForm"
         app:layout_constraintStart_toStartOf="parent"
@@ -194,16 +180,17 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            style="@style/ClospaceSmallText"
+            style="@style/ClospaceCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signup_have_account"/>
 
         <TextView
             android:id="@+id/tvSignIn"
-            style="@style/ClospaceSmallLink"
+            style="@style/ClospaceLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:text="@string/signup_sign_in"
             android:clickable="true"
             android:focusable="true" />

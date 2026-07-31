@@ -117,6 +117,7 @@
 
         <!-- Closet (Inactive State) -->
         <LinearLayout
+            android:id="@+id/navCloset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -137,6 +138,7 @@
 
         <!-- Outfit (Inactive State) -->
         <LinearLayout
+            android:id="@+id/navOutfit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -157,6 +159,7 @@
 
         <!-- Calendar (Inactive State) -->
         <LinearLayout
+            android:id="@+id/navCalendar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -177,6 +180,7 @@
 
         <!-- Settings (Active State) -->
         <LinearLayout
+            android:id="@+id/navSettings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

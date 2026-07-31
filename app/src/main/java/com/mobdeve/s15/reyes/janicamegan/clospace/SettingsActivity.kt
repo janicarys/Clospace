@@ -11,6 +11,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        // Settings cards
         val about = findViewById<LinearLayout>(R.id.layoutAbout)
         val support = findViewById<LinearLayout>(R.id.layoutSupport)
 
@@ -21,5 +22,27 @@ class SettingsActivity : AppCompatActivity() {
         support.setOnClickListener {
             startActivity(Intent(this, SupportActivity::class.java))
         }
+
+        // Bottom Navigation
+        val navCloset = findViewById<LinearLayout>(R.id.navCloset)
+        val navOutfit = findViewById<LinearLayout>(R.id.navOutfit)
+        val navCalendar = findViewById<LinearLayout>(R.id.navCalendar)
+
+        navCloset.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+
+        navOutfit.setOnClickListener {
+            //startActivity(Intent(this, OutfitActivity::class.java))
+            finish()
+        }
+
+        navCalendar.setOnClickListener {
+            //startActivity(Intent(this, CalendarActivity::class.java))
+            finish()
+        }
+
     }
 }

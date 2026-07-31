@@ -5,8 +5,8 @@
 
     <!-- Login -->
     <string name="login_title">Clospace</string>
-    <string name="login_username">username</string>
-    <string name="login_password">password</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
     <string name="hint_username">Enter username</string>
     <string name="hint_password">Enter password</string>
     <string name="login_button">LOG IN</string>
@@ -16,11 +16,11 @@
     <!-- Sign Up -->
     <string name="signup_title">Let\'s Get Started</string>
     <string name="signup_subtitle">Create your Clospace account</string>
-    <string name="signup_display_name">display name</string>
+    <string name="signup_display_name">Display Name</string>
     <string name="hint_display_name">Enter display name</string>
     <string name="signup_choose_avatar">Choose an avatar</string>
     <string name="signup_button">CREATE ACCOUNT</string>
-    <string name="signup_have_account">Have an account?</string>
+    <string name="signup_have_account">Have an account?\ </string>
     <string name="signup_sign_in">Sign In</string>
     <string name="avatar_male">Male avatar</string>
     <string name="avatar_female">Female avatar</string>
@@ -43,17 +43,22 @@
     <string name="contact_support">Contact Support</string>
 
     <string name="about_description">
-        Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
-        \n\nVersion 1.0\n\n
-        Developed by\n
-        Janica Megan Reyes\n
-        Gabriel Esguerra\n
-        Yuyang Guo\n
-    </string>
+Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
+</string>
+
+    <string name="version">Version</string>
+    <string name="version_number">v1.0.0</string>
+
+    <string name="developer">Developers</string>
+    <string name="developer_name">Janica Megan Reyes\nGabriel Esguerra\nYuyang Guo</string>
+
+
+    <string name="back">Back</string>
+
+    <string name="support_title">Need Help?</string>
 
     <string name="support_description">
-        Need help with Clospace?\n\nEmail:\njanicamegan@gmail.com\n\nWe'll get back to you as soon as possible.\n
-    </string>
+        Experiencing an issue?\nThis feature will allow users to contact the Clospace development team for technical support, bug reports, and feedback.\nSupport functionality will be available in a future update.</string>
 
 
 </resources>
