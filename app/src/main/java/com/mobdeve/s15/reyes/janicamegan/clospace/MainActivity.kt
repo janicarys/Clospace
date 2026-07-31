@@ -38,13 +38,12 @@ class MainActivity : AppCompatActivity() {
         // Calendar
         navCalendar.setOnClickListener {
             // TODO: Replace once CalendarActivity exists
-            // startActivity(Intent(this, CalendarActivity::class.java))
+            startActivity(Intent(this, CalendarActivity::class.java))
         }
 
         // Settings
         navSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
-            overridePendingTransition(0, 0)
         }
 
         // Floating Action Button

@@ -62,4 +62,6 @@ dependencies {
     // Instrumentation Tests
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
 }
