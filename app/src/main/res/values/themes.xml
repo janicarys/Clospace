@@ -81,5 +81,31 @@
         <item name="android:layout_marginTop">12dp</item>
     </style>
 
+
+    <style name="ClospaceSettingLabel">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/violet</item>
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+    </style>
+
+    <style name="ClospaceSettingsCard">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+
+        <item name="android:background">@drawable/settings_card</item>
+
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+
+        <item name="android:gravity">center_vertical</item>
+
+        <item name="android:orientation">horizontal</item>
+
+        <item name="android:layout_marginBottom">16dp</item>
+
+    </style>
+
     <style name="Theme.Clospace" parent="Base.Theme.Clospace" />
+
 </resources>
