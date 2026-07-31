@@ -42,5 +42,18 @@
     <string name="about">About</string>
     <string name="contact_support">Contact Support</string>
 
+    <string name="about_description">
+        Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
+        \n\nVersion 1.0\n\n
+        Developed by\n
+        Janica Megan Reyes\n
+        Gabriel Esguerra\n
+        Yuyang Guo\n
+    </string>
+
+    <string name="support_description">
+        Need help with Clospace?\n\nEmail:\njanicamegan@gmail.com\n\nWe'll get back to you as soon as possible.\n
+    </string>
+
 
 </resources>

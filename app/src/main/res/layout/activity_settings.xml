@@ -61,6 +61,7 @@
 
         <!-- About Row -->
         <LinearLayout
+            android:id="@+id/layoutAbout"
             style="@style/ClospaceSettingsCard"
             android:clickable="true"
             android:focusable="true">
@@ -81,6 +82,7 @@
 
         <!-- Contact Support Row -->
         <LinearLayout
+            android:id="@+id/layoutSupport"
             style="@style/ClospaceSettingsCard"
             android:clickable="true"
             android:focusable="true">
