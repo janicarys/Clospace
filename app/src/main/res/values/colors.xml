@@ -9,4 +9,7 @@
     <color name="violet">#3C3360</color>
     <color name="brown">#685959</color>
 
+    <color name="calendar_day_disabled">#B7AFC2</color>
+    <color name="calendar_card">#F7F6F4</color>
+
 </resources>

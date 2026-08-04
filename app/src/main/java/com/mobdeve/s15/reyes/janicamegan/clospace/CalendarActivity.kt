@@ -2,6 +2,7 @@ package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -32,13 +33,17 @@ class CalendarActivity : AppCompatActivity() {
 
         loadCalendar()
 
+        // ----------------------------
+        // Bottom Navigation
+        // ----------------------------
+
         findViewById<LinearLayout>(R.id.navCloset).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
         findViewById<LinearLayout>(R.id.navOutfit).setOnClickListener {
-            // TODO
+            // TODO: Outfit Builder
         }
 
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
@@ -46,7 +51,11 @@ class CalendarActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<android.widget.ImageButton>(R.id.btnPreviousMonth)
+        // ----------------------------
+        // Month Navigation
+        // ----------------------------
+
+        findViewById<ImageButton>(R.id.btnPreviousMonth)
             .setOnClickListener {
 
                 currentMonth = currentMonth.minusMonths(1)
@@ -54,23 +63,24 @@ class CalendarActivity : AppCompatActivity() {
 
             }
 
-        findViewById<android.widget.ImageButton>(R.id.btnNextMonth)
+        findViewById<ImageButton>(R.id.btnNextMonth)
             .setOnClickListener {
 
                 currentMonth = currentMonth.plusMonths(1)
                 loadCalendar()
 
             }
-
     }
 
     private fun loadCalendar() {
 
         monthText.text =
-            currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
+            currentMonth.format(
+                DateTimeFormatter.ofPattern("MMMM yyyy")
+            )
 
-        recycler.adapter = CalendarAdapter(generateCalendar())
-
+        recycler.adapter =
+            CalendarAdapter(generateCalendar())
     }
 
     private fun generateCalendar(): List<CalendarDay> {
@@ -79,33 +89,60 @@ class CalendarActivity : AppCompatActivity() {
 
         val firstDay = currentMonth.atDay(1)
 
+        // Sunday = 0
         val offset = firstDay.dayOfWeek.value % 7
 
-        repeat(offset) {
-            days.add(CalendarDay(null, emptyList()))
-        }
+        val previousMonth = currentMonth.minusMonths(1)
 
-        for (day in 1..currentMonth.lengthOfMonth()) {
+        val previousMonthLength = previousMonth.lengthOfMonth()
 
-            val outfits = mutableListOf<Outfit>()
-
-            // Sample data
-            when (day) {
-
-                3 -> outfits.add(Outfit(R.drawable.sample_outfit))
-                6 -> outfits.add(Outfit(R.drawable.sample_outfit))
-                11 -> outfits.add(Outfit(R.drawable.sample_outfit))
-
-            }
+        // Fill the beginning of the calendar
+        for (i in offset downTo 1) {
 
             days.add(
                 CalendarDay(
-                    day,
-                    outfits
+                    previousMonthLength - i + 1,
+                    false
                 )
             )
 
         }
+
+        // Days in the month
+        for (day in 1..currentMonth.lengthOfMonth()) {
+
+            val outfits = mutableListOf<Outfit>()
+
+            when (day) {
+                3 -> outfits.add(Outfit(R.drawable.sample_outfit))
+                6 -> outfits.add(Outfit(R.drawable.sample_outfit))
+                11 -> outfits.add(Outfit(R.drawable.sample_outfit))
+            }
+
+            days.add(
+                CalendarDay(
+                    dayNumber = day,
+                    isCurrentMonth = true,
+                    outfits = outfits
+                )
+            )
+
+        }
+
+        var nextDay = 1
+
+        while (days.size < 42) {
+
+            days.add(
+                CalendarDay(
+                    dayNumber = nextDay,
+                    isCurrentMonth = false
+                )
+            )
+
+            nextDay++
+        }
+
 
         return days
 

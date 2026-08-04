@@ -3,24 +3,22 @@ package com.mobdeve.s15.reyes.janicamegan.clospace.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.CalendarDay
+import androidx.core.content.ContextCompat
 
 class CalendarAdapter(
-
     private val days: List<CalendarDay>
-
 ) : RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val day = view.findViewById<TextView>(R.id.tvDay)
-
-        val outfits =
-            view.findViewById<RecyclerView>(R.id.rvOutfits)
+        val day: TextView = view.findViewById(R.id.tvDay)
+        val image: ImageView = view.findViewById(R.id.imgOutfit)
+        val add: ImageView = view.findViewById(R.id.imgAdd)
 
     }
 
@@ -30,44 +28,52 @@ class CalendarAdapter(
             .inflate(R.layout.item_calendar_day, parent, false)
 
         return DayViewHolder(view)
-
     }
 
-    override fun getItemCount() = days.size
+    override fun getItemCount(): Int = days.size
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
 
         val current = days[position]
 
-        if (current.dayNumber == null) {
+        holder.day.text = current.dayNumber.toString()
 
-            holder.day.text = ""
-            holder.outfits.visibility = View.GONE
+        if (current.isCurrentMonth) {
+
+            holder.day.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.violet
+                )
+            )
+            holder.itemView.alpha = 1f
 
         } else {
 
-            holder.day.text = current.dayNumber.toString()
-            holder.outfits.visibility = View.VISIBLE
+            holder.day.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.calendar_day_disabled
 
-            holder.outfits.layoutManager =
-                LinearLayoutManager(holder.itemView.context)
-
-            holder.outfits.adapter =
-                OutfitAdapter(current.outfits)
+                )
+            )
 
         }
 
-        holder.outfits.layoutManager = LinearLayoutManager(
-            holder.itemView.context,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        // No outfit yet
+        if (current.outfits.isEmpty()) {
 
-        holder.outfits.isNestedScrollingEnabled = false
+            holder.image.visibility = View.GONE
+            holder.add.visibility = View.VISIBLE
 
-        holder.outfits.adapter =
-            OutfitAdapter(current.outfits)
+        } else {
 
+            holder.add.visibility = View.GONE
+            holder.image.visibility = View.VISIBLE
+
+            holder.image.setImageResource(
+                current.outfits.first().imageRes
+            )
+        }
     }
-
 }
