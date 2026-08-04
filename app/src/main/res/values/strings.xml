@@ -76,6 +76,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="outfit_title">Outfits</string>
     <string name="select_garments_title">Select Garments</string>
     <string name="arrange_outfit_title">Arrange Outfit</string>
+    <string name="edit_outfit_title">Edit Outfit</string>
     <string name="outfit_details_title">Outfit Details</string>
 
     <string name="selected_count">Selected: %1$d</string>
@@ -98,6 +99,20 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="caption_required">Please enter a caption</string>
     <string name="occasion_required">Please select an occasion</string>
     <string name="outfit_saved">Outfit saved!</string>
+    <string name="outfit_updated">Outfit updated!</string>
+
+    <!-- Outfit Detail -->
+    <string name="outfit_detail_title">Outfit</string>
+    <string name="edit">EDIT</string>
+    <string name="clothes_included">Clothes</string>
+    <string name="category">Category</string>
+    <string name="tags_label">Tags</string>
+    <string name="occasion_label">Occasion</string>
+    <string name="schedule">Schedule</string>
+    <string name="tags_hint">Add tags (separate with commas)</string>
+    <string name="no_tags">No tags</string>
+    <string name="not_scheduled">Not scheduled</string>
+    <string name="no_category">—</string>
     <string name="remove_garment">Remove garment</string>
     <string name="tap_to_select">Tap to select</string>
 

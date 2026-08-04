@@ -4,23 +4,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
 
 import com.mobdeve.s15.reyes.janicamegan.clospace.OutfitWithItems
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
-import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 
 class OutfitAdapter(
-    private val outfits: List<OutfitWithItems>
+    private val outfits: List<OutfitWithItems>,
+    private val onOpen: (OutfitWithItems) -> Unit
 ) : RecyclerView.Adapter<OutfitAdapter.OutfitViewHolder>() {
 
     class OutfitViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val previewStack: LinearLayout = view.findViewById(R.id.previewStack)
+        val previewFrame: FrameLayout = view.findViewById(R.id.previewFrame)
 
         val tvCaption: TextView = view.findViewById(R.id.tvCaption)
 
@@ -45,9 +46,33 @@ class OutfitAdapter(
 
         val context = holder.itemView.context
 
-        holder.tvCaption.text = current.outfit.caption
+        holder.itemView.setOnClickListener {
+            onOpen(current)
+        }
 
-        holder.tvOccasion.text = current.outfit.occasion
+        val caption = current.outfit.caption
+
+        if (caption.isNullOrBlank()) {
+
+            holder.tvCaption.visibility = View.GONE
+
+        } else {
+
+            holder.tvCaption.visibility = View.VISIBLE
+            holder.tvCaption.text = caption
+        }
+
+        val occasion = current.outfit.occasion
+
+        if (occasion.isNullOrBlank()) {
+
+            holder.tvOccasion.visibility = View.GONE
+
+        } else {
+
+            holder.tvOccasion.visibility = View.VISIBLE
+            holder.tvOccasion.text = occasion
+        }
 
         val date = current.outfit.plannedDate
 
@@ -61,37 +86,47 @@ class OutfitAdapter(
             holder.tvDate.text = date
         }
 
-        holder.previewStack.removeAllViews()
+        holder.previewFrame.removeAllViews()
 
-        current.items.take(3).forEach { item ->
+        val previewRes = current.previewRes
 
-            val image = ImageView(context).apply {
+        if (previewRes != null) {
 
-                layoutParams = LinearLayout.LayoutParams(
-                    dp(context, 74),
-                    dp(context, 96)
+            holder.previewFrame.addView(
+                ImageView(context).apply {
+
+                    layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT
+                    )
+
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+
+                    setImageResource(previewRes)
+                }
+            )
+
+        } else {
+
+            val thumbnail =
+                OutfitRenderer.render(current.placements, 400, 480)
+
+            if (thumbnail != null) {
+
+                holder.previewFrame.addView(
+                    ImageView(context).apply {
+
+                        layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                        scaleType = ImageView.ScaleType.FIT_CENTER
+
+                        setImageBitmap(thumbnail)
+                    }
                 )
-
-                setBackgroundResource(R.drawable.garment_card)
-                setPadding(2, 2, 2, 2)
-
-                scaleType = ImageView.ScaleType.CENTER_CROP
-
-                setImageBitmap(ImageDecoder.decode(item.imagePath, 160))
             }
-
-            if (holder.previewStack.childCount > 0) {
-
-                (image.layoutParams as LinearLayout.LayoutParams).leftMargin =
-                    -dp(context, 22)
-            }
-
-            holder.previewStack.addView(image)
         }
-    }
-
-    private fun dp(context: Context, value: Int): Int {
-
-        return (value * context.resources.displayMetrics.density).toInt()
     }
 }

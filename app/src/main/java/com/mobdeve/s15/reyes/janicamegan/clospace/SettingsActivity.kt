@@ -35,13 +35,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         navOutfit.setOnClickListener {
-            //startActivity(Intent(this, OutfitActivity::class.java))
-            finish()
+            startActivity(Intent(this, OutfitActivity::class.java))
+
         }
 
         navCalendar.setOnClickListener {
-            //startActivity(Intent(this, CalendarActivity::class.java))
-            finish()
+            startActivity(Intent(this, CalendarActivity::class.java))
         }
 
     }

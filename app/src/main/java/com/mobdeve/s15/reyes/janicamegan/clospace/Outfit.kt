@@ -11,9 +11,11 @@ data class Outfit(
 
     val ownerId: Int,
 
-    val caption: String,
+    val caption: String?,
 
-    val occasion: String,
+    val occasion: String?,
+
+    val tags: String? = null,
 
     val plannedDate: String?
 )

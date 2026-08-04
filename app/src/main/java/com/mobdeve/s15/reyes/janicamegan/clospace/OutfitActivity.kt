@@ -78,17 +78,74 @@ class OutfitActivity : AppCompatActivity() {
 
             val outfits = outfitDao.getAll(ownerId)
 
-            val full = outfits.map { outfit ->
-                OutfitWithItems(
-                    outfit,
-                    outfitDao.getItemsForOutfit(outfit.id)
-                )
+            if (outfits.isEmpty()) {
+
+                // TEMPORARY: show sample outfits while the closet is still being built
+                recycler.adapter = OutfitAdapter(sampleOutfits(), onOpen = {})
+                tvEmpty.visibility = View.GONE
+
+            } else {
+
+                val full = outfits.map { outfit ->
+
+                    val placements =
+                        outfitDao.getOutfitItemsWithClothing(outfit.id)
+                            .map { joined ->
+
+                                OutfitPlacement(
+                                    item = joined.clothing,
+                                    x = joined.placement.x,
+                                    y = joined.placement.y,
+                                    scale = joined.placement.scale,
+                                    layer = joined.placement.layer
+                                )
+                            }
+
+                    OutfitWithItems(
+                        outfit = outfit,
+                        placements = placements
+                    )
+                }
+
+                recycler.adapter = OutfitAdapter(full) { wrapper ->
+                    openOutfit(wrapper.outfit.id)
+                }
+
+                tvEmpty.visibility = View.GONE
             }
+        }
+    }
 
-            recycler.adapter = OutfitAdapter(full)
+    private fun openOutfit(outfitId: Int) {
 
-            tvEmpty.visibility =
-                if (full.isEmpty()) View.VISIBLE else View.GONE
+        if (outfitId <= 0) {
+            return
+        }
+
+        startActivity(
+            Intent(this, OutfitDetailActivity::class.java)
+                .putExtra(OutfitDetailActivity.EXTRA_OUTFIT_ID, outfitId)
+        )
+    }
+
+    private fun sampleOutfits(): List<OutfitWithItems> {
+
+        return listOf(
+            Triple("Sunny Day Outfit", "Casual", "2026-08-10") to R.drawable.sample_outfit,
+            Triple("Friday Night", "Party", null) to R.drawable.sample_outfit2,
+            Triple("Office Look", "Work", "2026-08-12") to R.drawable.sample_outfit3
+        ).map { (meta, res) ->
+
+            OutfitWithItems(
+                outfit = Outfit(
+                    ownerId = -1,
+                    caption = meta.first,
+                    occasion = meta.second,
+                    plannedDate = meta.third
+                ),
+                placements = emptyList(),
+                previewRes = res
+            )
         }
     }
 }

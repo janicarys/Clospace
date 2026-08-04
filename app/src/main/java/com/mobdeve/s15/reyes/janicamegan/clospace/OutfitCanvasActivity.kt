@@ -25,13 +25,22 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_CLOTHING_IDS = "clothingIds"
+        const val EXTRA_X = "xPositions"
+        const val EXTRA_Y = "yPositions"
+        const val EXTRA_SCALE = "scales"
+        const val EXTRA_LAYER = "layers"
+        const val EXTRA_OUTFIT_ID = "outfitId"
     }
 
     private lateinit var sessionManager: SessionManager
 
     private lateinit var clothingDao: ClothingDao
 
+    private lateinit var outfitDao: OutfitDao
+
     private var clothingIds: IntArray = intArrayOf()
+
+    private var editOutfitId: Int = 0
 
     private lateinit var canvas: FrameLayout
 
@@ -53,10 +62,18 @@ class OutfitCanvasActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         clothingDao = ClospaceDatabase.getDatabase(this).clothingDao()
+        outfitDao = ClospaceDatabase.getDatabase(this).outfitDao()
 
         clothingIds = intent.getIntArrayExtra(EXTRA_CLOTHING_IDS) ?: intArrayOf()
+        editOutfitId = intent.getIntExtra(EXTRA_OUTFIT_ID, 0)
 
         canvas = findViewById(R.id.canvasContainer)
+
+        if (editOutfitId > 0) {
+
+            findViewById<TextView>(R.id.tvToolbarTitle).text =
+                getString(R.string.edit_outfit_title)
+        }
 
         findViewById<View>(R.id.btnSave).setOnClickListener {
 
@@ -68,15 +85,37 @@ class OutfitCanvasActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+            } else if (editOutfitId > 0) {
+
+                saveEditedOutfit()
+
             } else {
 
-                startActivity(
-                    Intent(this, OutfitDetailsActivity::class.java)
-                        .putExtra(
-                            OutfitDetailsActivity.EXTRA_CLOTHING_IDS,
-                            clothingIds
-                        )
-                )
+                val placements = computePlacements()
+
+                val detail = Intent(this, OutfitDetailsActivity::class.java)
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_CLOTHING_IDS,
+                        placements.map { it.clothingId }.toIntArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_X,
+                        placements.map { it.x }.toFloatArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_Y,
+                        placements.map { it.y }.toFloatArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_SCALE,
+                        placements.map { it.scale }.toFloatArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_LAYER,
+                        placements.map { it.layer }.toIntArray()
+                    )
+
+                startActivity(detail)
             }
         }
 
@@ -95,18 +134,44 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
 
-            for (id in clothingIds) {
+            if (editOutfitId > 0) {
 
-                val item = clothingDao.getById(id) ?: continue
+                val items = outfitDao
+                    .getOutfitItemsWithClothing(editOutfitId)
+                    .sortedBy { it.placement.layer }
 
-                val bitmap = withContext(Dispatchers.IO) {
-                    ImageDecoder.decode(item.imagePath, 512)
-                } ?: continue
+                for (joined in items) {
 
-                val view = createGarment(bitmap)
+                    val item = joined.clothing
 
-                garments.add(view)
-                canvas.addView(view)
+                    val bitmap = withContext(Dispatchers.IO) {
+                        ImageDecoder.decode(item.imagePath, 512)
+                    } ?: continue
+
+                    val view = createGarment(bitmap, item.id)
+
+                    val p = joined.placement
+
+                    garments.add(view)
+
+                    restorePlace(view, p.x, p.y, p.scale)
+                }
+
+            } else {
+
+                for (id in clothingIds) {
+
+                    val item = clothingDao.getById(id) ?: continue
+
+                    val bitmap = withContext(Dispatchers.IO) {
+                        ImageDecoder.decode(item.imagePath, 512)
+                    } ?: continue
+
+                    val view = createGarment(bitmap, id)
+
+                    garments.add(view)
+                    canvas.addView(view)
+                }
             }
 
             reindexLayers()
@@ -117,9 +182,11 @@ class OutfitCanvasActivity : AppCompatActivity() {
         }
     }
 
-    private fun createGarment(bitmap: Bitmap): DraggableImageView {
+    private fun createGarment(bitmap: Bitmap, clothingId: Int): DraggableImageView {
 
         val view = DraggableImageView(this)
+
+        view.tag = clothingId
 
         view.setImageBitmap(bitmap)
         view.scaleType = ImageView.ScaleType.FIT_CENTER
@@ -134,6 +201,31 @@ class OutfitCanvasActivity : AppCompatActivity() {
         view.onSelected = { selectGarment(it) }
 
         return view
+    }
+
+    private fun restorePlace(
+        view: DraggableImageView,
+        x: Float,
+        y: Float,
+        scale: Float
+    ) {
+
+        canvas.addView(view)
+
+        view.post {
+
+            val canvasWidth = canvas.width.toFloat()
+            val canvasHeight = canvas.height.toFloat()
+
+            if (canvasWidth == 0f || canvasHeight == 0f) {
+                return@post
+            }
+
+            view.translationX = x * canvasWidth - (view.left + view.width / 2f)
+            view.translationY = y * canvasHeight - (view.top + view.height / 2f)
+
+            view.setInitialScale(scale)
+        }
     }
 
     private fun selectGarment(view: DraggableImageView) {
@@ -169,6 +261,75 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
         reindexLayers()
     }
+
+    private fun saveEditedOutfit() {
+
+        val placements = computePlacements()
+
+        lifecycleScope.launch {
+
+            val existing = outfitDao.getById(editOutfitId) ?: return@launch
+
+            outfitDao.deleteOutfitItems(editOutfitId)
+
+            outfitDao.insertOutfitItems(
+                placements.map { p ->
+
+                    OutfitItem(
+                        outfitId = editOutfitId,
+                        clothingId = p.clothingId,
+                        x = p.x,
+                        y = p.y,
+                        scale = p.scale,
+                        layer = p.layer
+                    )
+                }
+            )
+
+            // Metadata (caption/tags/occasion/date) is untouched.
+
+            Toast.makeText(
+                this@OutfitCanvasActivity,
+                R.string.outfit_updated,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // Pops back to the outfit detail page, which reloads on resume.
+            finish()
+        }
+    }
+
+    private fun computePlacements(): List<GarmentPlacement> {
+
+        val canvasWidth = canvas.width.toFloat()
+        val canvasHeight = canvas.height.toFloat()
+
+        if (canvasWidth == 0f || canvasHeight == 0f) {
+            return emptyList()
+        }
+
+        return garments.map { view ->
+
+            val centerX = view.left + view.width / 2f + view.translationX
+            val centerY = view.top + view.height / 2f + view.translationY
+
+            GarmentPlacement(
+                clothingId = view.tag as Int,
+                x = (centerX / canvasWidth).coerceIn(0f, 1f),
+                y = (centerY / canvasHeight).coerceIn(0f, 1f),
+                scale = view.scale,
+                layer = garments.indexOf(view)
+            )
+        }
+    }
+
+    private data class GarmentPlacement(
+        val clothingId: Int,
+        val x: Float,
+        val y: Float,
+        val scale: Float,
+        val layer: Int
+    )
 
     private fun dp(value: Int): Int {
 

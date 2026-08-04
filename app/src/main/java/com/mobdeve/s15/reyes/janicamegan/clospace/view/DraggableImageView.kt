@@ -83,6 +83,13 @@ class DraggableImageView @JvmOverloads constructor(
         return true
     }
 
+    fun setInitialScale(newScale: Float) {
+
+        scale = newScale.coerceIn(minScale, maxScale)
+        scaleX = scale
+        scaleY = scale
+    }
+
     fun setSelectedVisual(selected: Boolean) {
 
         setBackgroundResource(

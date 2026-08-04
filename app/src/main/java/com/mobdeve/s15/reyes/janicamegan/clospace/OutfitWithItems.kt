@@ -2,5 +2,6 @@ package com.mobdeve.s15.reyes.janicamegan.clospace
 
 data class OutfitWithItems(
     val outfit: Outfit,
-    val items: List<ClothingItem>
+    val placements: List<OutfitPlacement> = emptyList(),
+    val previewRes: Int? = null
 )

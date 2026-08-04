@@ -26,10 +26,23 @@ interface OutfitDao {
     @Insert
     suspend fun insertOutfitItems(items: List<OutfitItem>)
 
+    @Query("DELETE FROM outfit_items WHERE outfitId = :outfitId")
+    suspend fun deleteOutfitItems(outfitId: Int)
+
+    @Query("SELECT * FROM outfit_items WHERE outfitId = :outfitId")
+    suspend fun getPlacements(outfitId: Int): List<OutfitItem>
+
     @Query("""
         SELECT clothing_items.* FROM clothing_items
         INNER JOIN outfit_items ON clothing_items.id = outfit_items.clothingId
         WHERE outfit_items.outfitId = :outfitId
     """)
     suspend fun getItemsForOutfit(outfitId: Int): List<ClothingItem>
+
+    @Query("""
+        SELECT * FROM outfit_items
+        INNER JOIN clothing_items ON clothing_items.id = outfit_items.clothingId
+        WHERE outfit_items.outfitId = :outfitId
+    """)
+    suspend fun getOutfitItemsWithClothing(outfitId: Int): List<OutfitItemWithClothing>
 }
