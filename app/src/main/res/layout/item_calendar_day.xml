@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="120dp"
     android:layout_margin="6dp"
 
     app:cardCornerRadius="18dp"
@@ -22,40 +22,64 @@
 
         <TextView
             android:id="@+id/tvDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+
+            android:gravity="center"
+
+            android:textSize="15sp"
             android:textStyle="bold"
+
             android:textColor="@color/violet"/>
 
         <!-- Outfit Area -->
-
         <FrameLayout
             android:id="@+id/frameOutfit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <!-- Outfit Image -->
+            <!-- Outfit -->
 
             <ImageView
                 android:id="@+id/imgOutfit"
-                android:layout_width="44dp"
-                android:layout_height="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:visibility="gone"/>
 
-            <!-- Plus Button -->
+            <!-- Plus -->
 
             <ImageView
                 android:id="@+id/imgAdd"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add"
-                app:tint="#777777"/>
+                app:tint="@color/violet"/>
+
+            <!-- Outfit Count -->
+
+            <TextView
+                android:id="@+id/tvOutfitCount"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+
+                android:textSize="9sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center"
+
+                android:textStyle="bold"
+
+                android:textColor="@android:color/white"
+
+                android:background="@drawable/calendar_badge"
+
+                android:visibility="gone"/>
 
         </FrameLayout>
 

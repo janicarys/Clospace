@@ -13,6 +13,9 @@ import com.mobdeve.s15.reyes.janicamegan.clospace.model.CalendarDay
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.Outfit
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import android.widget.Button
+import com.google.android.material.button.MaterialButton
+import java.time.LocalDate
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -70,6 +73,14 @@ class CalendarActivity : AppCompatActivity() {
                 loadCalendar()
 
             }
+
+        findViewById<MaterialButton>(R.id.btnToday)
+            .setOnClickListener {
+
+                currentMonth = YearMonth.now()
+                loadCalendar()
+
+            }
     }
 
     private fun loadCalendar() {
@@ -87,65 +98,62 @@ class CalendarActivity : AppCompatActivity() {
 
         val days = mutableListOf<CalendarDay>()
 
-        val firstDay = currentMonth.atDay(1)
+        // Temporary sample outfit database
+        val outfitMap = mapOf(
 
-        // Sunday = 0
-        val offset = firstDay.dayOfWeek.value % 7
+            LocalDate.of(2026, 7, 31) to mutableListOf(
+                Outfit(R.drawable.sample_outfit)
+            ),
 
-        val previousMonth = currentMonth.minusMonths(1)
+            LocalDate.of(2026, 8, 3) to mutableListOf(
+                Outfit(R.drawable.sample_outfit),
+                Outfit(R.drawable.sample_outfit)
+            ),
 
-        val previousMonthLength = previousMonth.lengthOfMonth()
+            LocalDate.of(2026, 8, 6) to mutableListOf(
+                Outfit(R.drawable.sample_outfit)
+            ),
 
-        // Fill the beginning of the calendar
-        for (i in offset downTo 1) {
+            LocalDate.of(2026, 8, 11) to mutableListOf(
+                Outfit(R.drawable.sample_outfit)
+            ),
+
+            LocalDate.of(2026, 9, 1) to mutableListOf(
+                Outfit(R.drawable.sample_outfit)
+            )
+
+        )
+
+        val firstDayOfMonth = currentMonth.atDay(1)
+
+        val offset = firstDayOfMonth.dayOfWeek.value % 7
+
+        val startDate = firstDayOfMonth.minusDays(offset.toLong())
+
+        for (i in 0 until 42) {
+
+            val date = startDate.plusDays(i.toLong())
 
             days.add(
+
                 CalendarDay(
-                    previousMonthLength - i + 1,
-                    false
+
+                    date = date,
+
+                    isCurrentMonth = date.month == currentMonth.month,
+
+                    isToday = date == LocalDate.now(),
+
+                    outfits = outfitMap[date]?.toMutableList()
+                        ?: mutableListOf()
+
                 )
+
             )
 
         }
-
-        // Days in the month
-        for (day in 1..currentMonth.lengthOfMonth()) {
-
-            val outfits = mutableListOf<Outfit>()
-
-            when (day) {
-                3 -> outfits.add(Outfit(R.drawable.sample_outfit))
-                6 -> outfits.add(Outfit(R.drawable.sample_outfit))
-                11 -> outfits.add(Outfit(R.drawable.sample_outfit))
-            }
-
-            days.add(
-                CalendarDay(
-                    dayNumber = day,
-                    isCurrentMonth = true,
-                    outfits = outfits
-                )
-            )
-
-        }
-
-        var nextDay = 1
-
-        while (days.size < 42) {
-
-            days.add(
-                CalendarDay(
-                    dayNumber = nextDay,
-                    isCurrentMonth = false
-                )
-            )
-
-            nextDay++
-        }
-
 
         return days
-
     }
 
 }

@@ -17,8 +17,12 @@ class CalendarAdapter(
     class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val day: TextView = view.findViewById(R.id.tvDay)
+
         val image: ImageView = view.findViewById(R.id.imgOutfit)
+
         val add: ImageView = view.findViewById(R.id.imgAdd)
+
+        val badge: TextView = view.findViewById(R.id.tvOutfitCount)
 
     }
 
@@ -36,7 +40,38 @@ class CalendarAdapter(
 
         val current = days[position]
 
-        holder.day.text = current.dayNumber.toString()
+        holder.day.text = current.date.dayOfMonth.toString()
+
+        if (current.isToday) {
+
+            holder.day.background =
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.today_circle
+                )
+
+            holder.day.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    android.R.color.white
+                )
+            )
+
+        } else {
+
+            holder.day.background = null
+
+            holder.day.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    if (current.isCurrentMonth)
+                        R.color.violet
+                    else
+                        R.color.calendar_day_disabled
+                )
+            )
+
+        }
 
         if (current.isCurrentMonth) {
 
@@ -61,19 +96,43 @@ class CalendarAdapter(
         }
 
         // No outfit yet
+        // Previous / next month cells
         if (current.outfits.isEmpty()) {
 
             holder.image.visibility = View.GONE
-            holder.add.visibility = View.VISIBLE
+            holder.badge.visibility = View.GONE
+
+            if (current.isCurrentMonth) {
+                holder.add.visibility = View.VISIBLE
+            } else {
+                holder.add.visibility = View.GONE
+            }
 
         } else {
 
-            holder.add.visibility = View.GONE
             holder.image.visibility = View.VISIBLE
+            holder.add.visibility = View.GONE
 
             holder.image.setImageResource(
                 current.outfits.first().imageRes
             )
+
+            if (current.outfits.size > 1) {
+
+                holder.badge.visibility = View.VISIBLE
+
+                holder.badge.text =
+                    if (current.outfits.size > 9)
+                        "9+"
+                    else
+                        current.outfits.size.toString()
+
+            } else {
+
+                holder.badge.visibility = View.GONE
+
+            }
+
         }
     }
 }
