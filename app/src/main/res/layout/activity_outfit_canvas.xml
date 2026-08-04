@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Toolbar -->
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Save -->
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/ClospacePrimaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:background="@drawable/button_background"
+        android:layout_marginEnd="20dp"
+        android:text="@string/save"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"/>
+
+    <!-- Canvas -->
+
+    <FrameLayout
+        android:id="@+id/canvasContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/canvas_background"
+
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/controlBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Layer controls -->
+
+    <LinearLayout
+        android:id="@+id/controlBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnBackward"
+            style="@style/ClospacePrimaryButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/button_background"
+            android:text="@string/send_backward"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/btnForward"
+            style="@style/ClospacePrimaryButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/button_background"
+            android:text="@string/bring_forward"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

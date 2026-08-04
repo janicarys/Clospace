@@ -13,7 +13,7 @@ import androidx.room.RoomDatabase
         OutfitItem::class,
         CalendarEntry::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ClospaceDatabase : RoomDatabase() {

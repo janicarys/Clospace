@@ -37,6 +37,18 @@
     <string name="add_accessory">Add Accessory</string>
     <string name="add_item">Add garment</string>
 
+    <!-- Add Garment -->
+    <string name="add_source_title">Add a garment</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_from_library">Choose from Library</string>
+    <string name="select_category">Which category does it belong to?</string>
+    <string name="category_tops">Tops</string>
+    <string name="category_bottoms">Bottoms</string>
+    <string name="category_footwear">Footwear</string>
+    <string name="category_accessories">Accessories</string>
+    <string name="image_load_failed">Could not load image</string>
+    <string name="garment_image">Garment image</string>
+
     <!-- Settings Page -->
     <string name="notifications">Notifications</string>
     <string name="about">About</string>
@@ -60,5 +72,45 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="support_description">
         Experiencing an issue?\nThis feature will allow users to contact the Clospace development team for technical support, bug reports, and feedback.\nSupport functionality will be available in a future update.</string>
 
+    <!-- Outfit Page -->
+    <string name="outfit_title">Outfits</string>
+    <string name="select_garments_title">Select Garments</string>
+    <string name="arrange_outfit_title">Arrange Outfit</string>
+    <string name="outfit_details_title">Outfit Details</string>
+
+    <string name="selected_count">Selected: %1$d</string>
+    <string name="next">NEXT</string>
+    <string name="save">SAVE</string>
+    <string name="bring_forward">Bring Forward</string>
+    <string name="send_backward">Send Backward</string>
+    <string name="no_outfits">No outfits yet.\nTap the + button to create one.</string>
+    <string name="no_garments">Your closet is empty.\nAdd garments first.</string>
+    <string name="tap_garments_hint">Tap garments to build your outfit</string>
+    <string name="select_at_least_one">Select at least one garment</string>
+
+    <string name="caption">Caption</string>
+    <string name="hint_caption">Give your outfit a name</string>
+    <string name="planned_date">Planned to wear</string>
+    <string name="pick_date">Pick a date</string>
+    <string name="planned_date_set">Planned to wear: %1$s</string>
+    <string name="occasion">Occasion</string>
+    <string name="hint_occasion">Select an occasion</string>
+    <string name="caption_required">Please enter a caption</string>
+    <string name="occasion_required">Please select an occasion</string>
+    <string name="outfit_saved">Outfit saved!</string>
+    <string name="remove_garment">Remove garment</string>
+    <string name="tap_to_select">Tap to select</string>
+
+    <string-array name="occasions">
+        <item>Work</item>
+        <item>Casual</item>
+        <item>Home</item>
+        <item>School</item>
+        <item>Date</item>
+        <item>Party</item>
+        <item>Sports</item>
+        <item>Formal Event</item>
+        <item>Wedding</item>
+    </string-array>
 
 </resources>

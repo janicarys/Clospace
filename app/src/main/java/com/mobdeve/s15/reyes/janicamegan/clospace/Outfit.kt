@@ -11,5 +11,9 @@ data class Outfit(
 
     val ownerId: Int,
 
-    val name: String
+    val caption: String,
+
+    val occasion: String,
+
+    val plannedDate: String?
 )

@@ -201,12 +201,14 @@
                     android:scrollbars="none">
 
                     <LinearLayout
+                        android:id="@+id/horizontalTops"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/placeholderTops"
                             style="@style/ClospacePlaceholderCard"
                             android:background="@drawable/garment_placeholder">
 
@@ -252,12 +254,14 @@
                     android:scrollbars="none">
 
                     <LinearLayout
+                        android:id="@+id/horizontalBottoms"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/placeholderBottoms"
                             style="@style/ClospacePlaceholderCard"
                             android:background="@drawable/garment_placeholder">
 
@@ -303,12 +307,14 @@
                     android:scrollbars="none">
 
                     <LinearLayout
+                        android:id="@+id/horizontalFootwear"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/placeholderFootwear"
                             style="@style/ClospacePlaceholderCard"
                             android:background="@drawable/garment_placeholder">
 
@@ -354,12 +360,14 @@
                     android:scrollbars="none">
 
                     <LinearLayout
+                        android:id="@+id/horizontalAccessories"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/placeholderAccessories"
                             style="@style/ClospacePlaceholderCard"
                             android:background="@drawable/garment_placeholder">
 

@@ -46,7 +46,8 @@ class CalendarActivity : AppCompatActivity() {
         }
 
         findViewById<LinearLayout>(R.id.navOutfit).setOnClickListener {
-            // TODO: Outfit Builder
+            startActivity(Intent(this, OutfitActivity::class.java))
+            finish()
         }
 
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
