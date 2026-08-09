@@ -39,26 +39,11 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".CalendarActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-
         <!-- Outfits -->
-        <activity
-            android:name=".OutfitActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".SelectGarmentsActivity"
             android:exported="false"
-            android:parentActivityName=".OutfitActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".OutfitCanvasActivity"
@@ -73,18 +58,18 @@
         <activity
             android:name=".OutfitDetailActivity"
             android:exported="false"
-            android:parentActivityName=".OutfitActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Secondary Pages -->
         <activity
             android:name=".AboutActivity"
             android:exported="false"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".SupportActivity"
             android:exported="false"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

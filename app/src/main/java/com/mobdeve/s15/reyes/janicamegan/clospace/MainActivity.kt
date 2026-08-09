@@ -1,365 +1,98 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.TextView
 
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-import androidx.lifecycle.lifecycleScope
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import com.mobdeve.s15.reyes.janicamegan.clospace.util.TransitionUtil
-
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
-import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var sessionManager: SessionManager
+    companion object {
+        const val EXTRA_OPEN_TAB = "openTab"
 
-    private lateinit var clothingDao: ClothingDao
+        const val TAB_CLOSET = 0
+        const val TAB_OUTFIT = 1
+        const val TAB_CALENDAR = 2
+        const val TAB_SETTINGS = 3
+    }
 
-    private var pendingImagePath: String? = null
-
-    private val takePicture =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-            val path = pendingImagePath
-            pendingImagePath = null
-            if (success && path != null) {
-                promptCategory(path)
-            }
-        }
-
-    private val pickImage =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                lifecycleScope.launch {
-                    val path = withContext(Dispatchers.IO) { copyUriToStorage(uri) }
-                    if (path != null) {
-                        promptCategory(path)
-                    } else {
-                        Toast.makeText(
-                            this@MainActivity,
-                            R.string.image_load_failed,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        sessionManager = SessionManager(this)
-
-        clothingDao = ClospaceDatabase.getDatabase(this).clothingDao()
+        viewPager = findViewById(R.id.viewPager)
+        viewPager.adapter = MainPagerAdapter()
 
         // Bottom Navigation
-        val navCloset = findViewById<LinearLayout>(R.id.navCloset)
-        val navOutfit = findViewById<LinearLayout>(R.id.navOutfit)
-        val navCalendar = findViewById<LinearLayout>(R.id.navCalendar)
-        val navSettings = findViewById<LinearLayout>(R.id.navSettings)
+        setupNavTap(R.id.navCloset, TAB_CLOSET)
+        setupNavTap(R.id.navOutfit, TAB_OUTFIT)
+        setupNavTap(R.id.navCalendar, TAB_CALENDAR)
+        setupNavTap(R.id.navSettings, TAB_SETTINGS)
 
-        // Floating Action Button
-        val fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
-
-        // Closet
-        // Already on this page
-        navCloset.setOnClickListener {
-            // Do nothing
-        }
-
-        // Outfit
-        navOutfit.setOnClickListener {
-            val (enter, exit) = TransitionUtil.slide(
-                TransitionUtil.TAB_CLOSET,
-                TransitionUtil.TAB_OUTFIT
-            )
-            startActivity(Intent(this, OutfitActivity::class.java))
-            overridePendingTransition(enter, exit)
-            finish()
-            overridePendingTransition(enter, exit)
-        }
-
-        // Calendar
-        navCalendar.setOnClickListener {
-            val (enter, exit) = TransitionUtil.slide(
-                TransitionUtil.TAB_CLOSET,
-                TransitionUtil.TAB_CALENDAR
-            )
-            startActivity(Intent(this, CalendarActivity::class.java))
-            overridePendingTransition(enter, exit)
-            finish()
-            overridePendingTransition(enter, exit)
-        }
-
-        // Settings
-        navSettings.setOnClickListener {
-            val (enter, exit) = TransitionUtil.slide(
-                TransitionUtil.TAB_CLOSET,
-                TransitionUtil.TAB_SETTINGS
-            )
-            startActivity(Intent(this, SettingsActivity::class.java))
-            overridePendingTransition(enter, exit)
-            finish()
-            overridePendingTransition(enter, exit)
-        }
-
-        // Floating Action Button
-        fabAdd.setOnClickListener {
-            showSourceDialog()
-        }
-
-        // Load existing garments
-        loadCloset()
-    }
-
-    // Ask whether the garment comes from the camera or the library
-    private fun showSourceDialog() {
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_source, null)
-
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setView(dialogView)
-            .show()
-
-        dialogView.findViewById<View>(R.id.optionCamera).setOnClickListener {
-            dialog.dismiss()
-            launchCamera()
-        }
-
-        dialogView.findViewById<View>(R.id.optionGallery).setOnClickListener {
-            dialog.dismiss()
-            launchGallery()
-        }
-    }
-
-    // Launch the camera and save the photo into app storage
-    private fun launchCamera() {
-
-        val timestamp =
-            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-
-        val dir = File(filesDir, "images")
-        dir.mkdirs()
-
-        val file = File(dir, "captured_$timestamp.jpg")
-
-        val uri = FileProvider.getUriForFile(
-            this,
-            "$packageName.fileprovider",
-            file
-        )
-
-        pendingImagePath = file.absolutePath
-
-        takePicture.launch(uri)
-    }
-
-    // Open the gallery / photo picker
-    private fun launchGallery() {
-
-        pickImage.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
-    }
-
-    // Copy the picked image into app storage and return its file path
-    private fun copyUriToStorage(uri: Uri): String? {
-
-        return try {
-
-            val timestamp =
-                SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-
-            val dir = File(filesDir, "images")
-            dir.mkdirs()
-
-            val file = File(dir, "picked_$timestamp.jpg")
-
-            contentResolver.openInputStream(uri)?.use { input ->
-                FileOutputStream(file).use { output ->
-                    input.copyTo(output)
-                }
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                highlightTab(position)
             }
+        })
 
-            file.absolutePath
+        // Select the requested tab (defaults to Closet).
+        selectTabFromIntent(intent)
+    }
 
-        } catch (e: Exception) {
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        selectTabFromIntent(intent)
+    }
 
-            null
+    private fun selectTabFromIntent(intent: Intent) {
+
+        val tab = intent.getIntExtra(EXTRA_OPEN_TAB, TAB_CLOSET)
+        viewPager.setCurrentItem(tab, false)
+        highlightTab(tab)
+    }
+
+    private fun setupNavTap(navId: Int, tab: Int) {
+
+        findViewById<LinearLayout>(navId).setOnClickListener {
+            viewPager.setCurrentItem(tab, true)
         }
     }
 
-    // Ask which category the new garment belongs to
-    private fun promptCategory(imagePath: String) {
+    private fun highlightTab(tab: Int) {
 
-        val categories = arrayOf(
-            getString(R.string.category_tops),
-            getString(R.string.category_bottoms),
-            getString(R.string.category_footwear),
-            getString(R.string.category_accessories)
-        )
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.select_category)
-            .setItems(categories) { _, which ->
-                saveGarment(imagePath, categories[which])
-            }
-            .show()
+        setIndicator(R.id.indicatorCloset, tab == TAB_CLOSET)
+        setIndicator(R.id.indicatorOutfit, tab == TAB_OUTFIT)
+        setIndicator(R.id.indicatorCalendar, tab == TAB_CALENDAR)
+        setIndicator(R.id.indicatorSettings, tab == TAB_SETTINGS)
     }
 
-    // Save the garment into the closet and refresh the page
-    private fun saveGarment(imagePath: String, category: String) {
+    private fun setIndicator(viewId: Int, visible: Boolean) {
 
-        val ownerId = sessionManager.getUserId()
-
-        if (ownerId == -1) {
-            return
-        }
-
-        lifecycleScope.launch {
-
-            clothingDao.insert(
-                ClothingItem(
-                    ownerId = ownerId,
-                    name = "",
-                    category = category,
-                    color = "",
-                    tags = "",
-                    imagePath = imagePath
-                )
-            )
-
-            loadCloset()
-        }
+        findViewById<View>(viewId).visibility =
+            if (visible) View.VISIBLE else View.GONE
     }
 
-    // Populate every category section with its garments
-    private fun loadCloset() {
+    private inner class MainPagerAdapter :
+        FragmentStateAdapter(this) {
 
-        val ownerId = sessionManager.getUserId()
+        override fun getItemCount(): Int = 4
 
-        if (ownerId == -1) {
-            return
-        }
+        override fun createFragment(position: Int) = when (position) {
 
-        lifecycleScope.launch {
+            TAB_CLOSET -> ClosetFragment()
+            TAB_OUTFIT -> OutfitFragment()
+            TAB_CALENDAR -> CalendarFragment()
+            TAB_SETTINGS -> SettingsFragment()
 
-            val items = clothingDao.getAll(ownerId)
-
-            renderCategory(
-                items,
-                getString(R.string.category_tops),
-                R.id.horizontalTops,
-                R.id.placeholderTops
-            )
-
-            renderCategory(
-                items,
-                getString(R.string.category_bottoms),
-                R.id.horizontalBottoms,
-                R.id.placeholderBottoms
-            )
-
-            renderCategory(
-                items,
-                getString(R.string.category_footwear),
-                R.id.horizontalFootwear,
-                R.id.placeholderFootwear
-            )
-
-            renderCategory(
-                items,
-                getString(R.string.category_accessories),
-                R.id.horizontalAccessories,
-                R.id.placeholderAccessories
-            )
-        }
-    }
-
-    // Render one category's garments after its "Add" placeholder card
-    private fun renderCategory(
-        items: List<ClothingItem>,
-        category: String,
-        containerId: Int,
-        placeholderId: Int
-    ) {
-
-        val container = findViewById<LinearLayout>(containerId)
-        val placeholder = container.findViewById<View>(placeholderId)
-
-        // Remove old garment cards, keeping only the placeholder
-        for (i in container.childCount - 1 downTo 0) {
-            if (container.getChildAt(i) !== placeholder) {
-                container.removeViewAt(i)
-            }
-        }
-
-        val categoryItems = items.filter { it.category.equals(category, ignoreCase = true) }
-
-        for (item in categoryItems) {
-
-            val card = layoutInflater.inflate(R.layout.item_garment, container, false)
-
-            container.addView(card, container.indexOfChild(placeholder) + 1)
-
-            val image = card.findViewById<ImageView>(R.id.imgGarment)
-
-            lifecycleScope.launch {
-                val bitmap =
-                    withContext(Dispatchers.IO) { decodeSampledBitmap(item.imagePath) }
-                image.setImageBitmap(bitmap)
-            }
-        }
-    }
-
-    // Decode a downsampled bitmap so it fits in the small card
-    private fun decodeSampledBitmap(path: String): Bitmap? {
-
-        return try {
-
-            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeFile(path, bounds)
-
-            var sampleSize = 1
-            val targetSize = 220
-
-            while (
-                bounds.outWidth / sampleSize > targetSize ||
-                bounds.outHeight / sampleSize > targetSize
-            ) {
-                sampleSize *= 2
-            }
-
-            BitmapFactory.decodeFile(
-                path,
-                BitmapFactory.Options().apply { inSampleSize = sampleSize }
-            )
-
-        } catch (e: Exception) {
-
-            null
+            else -> ClosetFragment()
         }
     }
 }

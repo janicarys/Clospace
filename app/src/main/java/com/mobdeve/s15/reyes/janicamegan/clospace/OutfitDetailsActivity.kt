@@ -270,15 +270,15 @@ class OutfitDetailsActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            // Go straight back to the outfit list, clearing the
-            // selection / canvas screens so it reloads on resume.
-            startActivity(
-                Intent(this@OutfitDetailsActivity, OutfitActivity::class.java)
-                    .addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                            Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    )
-            )
+            // Go back to the home screen's Outfit tab, clearing the
+            // selection / canvas screens so it loads fresh.
+            val toHome = Intent(this@OutfitDetailsActivity, MainActivity::class.java)
+                .putExtra(MainActivity.EXTRA_OPEN_TAB, MainActivity.TAB_OUTFIT)
+                .addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                )
+            startActivity(toHome)
 
             finish()
         }

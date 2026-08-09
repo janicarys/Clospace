@@ -88,9 +88,10 @@ class OutfitAdapter(
 
         holder.previewFrame.removeAllViews()
 
-        val previewRes = current.previewRes
+        val thumbnail =
+            OutfitRenderer.render(current.placements, 400, 480)
 
-        if (previewRes != null) {
+        if (thumbnail != null) {
 
             holder.previewFrame.addView(
                 ImageView(context).apply {
@@ -100,33 +101,11 @@ class OutfitAdapter(
                         FrameLayout.LayoutParams.MATCH_PARENT
                     )
 
-                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    scaleType = ImageView.ScaleType.FIT_CENTER
 
-                    setImageResource(previewRes)
+                    setImageBitmap(thumbnail)
                 }
             )
-
-        } else {
-
-            val thumbnail =
-                OutfitRenderer.render(current.placements, 400, 480)
-
-            if (thumbnail != null) {
-
-                holder.previewFrame.addView(
-                    ImageView(context).apply {
-
-                        layoutParams = FrameLayout.LayoutParams(
-                            FrameLayout.LayoutParams.MATCH_PARENT,
-                            FrameLayout.LayoutParams.MATCH_PARENT
-                        )
-
-                        scaleType = ImageView.ScaleType.FIT_CENTER
-
-                        setImageBitmap(thumbnail)
-                    }
-                )
-            }
         }
     }
 }

@@ -20,24 +20,20 @@ interface OutfitDao {
     @Query("SELECT * FROM outfits WHERE id = :id")
     suspend fun getById(id: Int): Outfit?
 
-    @Insert
-    suspend fun insertOutfitItem(item: OutfitItem)
+    @Query("""
+        SELECT * FROM outfits
+        WHERE ownerId = :ownerId
+        AND plannedDate IS NOT NULL
+        AND plannedDate LIKE :monthPrefix || '%'
+        ORDER BY plannedDate
+    """)
+    suspend fun getByPlannedMonth(ownerId: Int, monthPrefix: String): List<Outfit>
 
     @Insert
     suspend fun insertOutfitItems(items: List<OutfitItem>)
 
     @Query("DELETE FROM outfit_items WHERE outfitId = :outfitId")
     suspend fun deleteOutfitItems(outfitId: Int)
-
-    @Query("SELECT * FROM outfit_items WHERE outfitId = :outfitId")
-    suspend fun getPlacements(outfitId: Int): List<OutfitItem>
-
-    @Query("""
-        SELECT clothing_items.* FROM clothing_items
-        INNER JOIN outfit_items ON clothing_items.id = outfit_items.clothingId
-        WHERE outfit_items.outfitId = :outfitId
-    """)
-    suspend fun getItemsForOutfit(outfitId: Int): List<ClothingItem>
 
     @Query("""
         SELECT * FROM outfit_items

@@ -67,5 +67,7 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.4.0")
 
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }

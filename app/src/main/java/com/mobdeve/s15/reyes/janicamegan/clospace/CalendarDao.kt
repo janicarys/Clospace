@@ -31,7 +31,6 @@ interface CalendarDao {
     """)
     suspend fun getByDate(ownerId: Int, date: String): CalendarEntry?
 
-    // NEW
     @Query("""
         SELECT *
         FROM calendar
@@ -44,17 +43,3 @@ interface CalendarDao {
         month: String
     ): List<CalendarEntry>
 }
-
-/*call by
-    val augustEntries = calendarDao.getByMonth(
-    ownerId = 1,
-    month = "2026-08"
-)
-will result
-2026-08-03
-2026-08-06
-2026-08-11
-
-*/
-
-

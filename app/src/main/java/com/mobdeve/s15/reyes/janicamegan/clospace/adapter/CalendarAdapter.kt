@@ -1,5 +1,6 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace.adapter
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.CalendarDay
 import androidx.core.content.ContextCompat
+import java.time.LocalDate
 
 class CalendarAdapter(
-    private val days: List<CalendarDay>
+    private val days: List<CalendarDay>,
+    private val previews: Map<LocalDate, Bitmap>
 ) : RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,8 +22,6 @@ class CalendarAdapter(
         val day: TextView = view.findViewById(R.id.tvDay)
 
         val image: ImageView = view.findViewById(R.id.imgOutfit)
-
-        val add: ImageView = view.findViewById(R.id.imgAdd)
 
         val badge: TextView = view.findViewById(R.id.tvOutfitCount)
 
@@ -73,66 +74,30 @@ class CalendarAdapter(
 
         }
 
-        if (current.isCurrentMonth) {
+        val preview = previews[current.date]
 
-            holder.day.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.violet
-                )
-            )
-            holder.itemView.alpha = 1f
-
-        } else {
-
-            holder.day.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.calendar_day_disabled
-
-                )
-            )
-
-        }
-
-        // No outfit yet
-        // Previous / next month cells
-        if (current.outfits.isEmpty()) {
-
-            holder.image.visibility = View.GONE
-            holder.badge.visibility = View.GONE
-
-            if (current.isCurrentMonth) {
-                holder.add.visibility = View.VISIBLE
-            } else {
-                holder.add.visibility = View.GONE
-            }
-
-        } else {
+        if (preview != null) {
 
             holder.image.visibility = View.VISIBLE
-            holder.add.visibility = View.GONE
+            holder.image.setImageBitmap(preview)
 
-            holder.image.setImageResource(
-                current.outfits.first().imageRes
-            )
+        } else {
 
-            if (current.outfits.size > 1) {
+            holder.image.visibility = View.GONE
+        }
 
-                holder.badge.visibility = View.VISIBLE
+        val count = current.outfits.size
 
-                holder.badge.text =
-                    if (current.outfits.size > 9)
-                        "9+"
-                    else
-                        current.outfits.size.toString()
+        if (count > 1) {
 
-            } else {
+            holder.badge.visibility = View.VISIBLE
 
-                holder.badge.visibility = View.GONE
+            holder.badge.text =
+                if (count > 9) "9+" else count.toString()
 
-            }
+        } else {
 
+            holder.badge.visibility = View.GONE
         }
     }
 }

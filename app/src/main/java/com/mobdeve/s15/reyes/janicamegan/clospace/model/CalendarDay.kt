@@ -1,5 +1,6 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace.model
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.Outfit
 import java.time.LocalDate
 
 data class CalendarDay(
@@ -9,6 +10,6 @@ data class CalendarDay(
     val isCurrentMonth: Boolean,
     val isToday: Boolean,
 
-    val outfits: MutableList<Outfit> = mutableListOf()
+    val outfits: List<Outfit> = emptyList()
 
 )
