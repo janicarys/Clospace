@@ -91,6 +91,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
 
     <string name="caption">Caption</string>
     <string name="hint_caption">Give your outfit a name</string>
+    <string name="add_caption">Add a caption...</string>
     <string name="planned_date">Planned to wear</string>
     <string name="pick_date">Pick a date</string>
     <string name="planned_date_set">Planned to wear: %1$s</string>
@@ -104,14 +105,22 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <!-- Outfit Detail -->
     <string name="outfit_detail_title">Outfit</string>
     <string name="edit">EDIT</string>
-    <string name="clothes_included">Clothes</string>
+    <string name="delete">DELETE</string>
+    <string name="delete_outfit_title">Delete outfit?</string>
+    <string name="delete_outfit_message">This outfit will be permanently removed.</string>
+    <string name="cancel">Cancel</string>
+    <string name="outfit_deleted">Outfit deleted</string>
+    <string name="clothes_included">Clothes in outfit</string>
     <string name="category">Category</string>
     <string name="tags_label">Tags</string>
     <string name="occasion_label">Occasion</string>
     <string name="schedule">Schedule</string>
+    <string name="schedule_outfit">Schedule outfit</string>
     <string name="tags_hint">Add tags (separate with commas)</string>
     <string name="no_tags">No tags</string>
-    <string name="not_scheduled">Not scheduled</string>
+    <string name="add_tags">Add tags</string>
+    <string name="add_occasion">Add occasion</string>
+    <string name="not_scheduled">This outfit can be scheduled</string>
     <string name="no_category">—</string>
     <string name="remove_garment">Remove garment</string>
     <string name="tap_to_select">Tap to select</string>
