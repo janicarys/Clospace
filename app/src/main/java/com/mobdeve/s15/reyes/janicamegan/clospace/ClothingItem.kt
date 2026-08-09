@@ -17,6 +17,8 @@ data class ClothingItem(
 
     val color: String,
 
+    val material: String,
+
     val tags: String,
 
     val imagePath: String,

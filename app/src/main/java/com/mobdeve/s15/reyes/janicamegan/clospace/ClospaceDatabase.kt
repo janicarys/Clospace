@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [
@@ -13,7 +15,7 @@ import androidx.room.RoomDatabase
         OutfitItem::class,
         CalendarEntry::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class ClospaceDatabase : RoomDatabase() {
@@ -28,6 +30,16 @@ abstract class ClospaceDatabase : RoomDatabase() {
 
     companion object {
 
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+
+            override fun migrate(db: SupportSQLiteDatabase) {
+
+                db.execSQL(
+                    "ALTER TABLE clothing_items ADD COLUMN material TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
+
         @Volatile
         private var INSTANCE: ClospaceDatabase? = null
 
@@ -40,6 +52,7 @@ abstract class ClospaceDatabase : RoomDatabase() {
                     ClospaceDatabase::class.java,
                     "clospace_database"
                 )
+                    .addMigrations(MIGRATION_5_6)
                     .fallbackToDestructiveMigration()
                     .build()
 

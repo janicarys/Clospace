@@ -125,6 +125,25 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="remove_garment">Remove garment</string>
     <string name="tap_to_select">Tap to select</string>
 
+    <!-- Garment Detail -->
+    <string name="garment_detail_title">Garment</string>
+    <string name="hint_name">Name this garment</string>
+    <string name="add_color">Add color</string>
+    <string name="add_material">Add material</string>
+    <string name="hint_color">e.g. Navy Blue</string>
+    <string name="hint_material">e.g. Cotton</string>
+    <string name="color_label">Color</string>
+    <string name="material_label">Material</string>
+    <string name="create_outfit">Create outfit</string>
+    <plurals name="used_in_count">
+        <item quantity="one">Used in %d outfit</item>
+        <item quantity="other">Used in %d outfits</item>
+    </plurals>
+    <string name="no_outfits_used">Not in any outfit yet</string>
+    <string name="garment_deleted">Garment deleted</string>
+    <string name="delete_garment_title">Delete garment?</string>
+    <string name="delete_garment_message">This garment will be permanently removed from your closet and any outfits using it.</string>
+
     <string-array name="occasions">
         <item>Work</item>
         <item>Casual</item>

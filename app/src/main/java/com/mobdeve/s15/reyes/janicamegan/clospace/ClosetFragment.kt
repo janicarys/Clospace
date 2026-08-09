@@ -1,5 +1,6 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -206,6 +207,7 @@ class ClosetFragment : Fragment() {
                     name = "",
                     category = category,
                     color = "",
+                    material = "",
                     tags = "",
                     imagePath = imagePath
                 )
@@ -290,6 +292,14 @@ class ClosetFragment : Fragment() {
             val card = layoutInflater.inflate(R.layout.item_garment, container, false)
 
             container.addView(card, container.indexOfChild(placeholder) + 1)
+
+            card.setOnClickListener {
+
+                startActivity(
+                    Intent(requireContext(), GarmentDetailActivity::class.java)
+                        .putExtra(GarmentDetailActivity.EXTRA_CLOTHING_ID, item.id)
+                )
+            }
 
             val image = card.findViewById<ImageView>(R.id.imgGarment)
 

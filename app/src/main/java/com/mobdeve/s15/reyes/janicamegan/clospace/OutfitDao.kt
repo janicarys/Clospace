@@ -21,6 +21,14 @@ interface OutfitDao {
     suspend fun getById(id: Int): Outfit?
 
     @Query("""
+        SELECT outfits.* FROM outfits
+        INNER JOIN outfit_items ON outfit_items.outfitId = outfits.id
+        WHERE outfit_items.clothingId = :clothingId
+        ORDER BY outfits.id DESC
+    """)
+    suspend fun getOutfitsForClothing(clothingId: Int): List<Outfit>
+
+    @Query("""
         SELECT * FROM outfits
         WHERE ownerId = :ownerId
         AND plannedDate IS NOT NULL
@@ -34,6 +42,9 @@ interface OutfitDao {
 
     @Query("DELETE FROM outfit_items WHERE outfitId = :outfitId")
     suspend fun deleteOutfitItems(outfitId: Int)
+
+    @Query("DELETE FROM outfit_items WHERE clothingId = :clothingId")
+    suspend fun deleteOutfitItemsForClothing(clothingId: Int)
 
     @Query("""
         SELECT * FROM outfit_items
