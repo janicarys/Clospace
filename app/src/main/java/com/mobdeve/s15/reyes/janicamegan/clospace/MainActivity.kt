@@ -19,6 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.TransitionUtil
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -89,18 +91,38 @@ class MainActivity : AppCompatActivity() {
 
         // Outfit
         navOutfit.setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CLOSET,
+                TransitionUtil.TAB_OUTFIT
+            )
             startActivity(Intent(this, OutfitActivity::class.java))
+            overridePendingTransition(enter, exit)
+            finish()
+            overridePendingTransition(enter, exit)
         }
 
         // Calendar
         navCalendar.setOnClickListener {
-            // TODO: Replace once CalendarActivity exists
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CLOSET,
+                TransitionUtil.TAB_CALENDAR
+            )
             startActivity(Intent(this, CalendarActivity::class.java))
+            overridePendingTransition(enter, exit)
+            finish()
+            overridePendingTransition(enter, exit)
         }
 
         // Settings
         navSettings.setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CLOSET,
+                TransitionUtil.TAB_SETTINGS
+            )
             startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(enter, exit)
+            finish()
+            overridePendingTransition(enter, exit)
         }
 
         // Floating Action Button

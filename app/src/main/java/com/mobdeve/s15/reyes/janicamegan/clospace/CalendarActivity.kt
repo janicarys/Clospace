@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.CalendarAdapter
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.CalendarDay
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.Outfit
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.TransitionUtil
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import android.widget.Button
@@ -41,18 +42,36 @@ class CalendarActivity : AppCompatActivity() {
         // ----------------------------
 
         findViewById<LinearLayout>(R.id.navCloset).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CALENDAR,
+                TransitionUtil.TAB_CLOSET
+            )
             startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         findViewById<LinearLayout>(R.id.navOutfit).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CALENDAR,
+                TransitionUtil.TAB_OUTFIT
+            )
             startActivity(Intent(this, OutfitActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_CALENDAR,
+                TransitionUtil.TAB_SETTINGS
+            )
             startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         // ----------------------------

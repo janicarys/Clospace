@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.OutfitAdapter
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.TransitionUtil
 
 import kotlinx.coroutines.launch
 
@@ -46,18 +47,36 @@ class OutfitActivity : AppCompatActivity() {
 
         // Bottom Navigation
         findViewById<LinearLayout>(R.id.navCloset).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_OUTFIT,
+                TransitionUtil.TAB_CLOSET
+            )
             startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         findViewById<LinearLayout>(R.id.navCalendar).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_OUTFIT,
+                TransitionUtil.TAB_CALENDAR
+            )
             startActivity(Intent(this, CalendarActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_OUTFIT,
+                TransitionUtil.TAB_SETTINGS
+            )
             startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
     }
 
