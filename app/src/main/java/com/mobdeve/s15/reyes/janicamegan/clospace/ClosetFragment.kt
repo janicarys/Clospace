@@ -18,7 +18,9 @@ import androidx.lifecycle.lifecycleScope
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.app.AlertDialog
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCutout
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +46,7 @@ class ClosetFragment : Fragment() {
             val path = pendingImagePath
             pendingImagePath = null
             if (success && path != null) {
-                promptCategory(path)
+                removeBackground(path)
             }
         }
 
@@ -54,7 +56,7 @@ class ClosetFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     val path = withContext(Dispatchers.IO) { copyUriToStorage(uri) }
                     if (path != null) {
-                        promptCategory(path)
+                        removeBackground(path)
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -172,9 +174,42 @@ class ClosetFragment : Fragment() {
         }
     }
 
+    // Remove the image background, then ask which category the garment belongs to
+    private fun removeBackground(imagePath: String) {
+
+        val progress = AlertDialog.Builder(requireContext())
+            .setView(android.widget.ProgressBar(requireContext()))
+            .setMessage(R.string.removing_background)
+            .setCancelable(false)
+            .show()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            val result = withContext(Dispatchers.IO) {
+
+                val timestamp =
+                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+
+                val dir = File(requireContext().filesDir, "images")
+                dir.mkdirs()
+
+                val cutoutPath = File(dir, "cutout_$timestamp.png").absolutePath
+
+                if (GarmentCutout.cutout(imagePath, cutoutPath)) {
+                    cutoutPath
+                } else {
+                    imagePath
+                }
+            }
+
+            progress.dismiss()
+
+            promptCategory(result)
+        }
+    }
+
     // Ask which category the new garment belongs to
     private fun promptCategory(imagePath: String) {
-
         val categories = arrayOf(
             getString(R.string.category_tops),
             getString(R.string.category_bottoms),

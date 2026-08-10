@@ -48,6 +48,7 @@
     <string name="category_accessories">Accessories</string>
     <string name="image_load_failed">Could not load image</string>
     <string name="garment_image">Garment image</string>
+    <string name="removing_background">Removing background...</string>
 
     <!-- Settings Page -->
     <string name="notifications">Notifications</string>

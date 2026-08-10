@@ -13,6 +13,10 @@
         android:theme="@style/Theme.Clospace"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="subject_segment" />
+
         <!-- Splash -->
         <activity
             android:name=".SplashActivity"

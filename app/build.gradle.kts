@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mobdeve.s15.reyes.janicamegan.clospace"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 37
 
         versionCode = 1
@@ -68,6 +68,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
 
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+
+    implementation(libs.mlkit.subject.segmentation)
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }
