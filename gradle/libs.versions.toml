@@ -14,6 +14,7 @@ lifecycle = "2.8.7"
 ksp = "2.2.10-2.0.2"
 coroutines = "1.8.1"
 mlkitSubjectSegmentation = "16.0.0-beta1"
+mlkitImageLabeling = "17.0.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +31,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 mlkit-subject-segmentation = { group = "com.google.android.gms", name = "play-services-mlkit-subject-segmentation", version.ref = "mlkitSubjectSegmentation" }
+mlkit-image-labeling = { group = "com.google.mlkit", name = "image-labeling", version.ref = "mlkitImageLabeling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -20,6 +20,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.app.AlertDialog
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentClassifier
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCategory
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCutout
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 
@@ -185,7 +187,7 @@ class ClosetFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            val result = withContext(Dispatchers.IO) {
+            val (finalPath, detectedCategory) = withContext(Dispatchers.IO) {
 
                 val timestamp =
                     SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -195,27 +197,42 @@ class ClosetFragment : Fragment() {
 
                 val cutoutPath = File(dir, "cutout_$timestamp.png").absolutePath
 
-                if (GarmentCutout.cutout(imagePath, cutoutPath)) {
+                val path = if (GarmentCutout.cutout(imagePath, cutoutPath)) {
                     cutoutPath
                 } else {
                     imagePath
                 }
+
+                path to GarmentClassifier.classify(path)
             }
 
             progress.dismiss()
 
-            promptCategory(result)
+            promptCategory(finalPath, detectedCategory)
         }
     }
 
-    // Ask which category the new garment belongs to
-    private fun promptCategory(imagePath: String) {
+    // Ask which category the new garment belongs to, or auto-save when detected
+    private fun promptCategory(imagePath: String, detected: GarmentCategory? = null) {
+
         val categories = arrayOf(
             getString(R.string.category_tops),
             getString(R.string.category_bottoms),
             getString(R.string.category_footwear),
             getString(R.string.category_accessories)
         )
+
+        if (detected != null) {
+
+            saveGarment(imagePath, categories[detected.ordinal])
+            return
+        }
+
+        showCategoryPicker(imagePath, categories)
+    }
+
+    // Show the manual list of categories to pick from
+    private fun showCategoryPicker(imagePath: String, categories: Array<String>) {
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.select_category)
