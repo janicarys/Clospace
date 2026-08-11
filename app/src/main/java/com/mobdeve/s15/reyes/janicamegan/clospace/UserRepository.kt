@@ -64,6 +64,26 @@ class UserRepository {
             filter { eq("id", id) }
         }.decodeList<UserProfileRow>().firstOrNull()
     }
+
+    suspend fun updateDisplayName(displayName: String): Boolean = runCatching {
+        val id = authRepository.currentUserId() ?: return false
+        client.from("users").update(
+            mapOf("display_name" to displayName.trim())
+        ) {
+            filter { eq("id", id) }
+        }
+        true
+    }.getOrDefault(false)
+
+    suspend fun updateGender(gender: String): Boolean = runCatching {
+        val id = authRepository.currentUserId() ?: return false
+        client.from("users").update(
+            mapOf("avatar" to gender)
+        ) {
+            filter { eq("id", id) }
+        }
+        true
+    }.getOrDefault(false)
 }
 
 @Serializable

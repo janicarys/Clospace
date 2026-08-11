@@ -209,7 +209,13 @@ object ClospaceBottomSheets {
             setTextColor(context.getColor(R.color.purple))
             typeface = ResourcesCompat.getFont(context, R.font.rokkitt_regular)
         }
+        val check = AppCompatImageView(context).apply {
+            setImageResource(R.drawable.ic_check)
+            setColorFilter(context.getColor(R.color.purple))
+            visibility = if (selected) View.VISIBLE else View.INVISIBLE
+        }
         row.addView(text, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        row.addView(check, LinearLayout.LayoutParams(dp(context, 22), dp(context, 22)))
         return row
     }
 

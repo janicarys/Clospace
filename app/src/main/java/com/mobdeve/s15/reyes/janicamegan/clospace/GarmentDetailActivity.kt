@@ -234,7 +234,7 @@ class GarmentDetailActivity : AppCompatActivity() {
             if (currentTags.isEmpty())
                 getString(R.string.add_tags)
             else
-                currentTags.joinToString(" Â· ")
+                currentTags.joinToString(" · ")
     }
 
     private fun bindColor(color: String?) {

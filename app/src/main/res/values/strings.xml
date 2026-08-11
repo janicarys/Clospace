@@ -27,6 +27,7 @@
 
     <!-- Main Page -->
     <string name="search_closet">Search your closet...</string>
+    <string name="search_outfits">Search outfits...</string>
     <string name="tops">TOPS</string>
     <string name="bottoms">BOTTOMS</string>
     <string name="footwear">FOOTWEAR</string>
@@ -55,6 +56,16 @@
     <string name="account">Account</string>
     <string name="account_display_name">Display Name</string>
     <string name="account_email">Email</string>
+    <string name="account_gender">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_not_set">Not set</string>
+    <string name="edit_gender">Edit gender</string>
+    <string name="gender_updated">Gender updated</string>
+    <string name="gender_update_failed">Could not update gender</string>
+    <string name="edit_display_name">Edit display name</string>
+    <string name="display_name_updated">Display name updated</string>
+    <string name="display_name_update_failed">Could not update display name</string>
     <string name="sign_out">Sign Out</string>
     <string name="sign_out_confirm_title">Sign out?</string>
     <string name="sign_out_confirm_message">You will need to sign in again to view your wardrobe.</string>
@@ -96,7 +107,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="canvas_hint">Pinch to resize • Drag to move</string>
     <string name="bring_forward">Bring Forward</string>
     <string name="send_backward">Send to Back</string>
-    <string name="no_outfits">No outfits yet.\nTap the + button to create one.</string>
+    <string name="no_outfits">No outfits to display.\nTap the + button to create one.</string>
     <string name="no_garments">Your closet is empty.\nAdd garments first.</string>
     <string name="tap_garments_hint">Tap garments to build your outfit</string>
     <string name="select_at_least_one">Select at least one garment</string>
@@ -134,6 +145,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="new_tag_hint">New tag name</string>
     <string name="new_tag">New tag</string>
     <string name="add">Add</string>
+    <string name="add_tag">Add tag</string>
     <string name="done">Done</string>
     <string name="clear_selection">Clear selection</string>
     <string name="edit_tag">Edit tag</string>

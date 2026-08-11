@@ -3,6 +3,8 @@ package com.mobdeve.s15.reyes.janicamegan.clospace
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCategory
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentClassifier
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCutout
@@ -32,6 +35,8 @@ class ClosetFragment : Fragment() {
     private lateinit var backend: BackendRepository
     private var pendingImagePath: String? = null
     private var pendingCategory: GarmentCategory? = null
+    private var allItems: List<ClothingItem> = emptyList()
+    private val placeholders = mutableMapOf<Int, View>()
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         val path = pendingImagePath
@@ -56,11 +61,42 @@ class ClosetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         backend = BackendRepository(requireContext())
+        placeholders[R.id.placeholderTops] = view.findViewById(R.id.placeholderTops)
+        placeholders[R.id.placeholderBottoms] = view.findViewById(R.id.placeholderBottoms)
+        placeholders[R.id.placeholderFootwear] = view.findViewById(R.id.placeholderFootwear)
+        placeholders[R.id.placeholderAccessories] = view.findViewById(R.id.placeholderAccessories)
         view.findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener { showSourceDialog() }
+        view.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.searchLayout).setStartIconOnClickListener {
+            applySearch()
+        }
+        view.findViewById<TextInputEditText>(R.id.etSearch).apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.isNullOrBlank()) renderItems(view, allItems)
+                }
+            })
+            setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                    applySearch()
+                    true
+                } else false
+            }
+        }
         loadCloset()
     }
 
+    private fun applySearch() {
+        renderItems(view ?: return, filterItems(currentQuery()))
+    }
+
     override fun onResume() { super.onResume(); if (::backend.isInitialized) loadCloset() }
+
+    private fun currentQuery(): String {
+        val root = view ?: return ""
+        return root.findViewById<TextInputEditText>(R.id.etSearch)?.text?.toString().orEmpty()
+    }
 
     private fun showSourceDialog(preset: GarmentCategory? = null) {
         pendingCategory = preset
@@ -138,38 +174,63 @@ class ClosetFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching { backend.getClothing() }
                 .onSuccess { items ->
-                    renderCategory(root, items, getString(R.string.category_tops), R.id.horizontalTops, R.id.placeholderTops, GarmentCategory.TOP)
-                    renderCategory(root, items, getString(R.string.category_bottoms), R.id.horizontalBottoms, R.id.placeholderBottoms, GarmentCategory.BOTTOM)
-                    renderCategory(root, items, getString(R.string.category_footwear), R.id.horizontalFootwear, R.id.placeholderFootwear, GarmentCategory.FOOTWEAR)
-                    renderCategory(root, items, getString(R.string.category_accessories), R.id.horizontalAccessories, R.id.placeholderAccessories, GarmentCategory.ACCESSORY)
+                    allItems = items
+                    renderItems(root, filterItems(currentQuery()))
                 }
                 .onFailure { Toast.makeText(requireContext(), it.message ?: "Unable to load closet", Toast.LENGTH_SHORT).show() }
         }
     }
 
-    private fun renderCategory(root: View, items: List<ClothingItem>, category: String, containerId: Int, placeholderId: Int, preset: GarmentCategory) {
+    private fun renderItems(root: View, items: List<ClothingItem>) {
+        val filtering = currentQuery().isNotBlank()
+        renderCategory(root, items, getString(R.string.category_tops), R.id.horizontalTops, R.id.placeholderTops, R.id.cardTops, GarmentCategory.TOP, filtering)
+        renderCategory(root, items, getString(R.string.category_bottoms), R.id.horizontalBottoms, R.id.placeholderBottoms, R.id.cardBottoms, GarmentCategory.BOTTOM, filtering)
+        renderCategory(root, items, getString(R.string.category_footwear), R.id.horizontalFootwear, R.id.placeholderFootwear, R.id.cardFootwear, GarmentCategory.FOOTWEAR, filtering)
+        renderCategory(root, items, getString(R.string.category_accessories), R.id.horizontalAccessories, R.id.placeholderAccessories, R.id.cardAccessories, GarmentCategory.ACCESSORY, filtering)
+    }
+
+    private fun filterItems(query: String): List<ClothingItem> {
+        val q = query.trim()
+        if (q.isEmpty()) return allItems
+        return allItems.filter { item ->
+            listOf(item.name, item.category, item.color, item.material, item.tags)
+                .any { it.contains(q, ignoreCase = true) }
+        }
+    }
+
+    private fun renderCategory(root: View, items: List<ClothingItem>, category: String, containerId: Int, placeholderId: Int, cardId: Int, preset: GarmentCategory, filtering: Boolean) {
         val container = root.findViewById<LinearLayout>(containerId)
-        val placeholder = container.findViewById<View>(placeholderId)
+        val placeholder = placeholders[placeholderId] ?: return
+        val card = root.findViewById<View>(cardId)
 
         container.removeView(placeholder)
         for (i in container.childCount - 1 downTo 0) container.removeViewAt(i)
 
-        items.filter { it.category.equals(category, ignoreCase = true) }
+        val categoryItems = items.filter { it.category.equals(category, ignoreCase = true) }
             .sortedByDescending { it.id }
-            .forEach { item ->
-                val card = layoutInflater.inflate(R.layout.item_garment, container, false)
-                container.addView(card)
-                card.setOnClickListener {
-                    startActivity(Intent(requireContext(), GarmentDetailActivity::class.java).putExtra(GarmentDetailActivity.EXTRA_CLOTHING_ID, item.id))
-                }
-                val image = card.findViewById<ImageView>(R.id.imgGarment)
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    val bitmap = ImageDecoder.decode(item.imagePath, 220)
-                    withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
-                }
-            }
 
-        placeholder.setOnClickListener { showSourceDialog(preset) }
-        container.addView(placeholder)
+        if (categoryItems.isEmpty() && filtering) {
+            card.visibility = View.GONE
+            return
+        }
+        card.visibility = View.VISIBLE
+
+        categoryItems.forEach { item ->
+            val cardView = layoutInflater.inflate(R.layout.item_garment, container, false)
+            container.addView(cardView)
+            cardView.setOnClickListener {
+                startActivity(Intent(requireContext(), GarmentDetailActivity::class.java).putExtra(GarmentDetailActivity.EXTRA_CLOTHING_ID, item.id))
+            }
+            val image = cardView.findViewById<ImageView>(R.id.imgGarment)
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                val bitmap = ImageDecoder.decode(item.imagePath, 220)
+                withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
+            }
+        }
+
+        if (!filtering) {
+            placeholder.setOnClickListener { showSourceDialog(preset) }
+            container.addView(placeholder)
+        }
     }
 }

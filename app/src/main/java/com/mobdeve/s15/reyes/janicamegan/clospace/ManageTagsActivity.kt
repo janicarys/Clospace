@@ -26,7 +26,28 @@ class ManageTagsActivity : AppCompatActivity() {
             finish()
         }
 
+        findViewById<ImageButton>(R.id.btnAddTag).apply {
+            visibility = android.view.View.VISIBLE
+            setOnClickListener { promptNewTag() }
+        }
+
         loadTags()
+    }
+
+    private fun promptNewTag() {
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.new_tag,
+            getString(R.string.new_tag_hint),
+            positiveRes = R.string.add
+        ) { raw ->
+            val name = raw.trim().takeIf { it.isNotBlank() } ?: return@showInput
+            lifecycleScope.launch {
+                runCatching { backend.createTag(name) }
+                    .onSuccess { loadTags() }
+                    .onFailure { Toast.makeText(this@ManageTagsActivity, it.message ?: getString(R.string.tag_add_failed), Toast.LENGTH_SHORT).show() }
+            }
+        }
     }
 
     private fun loadTags() {
@@ -62,21 +83,25 @@ class ManageTagsActivity : AppCompatActivity() {
         row.addView(name, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
 
         val edit = ImageButton(this).apply {
-            setImageResource(R.drawable.ic_edit)
-            setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            setImageResource(R.drawable.ic_text_edit)
+            background = getDrawable(R.drawable.back_circle_background)
             setColorFilter(getColor(R.color.purple))
+            setPadding(dp(6), dp(6), dp(6), dp(6))
             contentDescription = getString(R.string.edit_tag)
             setOnClickListener { promptRename(tag) }
         }
         val delete = ImageButton(this).apply {
             setImageResource(R.drawable.ic_delete)
-            setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            background = getDrawable(R.drawable.back_circle_background)
             setColorFilter(getColor(R.color.purple))
+            setPadding(dp(6), dp(6), dp(6), dp(6))
             contentDescription = getString(R.string.delete_tag)
             setOnClickListener { promptDelete(tag) }
         }
-        row.addView(edit)
-        row.addView(delete)
+        val size = dp(36)
+        val margin = dp(6)
+        row.addView(edit, LinearLayout.LayoutParams(size, size).apply { leftMargin = margin })
+        row.addView(delete, LinearLayout.LayoutParams(size, size).apply { leftMargin = margin })
         return row
     }
 

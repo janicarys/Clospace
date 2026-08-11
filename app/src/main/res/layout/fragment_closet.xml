@@ -43,6 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:startIconDrawable="@drawable/ic_search"
+        app:endIconMode="clear_text"
         app:boxCornerRadiusTopStart="20dp"
         app:boxCornerRadiusTopEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
@@ -52,7 +53,9 @@
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_closet"/>
+            android:hint="@string/search_closet"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,6 +80,7 @@
             <!-- ================= TOPS ================= -->
 
             <LinearLayout
+                android:id="@+id/cardTops"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="24dp"
@@ -130,6 +134,7 @@
             <!-- ================= BOTTOMS ================= -->
 
             <LinearLayout
+                android:id="@+id/cardBottoms"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="24dp"
@@ -183,6 +188,7 @@
             <!-- ================= FOOTWEAR ================= -->
 
             <LinearLayout
+                android:id="@+id/cardFootwear"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="24dp"
@@ -236,6 +242,7 @@
             <!-- ================= ACCESSORIES ================= -->
 
             <LinearLayout
+                android:id="@+id/cardAccessories"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="80dp"

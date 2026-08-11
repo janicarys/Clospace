@@ -97,7 +97,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="76dp"
-            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingVertical="12dp">
@@ -118,6 +117,50 @@
 
                 <TextView
                     android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="â€”"
+                    android:textColor="@color/brown"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/rokkitt_regular"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E1EE"/>
+
+        <!-- Gender row -->
+        <LinearLayout
+            android:id="@+id/rowGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="76dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_gender"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/rokkitt_regular"/>
+
+                <TextView
+                    android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
