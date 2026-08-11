@@ -23,8 +23,13 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val account = view.findViewById<LinearLayout>(R.id.layoutAccount)
         val about = view.findViewById<LinearLayout>(R.id.layoutAbout)
         val support = view.findViewById<LinearLayout>(R.id.layoutSupport)
+
+        account.setOnClickListener {
+            startActivity(Intent(requireContext(), AccountActivity::class.java))
+        }
 
         about.setOnClickListener {
             startActivity(Intent(requireContext(), AboutActivity::class.java))

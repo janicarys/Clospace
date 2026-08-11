@@ -12,10 +12,19 @@ import com.mobdeve.s15.reyes.janicamegan.clospace.ClothingItem
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class SelectedGarmentAdapter(
     private val items: MutableList<ClothingItem>,
     private val onRemove: (ClothingItem) -> Unit
 ) : RecyclerView.Adapter<SelectedGarmentAdapter.SelectedViewHolder>() {
+
+    private val scope = CoroutineScope(Dispatchers.Main.immediate + Job())
 
     class SelectedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -38,10 +47,26 @@ class SelectedGarmentAdapter(
 
         val item = items[position]
 
-        holder.image.setImageBitmap(ImageDecoder.decode(item.imagePath, 140))
+        holder.image.setImageDrawable(null)
 
         holder.remove.setOnClickListener {
             onRemove(item)
         }
+
+        val bindingPosition = holder.bindingAdapterPosition
+
+        scope.launch {
+            val bitmap = withContext(Dispatchers.IO) {
+                ImageDecoder.decode(item.imagePath, 140)
+            }
+            if (holder.bindingAdapterPosition == bindingPosition && bitmap != null) {
+                holder.image.setImageBitmap(bitmap)
+            }
+        }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        scope.cancel()
     }
 }

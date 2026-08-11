@@ -12,6 +12,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -127,7 +128,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             runCatching {
-                if (editOutfitId > 0) {
+                val savedId = if (editOutfitId > 0) {
                     val existing = backend.getOutfitById(editOutfitId)?.outfit
                         ?: throw IllegalArgumentException("Outfit not found")
                     backend.updateOutfit(
@@ -138,9 +139,11 @@ class OutfitDetailsActivity : AppCompatActivity() {
                         tags = tags,
                         placements = placements
                     )
+                    editOutfitId
                 } else {
                     backend.createOutfit(caption, selectedOccasion, selectedDate, tags, placements)
                 }
+                OutfitPreviewCache.evict(savedId)
             }.onSuccess {
                 Toast.makeText(this@OutfitDetailsActivity, if (editOutfitId > 0) R.string.outfit_updated else R.string.outfit_saved, Toast.LENGTH_SHORT).show()
                 startActivity(

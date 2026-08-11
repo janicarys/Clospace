@@ -5,9 +5,9 @@
 
     <!-- Login -->
     <string name="login_title">Clospace</string>
-    <string name="login_username">Email Address</string>
+    <string name="login_username">Email</string>
     <string name="login_password">Password</string>
-    <string name="hint_username">Enter your email address</string>
+    <string name="hint_username">Enter email</string>
     <string name="hint_password">Enter password</string>
     <string name="login_button">LOG IN</string>
     <string name="login_no_account">Don\'t have an account?</string>
@@ -52,6 +52,13 @@
 
     <!-- Settings Page -->
     <string name="notifications">Notifications</string>
+    <string name="account">Account</string>
+    <string name="account_display_name">Display Name</string>
+    <string name="account_email">Email</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="sign_out_confirm_title">Sign out?</string>
+    <string name="sign_out_confirm_message">You will need to sign in again to view your wardrobe.</string>
+    <string name="signed_out">Signed out</string>
     <string name="about">About</string>
     <string name="contact_support">Contact Support</string>
 

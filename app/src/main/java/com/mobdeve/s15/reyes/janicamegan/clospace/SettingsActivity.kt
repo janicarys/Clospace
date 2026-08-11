@@ -14,8 +14,13 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         // Settings cards
+        val account = findViewById<LinearLayout>(R.id.layoutAccount)
         val about = findViewById<LinearLayout>(R.id.layoutAbout)
         val support = findViewById<LinearLayout>(R.id.layoutSupport)
+
+        account.setOnClickListener {
+            startActivity(Intent(this, AccountActivity::class.java))
+        }
 
         about.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))

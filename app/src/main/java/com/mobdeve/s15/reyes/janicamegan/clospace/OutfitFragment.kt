@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.OutfitAdapter
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OutfitFragment : Fragment() {
     private lateinit var backend: BackendRepository
@@ -39,7 +42,13 @@ class OutfitFragment : Fragment() {
     private fun loadOutfits() {
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching { backend.getOutfits() }.onSuccess { outfits ->
-                recycler.adapter = OutfitAdapter(outfits) { wrapper -> openOutfit(wrapper.outfit.id) }
+                val previews = withContext(Dispatchers.IO) {
+                    outfits.mapNotNull { wrapper ->
+                        val bitmap = OutfitPreviewCache.render(wrapper.outfit.id, wrapper.placements, 400, 480)
+                        if (bitmap != null) wrapper.outfit.id to bitmap else null
+                    }.toMap()
+                }
+                recycler.adapter = OutfitAdapter(outfits, previews) { wrapper -> openOutfit(wrapper.outfit.id) }
                 tvEmpty.visibility = if (outfits.isEmpty()) View.VISIBLE else View.GONE
             }
         }

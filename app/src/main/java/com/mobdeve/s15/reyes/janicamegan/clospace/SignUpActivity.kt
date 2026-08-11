@@ -1,6 +1,8 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -26,10 +28,20 @@ class SignUpActivity : AppCompatActivity() {
         ivAvatarMale = findViewById(R.id.ivAvatarMale)
         ivAvatarFemale = findViewById(R.id.ivAvatarFemale)
 
-        val etEmail = findViewById<EditText>(R.id.etEmail)
+        val etUsername = findViewById<EditText>(R.id.etUsername)
         val etDisplayName = findViewById<EditText>(R.id.etDisplayName)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val etConfirmPassword = findViewById<EditText>(R.id.etConfirmPassword)
+        val btnTogglePassword = findViewById<ImageButton>(R.id.btnTogglePassword)
+        val btnToggleConfirmPassword = findViewById<ImageButton>(R.id.btnToggleConfirmPassword)
+
+        btnTogglePassword.setOnClickListener {
+            togglePasswordVisibility(etPassword, btnTogglePassword)
+        }
+
+        btnToggleConfirmPassword.setOnClickListener {
+            togglePasswordVisibility(etConfirmPassword, btnToggleConfirmPassword)
+        }
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         val tvSignIn = findViewById<TextView>(R.id.tvSignIn)
 
@@ -37,14 +49,14 @@ class SignUpActivity : AppCompatActivity() {
         ivAvatarFemale.setOnClickListener { selectAvatar(false) }
 
         btnSubmit.setOnClickListener {
-            val email = etEmail.text.toString().trim()
+            val email = etUsername.text.toString().trim()
             val displayName = etDisplayName.text.toString().trim()
             val password = etPassword.text.toString()
             val confirmPassword = etConfirmPassword.text.toString()
 
             when {
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    etEmail.error = "Enter a valid email address"
+                    etUsername.error = "Enter a valid email address"
                     return@setOnClickListener
                 }
                 displayName.isBlank() -> {
@@ -68,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 btnSubmit.isEnabled = false
                 val result = repository.register(
-                    User(email = email, displayName = displayName, password = password, avatar = selectedAvatar)
+                    User(username = email, displayName = displayName, password = password, avatar = selectedAvatar)
                 )
                 btnSubmit.isEnabled = true
 
@@ -96,5 +108,16 @@ class SignUpActivity : AppCompatActivity() {
         selectedAvatar = if (isMale) "male" else "female"
         ivAvatarMale.setBackgroundResource(if (isMale) R.drawable.avatar_selected else android.R.color.transparent)
         ivAvatarFemale.setBackgroundResource(if (!isMale) R.drawable.avatar_selected else android.R.color.transparent)
+    }
+
+    private fun togglePasswordVisibility(field: EditText, button: ImageButton) {
+        if (field.transformationMethod == PasswordTransformationMethod.getInstance()) {
+            field.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            button.setImageResource(R.drawable.ic_visibility_off)
+        } else {
+            field.transformationMethod = PasswordTransformationMethod.getInstance()
+            button.setImageResource(R.drawable.ic_visibility)
+        }
+        field.setSelection(field.text?.length ?: 0)
     }
 }

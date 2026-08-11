@@ -11,8 +11,8 @@ class UserRepository {
     private val authRepository = AuthRepository()
 
     suspend fun register(user: User): Result<String> = runCatching {
-        // The app's existing "email" field is used as the Supabase Auth email.
-        authRepository.signUp(user.email, user.password)
+        // The app's existing "username" field is used as the Supabase Auth email.
+        authRepository.signUp(user.username, user.password)
 
         val id = client.auth.currentUserOrNull()?.id
             ?: return@runCatching ""
@@ -20,7 +20,7 @@ class UserRepository {
         client.from("users").insert(
             UserProfileInsert(
                 id = id,
-                email = user.email,
+                username = user.username,
                 displayName = user.displayName,
                 avatar = user.avatar
             )
@@ -29,8 +29,8 @@ class UserRepository {
         id
     }
 
-    suspend fun login(email: String, password: String): UserProfileRow? = runCatching {
-        authRepository.login(email, password)
+    suspend fun login(username: String, password: String): UserProfileRow? = runCatching {
+        authRepository.login(username, password)
         val id = authRepository.currentUserId()
             ?: throw IllegalStateException("Supabase did not return an authenticated user")
 
@@ -42,15 +42,15 @@ class UserRepository {
             client.from("users").insert(
                 UserProfileInsert(
                     id = id,
-                    email = email,
-                    displayName = email.substringBefore("@").ifBlank { email },
+                    username = username,
+                    displayName = username.substringBefore("@").ifBlank { username },
                     avatar = ""
                 )
             )
             UserProfileRow(
                 id = id,
-                email = email,
-                displayName = email.substringBefore("@").ifBlank { email },
+                username = username,
+                displayName = username.substringBefore("@").ifBlank { username },
                 avatar = ""
             )
         } else {
@@ -69,7 +69,7 @@ class UserRepository {
 @Serializable
 data class UserProfileRow(
     val id: String,
-    @SerialName("username") val email: String,
+    val username: String,
     @SerialName("display_name") val displayName: String,
     val avatar: String? = null
 )
@@ -77,7 +77,7 @@ data class UserProfileRow(
 @Serializable
 data class UserProfileInsert(
     val id: String,
-    @SerialName("username") val email: String,
+    val username: String,
     @SerialName("display_name") val displayName: String,
     val avatar: String
 )

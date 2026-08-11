@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -130,6 +131,7 @@ class OutfitDetailActivity : AppCompatActivity() {
     private fun deleteOutfit() {
         lifecycleScope.launch {
             runCatching { backend.deleteOutfit(outfitId) }.onSuccess {
+                OutfitPreviewCache.evict(outfitId)
                 Toast.makeText(this@OutfitDetailActivity, R.string.outfit_deleted, Toast.LENGTH_SHORT).show(); finish()
             }.onFailure { Toast.makeText(this@OutfitDetailActivity, it.message ?: "Unable to delete outfit", Toast.LENGTH_LONG).show() }
         }

@@ -1,6 +1,7 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace.adapter
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.mobdeve.s15.reyes.janicamegan.clospace.OutfitWithItems
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
-import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 
 class OutfitAdapter(
     private val outfits: List<OutfitWithItems>,
+    private val previews: Map<Int, Bitmap>,
     private val onOpen: (OutfitWithItems) -> Unit
 ) : RecyclerView.Adapter<OutfitAdapter.OutfitViewHolder>() {
 
@@ -88,8 +89,7 @@ class OutfitAdapter(
 
         holder.previewFrame.removeAllViews()
 
-        val thumbnail =
-            OutfitRenderer.render(current.placements, 400, 480)
+        val thumbnail = previews[current.outfit.id]
 
         if (thumbnail != null) {
 

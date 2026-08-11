@@ -49,21 +49,21 @@
         <!-- Email -->
 
         <TextView
-            android:id="@+id/tvEmail"
+            android:id="@+id/tvUsername"
             style="@style/ClospaceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_username"
-            android:labelFor="@id/etEmail"/>
+            android:text="Email"
+            android:labelFor="@id/etUsername"/>
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etUsername"
             style="@style/ClospaceEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="2dp"
-            android:hint="@string/hint_username"
-            android:inputType="textEmailAddress"
+            android:hint="Enter email"
+            android:inputType="text"
             android:autofillHints="emailAddress"
             android:imeOptions="actionNext"/>
 
@@ -100,25 +100,34 @@
             android:text="Password"
             android:labelFor="@id/etPassword"/>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <FrameLayout
+            android:id="@+id/layoutPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/violet">
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp">
 
             <EditText
                 android:id="@+id/etPassword"
                 style="@style/ClospaceEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:paddingEnd="48dp"
                 android:hint="Enter password"
                 android:inputType="textPassword"
                 android:autofillHints="password"
                 android:imeOptions="actionNext"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/btnTogglePassword"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Toggle password visibility"
+                android:src="@drawable/ic_visibility"/>
+
+        </FrameLayout>
 
         <!-- Confirm Password -->
 
@@ -131,24 +140,33 @@
             android:text="Confirm Password"
             android:labelFor="@id/etConfirmPassword"/>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <FrameLayout
+            android:id="@+id/layoutConfirmPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/violet">
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp">
 
             <EditText
                 android:id="@+id/etConfirmPassword"
                 style="@style/ClospaceEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:paddingEnd="48dp"
                 android:hint="Confirm password"
                 android:inputType="textPassword"
                 android:imeOptions="actionDone"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/btnToggleConfirmPassword"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Toggle confirm password visibility"
+                android:src="@drawable/ic_visibility"/>
+
+        </FrameLayout>
 
         <!-- Avatar -->
 

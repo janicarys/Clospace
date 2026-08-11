@@ -46,25 +46,25 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/tvEmail"
+            android:id="@+id/tvUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_username"
+            android:text="Email"
             android:textSize="28sp"
             android:textColor="@color/violet"
             android:fontFamily="@font/rokkitt_regular"
-            android:labelFor="@id/etEmail"/>
+            android:labelFor="@id/etUsername"/>
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/edittext_background"
             android:paddingHorizontal="12dp"
-            android:hint="@string/hint_username"
+            android:hint="Enter email"
             android:textColorHint="@color/brown"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:autofillHints="emailAddress"
             android:imeOptions="actionNext"/>
 
@@ -79,13 +79,11 @@
             android:fontFamily="@font/rokkitt_regular"
             android:labelFor="@id/etPassword"/>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <FrameLayout
+            android:id="@+id/layoutPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/violet">
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp">
 
             <EditText
                 android:id="@+id/etPassword"
@@ -93,13 +91,24 @@
                 android:layout_height="52dp"
                 android:background="@drawable/edittext_background"
                 android:paddingHorizontal="12dp"
+                android:paddingEnd="48dp"
                 android:hint="Enter password"
                 android:textColorHint="@color/brown"
                 android:inputType="textPassword"
                 android:autofillHints="password"
                 android:imeOptions="actionDone"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/btnTogglePassword"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Toggle password visibility"
+                android:src="@drawable/ic_visibility"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 
 import kotlinx.coroutines.Dispatchers
@@ -195,7 +196,10 @@ class GarmentDetailActivity : AppCompatActivity() {
 
     private fun deleteGarment() {
         lifecycleScope.launch {
-            runCatching { backend.deleteClothing(clothingId) }.onSuccess {
+            runCatching {
+                backend.getOutfitsForClothing(clothingId).forEach { OutfitPreviewCache.evict(it.id) }
+                backend.deleteClothing(clothingId)
+            }.onSuccess {
                 Toast.makeText(this@GarmentDetailActivity, R.string.garment_deleted, Toast.LENGTH_SHORT).show()
                 finish()
             }.onFailure {

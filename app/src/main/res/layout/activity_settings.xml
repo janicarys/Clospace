@@ -41,6 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/layoutBottomNav">
 
         <!-- Notifications Row -->
+        <!-- Commented out for now; notifications feature not yet defined.
         <LinearLayout
             style="@style/ClospaceSettingsCard">
 
@@ -51,11 +52,32 @@
                 android:layout_weight="1"
                 android:text="@string/notifications"/>
 
-            <!-- Material switch is the modern switch compared to switch compat -->
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switchNotifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        -->
+
+        <!-- Account Row -->
+        <LinearLayout
+            android:id="@+id/layoutAccount"
+            style="@style/ClospaceSettingsCard"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/ClospaceSettingLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/account"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_chevron_right"/>
 
         </LinearLayout>
 
