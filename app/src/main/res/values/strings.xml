@@ -90,8 +90,10 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="selected_count">Selected: %1$d</string>
     <string name="next">NEXT</string>
     <string name="save">SAVE</string>
+    <string name="add_clothes">Add Clothes</string>
+    <string name="canvas_hint">Pinch to resize • Drag to move</string>
     <string name="bring_forward">Bring Forward</string>
-    <string name="send_backward">Send Backward</string>
+    <string name="send_backward">Send to Back</string>
     <string name="no_outfits">No outfits yet.\nTap the + button to create one.</string>
     <string name="no_garments">Your closet is empty.\nAdd garments first.</string>
     <string name="tap_garments_hint">Tap garments to build your outfit</string>

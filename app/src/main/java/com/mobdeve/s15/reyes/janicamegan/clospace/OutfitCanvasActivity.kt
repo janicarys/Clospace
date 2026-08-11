@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 
@@ -44,12 +45,21 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
     private var selectedGarment: DraggableImageView? = null
 
+    private val addClothesLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode != RESULT_OK) return@registerForActivityResult
+
+            val ids = result.data?.getIntArrayExtra(
+                SelectGarmentsActivity.EXTRA_CLOTHING_IDS
+            ) ?: return@registerForActivityResult
+
+            addGarments(ids)
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_outfit_canvas)
-
-        findViewById<TextView>(R.id.tvToolbarTitle).text =
-            getString(R.string.arrange_outfit_title)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()
@@ -62,11 +72,16 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
         canvas = findViewById(R.id.canvasContainer)
 
-        if (editOutfitId > 0) {
-
-            findViewById<TextView>(R.id.tvToolbarTitle).text =
-                getString(R.string.edit_outfit_title)
+        findViewById<View>(R.id.btnAddClothes).setOnClickListener {
+            addClothesLauncher.launch(
+                Intent(this, SelectGarmentsActivity::class.java)
+                    .putExtra(SelectGarmentsActivity.EXTRA_RETURN_SELECTION, true)
+            )
         }
+
+        canvas.setOnClickListener { selectGarment(null) }
+
+        showCanvasHintIfNeeded()
 
         findViewById<View>(R.id.btnSave).setOnClickListener {
 
@@ -117,7 +132,7 @@ class OutfitCanvasActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.btnBackward).setOnClickListener {
-            moveLayer(-1)
+            sendToBack()
         }
 
         loadGarments()
@@ -145,6 +160,34 @@ class OutfitCanvasActivity : AppCompatActivity() {
             reindexLayers()
             if (garments.isNotEmpty()) selectGarment(garments.first())
         }
+    }
+
+    private fun addGarments(ids: IntArray) {
+        lifecycleScope.launch {
+            for (id in ids) {
+                if (garments.any { it.tag as? Int == id }) continue
+                val item = backend.getClothingById(id) ?: continue
+                val bitmap = withContext(Dispatchers.IO) { ImageDecoder.decode(item.imagePath, 512) } ?: continue
+                val view = createGarment(bitmap, id)
+                garments.add(view)
+                canvas.addView(view)
+            }
+            reindexLayers()
+            if (garments.isNotEmpty()) selectGarment(garments.last())
+        }
+    }
+
+    private fun showCanvasHintIfNeeded() {
+        val hint = findViewById<TextView>(R.id.tvCanvasHint)
+        val prefs = getSharedPreferences("clospace", MODE_PRIVATE)
+        if (prefs.getBoolean("canvas_hint_seen", false)) return
+        hint.visibility = View.VISIBLE
+        hint.postDelayed({
+            hint.animate().alpha(0f).setDuration(500).withEndAction {
+                hint.visibility = View.GONE
+            }.start()
+            prefs.edit().putBoolean("canvas_hint_seen", true).apply()
+        }, 3000)
     }
 
     private fun createGarment(bitmap: Bitmap, clothingId: Int): DraggableImageView {
@@ -193,13 +236,13 @@ class OutfitCanvasActivity : AppCompatActivity() {
         }
     }
 
-    private fun selectGarment(view: DraggableImageView) {
+    private fun selectGarment(view: DraggableImageView?) {
 
         selectedGarment?.setSelectedVisual(false)
 
         selectedGarment = view
 
-        view.setSelectedVisual(true)
+        view?.setSelectedVisual(true)
     }
 
     private fun reindexLayers() {
@@ -223,6 +266,22 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
         garments.removeAt(index)
         garments.add(target, selected)
+
+        reindexLayers()
+    }
+
+    private fun sendToBack() {
+
+        val selected = selectedGarment ?: return
+
+        val index = garments.indexOf(selected)
+
+        if (index <= 0) {
+            return
+        }
+
+        garments.removeAt(index)
+        garments.add(0, selected)
 
         reindexLayers()
     }

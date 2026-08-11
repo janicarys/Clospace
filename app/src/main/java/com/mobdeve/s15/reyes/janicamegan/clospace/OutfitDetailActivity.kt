@@ -154,7 +154,7 @@ class OutfitDetailActivity : AppCompatActivity() {
         currentCaption = caption.orEmpty()
         val tv = findViewById<TextView>(R.id.tvCaption)
         tv.text = currentCaption.ifEmpty { getString(R.string.add_caption) }
-        tv.setTextColor(resources.getColor(if (currentCaption.isEmpty()) R.color.brown else R.color.violet, null))
+        tv.setTextColor(resources.getColor(if (currentCaption.isEmpty()) R.color.brown else R.color.purple, null))
     }
 
     private fun bindFields(outfit: Outfit) {
@@ -166,7 +166,7 @@ class OutfitDetailActivity : AppCompatActivity() {
 
     private fun bindTags(rawTags: String?) {
         currentTags = rawTags?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
-        findViewById<TextView>(R.id.tvTags).text = if (currentTags.isEmpty()) getString(R.string.add_tags) else currentTags.joinToString(" · ")
+        findViewById<TextView>(R.id.tvTags).text = if (currentTags.isEmpty()) getString(R.string.add_tags) else currentTags.joinToString(" Â· ")
     }
 
     private fun bindSchedule(plannedDate: String?) {
@@ -195,6 +195,6 @@ class OutfitDetailActivity : AppCompatActivity() {
             card.findViewById<TextView>(R.id.tvClothingCategory).text = item.category
             container.addView(card)
         }
-        findViewById<TextView>(R.id.tvCategory).text = if (categories.isEmpty()) getString(R.string.no_category) else categories.sorted().joinToString(" · ")
+        findViewById<TextView>(R.id.tvCategory).text = if (categories.isEmpty()) getString(R.string.no_category) else categories.sorted().joinToString(" Â· ")
     }
 }

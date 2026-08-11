@@ -69,7 +69,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_chevron_left"
             android:contentDescription="Previous Month"
-            app:tint="@color/violet"/>
+            app:tint="@color/purple"/>
 
         <TextView
             android:id="@+id/tvMonthYear"
@@ -87,7 +87,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_chevron_right"
             android:contentDescription="Next Month"
-            app:tint="@color/violet"/>
+            app:tint="@color/purple"/>
 
     </LinearLayout>
 

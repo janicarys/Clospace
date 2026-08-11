@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/account_display_name"
-                    android:textColor="@color/violet"
+                    android:textColor="@color/purple"
                     android:textSize="16sp"
                     android:fontFamily="@font/rokkitt_regular"/>
 
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="—"
+                    android:text="â€”"
                     android:textColor="@color/brown"
                     android:textSize="18sp"
                     android:fontFamily="@font/rokkitt_regular"/>
@@ -82,7 +82,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_chevron_right"
-                app:tint="@color/violet"/>
+                app:tint="@color/purple"/>
 
         </LinearLayout>
 
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/account_email"
-                    android:textColor="@color/violet"
+                    android:textColor="@color/purple"
                     android:textSize="16sp"
                     android:fontFamily="@font/rokkitt_regular"/>
 
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="—"
+                    android:text="â€”"
                     android:textColor="@color/brown"
                     android:textSize="18sp"
                     android:fontFamily="@font/rokkitt_regular"/>
@@ -132,7 +132,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_chevron_right"
-                app:tint="@color/violet"/>
+                app:tint="@color/purple"/>
 
         </LinearLayout>
 

@@ -4,9 +4,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="lavender">#A196D0</color>
+    <color name="lavender_50">#80A196D0</color>
     <color name="mint">#79D4CA</color>
     <color name="light_blue">#C6DCE4</color>
-    <color name="violet">#3C3360</color>
+    <color name="purple">#3C3360</color>
     <color name="brown">#685959</color>
 
     <color name="calendar_day_disabled">#B7AFC2</color>

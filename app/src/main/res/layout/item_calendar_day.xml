@@ -32,7 +32,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
 
-            android:textColor="@color/violet"/>
+            android:textColor="@color/purple"/>
 
         <!-- Outfit Area -->
 

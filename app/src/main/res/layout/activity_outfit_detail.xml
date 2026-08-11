@@ -141,7 +141,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_menu"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -156,7 +156,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -198,7 +198,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_tag"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -213,7 +213,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -255,7 +255,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_occasion"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -270,7 +270,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -289,20 +289,14 @@
 
             <!-- Schedule outfit card -->
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/cardSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="@color/calendar_card"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                android:background="@drawable/info_card_outline"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                     <LinearLayout
                         android:id="@+id/rowSchedule"
@@ -317,7 +311,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_eventcalendar"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -325,7 +319,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
                             android:text="@string/schedule_outfit"
-                            android:textColor="@color/violet"
+                            android:textColor="@color/purple"
                             android:textSize="18sp"
                             android:fontFamily="@font/rokkitt_regular"/>
 
@@ -333,7 +327,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -357,7 +351,7 @@
                                 android:id="@+id/tvScheduleDay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/violet"
+                                android:textColor="@color/purple"
                                 android:textSize="14sp"
                                 android:fontFamily="@font/rokkitt_regular"/>
 
@@ -366,7 +360,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:textColor="@color/violet"
+                                android:textColor="@color/purple"
                                 android:textSize="34sp"
                                 android:textStyle="bold"
                                 android:fontFamily="@font/rokkitt_regular"/>
@@ -376,7 +370,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:textColor="@color/violet"
+                                android:textColor="@color/purple"
                                 android:textSize="14sp"
                                 android:fontFamily="@font/rokkitt_regular"/>
 
@@ -395,9 +389,7 @@
                         android:fontFamily="@font/rokkitt_regular"
                         android:visibility="gone"/>
 
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <!-- Delete -->
 

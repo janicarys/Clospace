@@ -22,6 +22,7 @@ class SelectGarmentsActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_CLOTHING_IDS = "clothingIds"
+        const val EXTRA_RETURN_SELECTION = "returnSelection"
     }
 
     private lateinit var backend: BackendRepository
@@ -85,6 +86,16 @@ class SelectGarmentsActivity : AppCompatActivity() {
                     R.string.select_at_least_one,
                     Toast.LENGTH_SHORT
                 ).show()
+
+            } else if (intent.getBooleanExtra(EXTRA_RETURN_SELECTION, false)) {
+
+                val result = Intent()
+                    .putExtra(
+                        EXTRA_CLOTHING_IDS,
+                        selected.map { it.id }.toIntArray()
+                    )
+                setResult(RESULT_OK, result)
+                finish()
 
             } else {
 

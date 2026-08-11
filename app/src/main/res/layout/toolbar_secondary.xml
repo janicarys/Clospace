@@ -23,7 +23,7 @@
         android:src="@drawable/ic_arrow_back"
         android:contentDescription="@string/back"
 
-        app:tint="@color/violet"
+        app:tint="@color/purple"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

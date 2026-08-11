@@ -98,7 +98,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_menu"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -149,7 +149,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_tag"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -164,7 +164,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -206,7 +206,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_color"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -221,7 +221,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -263,7 +263,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_materials"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             style="@style/ClospaceLabel"
@@ -278,7 +278,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 
@@ -324,7 +324,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_add"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -332,7 +332,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
                             android:text="@string/create_outfit"
-                            android:textColor="@color/violet"
+                            android:textColor="@color/purple"
                             android:textSize="18sp"
                             android:fontFamily="@font/rokkitt_regular"/>
 
@@ -340,7 +340,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/violet"/>
+                            app:tint="@color/purple"/>
 
                     </LinearLayout>
 

@@ -66,7 +66,7 @@ class CalendarAdapter(
                 ContextCompat.getColor(
                     holder.itemView.context,
                     if (current.isCurrentMonth)
-                        R.color.violet
+                        R.color.purple
                     else
                         R.color.calendar_day_disabled
                 )

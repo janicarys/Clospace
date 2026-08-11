@@ -302,7 +302,7 @@
         android:src="@drawable/ic_add"
         android:contentDescription="@string/add_item"
 
-        app:backgroundTint="@color/violet"
+        app:backgroundTint="@color/purple"
         app:tint="@android:color/white"
         app:elevation="8dp"
 

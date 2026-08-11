@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/rokkitt_bold"
         android:text="@string/add_source_title"
-        android:textColor="@color/violet"
+        android:textColor="@color/purple"
         android:textSize="20sp"/>
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_height="24dp"
             android:contentDescription="@string/take_photo"
             android:src="@drawable/ic_camera"
-            android:tint="@color/violet"/>
+            android:tint="@color/purple"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:layout_height="24dp"
             android:contentDescription="@string/choose_from_library"
             android:src="@drawable/ic_gallery"
-            android:tint="@color/violet"/>
+            android:tint="@color/purple"/>
 
         <TextView
             android:layout_width="wrap_content"

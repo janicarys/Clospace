@@ -225,7 +225,7 @@ class GarmentDetailActivity : AppCompatActivity() {
                 if (currentCaption.isEmpty())
                     R.color.brown
                 else
-                    R.color.violet,
+                    R.color.purple,
                 null
             )
         )
@@ -243,7 +243,7 @@ class GarmentDetailActivity : AppCompatActivity() {
             if (currentTags.isEmpty())
                 getString(R.string.add_tags)
             else
-                currentTags.joinToString(" · ")
+                currentTags.joinToString(" Â· ")
     }
 
     private fun bindColor(color: String?) {

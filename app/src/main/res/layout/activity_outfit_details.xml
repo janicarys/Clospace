@@ -83,7 +83,7 @@
 
                     android:textSize="18sp"
                     android:fontFamily="@font/rokkitt_regular"
-                    android:textColor="@color/violet"
+                    android:textColor="@color/purple"
                     android:textColorHint="@color/brown"/>
 
             </com.google.android.material.textfield.TextInputLayout>
