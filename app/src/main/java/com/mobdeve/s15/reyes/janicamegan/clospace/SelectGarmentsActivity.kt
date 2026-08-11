@@ -23,6 +23,7 @@ class SelectGarmentsActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_CLOTHING_IDS = "clothingIds"
         const val EXTRA_RETURN_SELECTION = "returnSelection"
+        const val EXTRA_DATE = "selectedDate"
     }
 
     private lateinit var backend: BackendRepository
@@ -104,6 +105,10 @@ class SelectGarmentsActivity : AppCompatActivity() {
                         .putExtra(
                             OutfitCanvasActivity.EXTRA_CLOTHING_IDS,
                             selected.map { it.id }.toIntArray()
+                        )
+                        .putExtra(
+                            OutfitCanvasActivity.EXTRA_DATE,
+                            intent.getStringExtra(EXTRA_DATE)
                         )
                 )
             }

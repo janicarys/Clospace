@@ -173,6 +173,8 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="color_label">Color</string>
     <string name="material_label">Material</string>
     <string name="create_outfit">Create outfit</string>
+    <string name="add_a_note">Add a note...</string>
+    <string name="add_another_outfit">Add another outfit</string>
     <plurals name="used_in_count">
         <item quantity="one">Used in %d outfit</item>
         <item quantity="other">Used in %d outfits</item>

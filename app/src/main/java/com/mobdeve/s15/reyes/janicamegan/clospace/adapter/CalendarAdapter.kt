@@ -14,7 +14,8 @@ import java.time.LocalDate
 
 class CalendarAdapter(
     private val days: List<CalendarDay>,
-    private val previews: Map<LocalDate, Bitmap> = emptyMap()
+    private val previews: Map<LocalDate, Bitmap> = emptyMap(),
+    private val onDayClick: (CalendarDay) -> Unit = {}
 ) : RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -40,6 +41,8 @@ class CalendarAdapter(
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
 
         val current = days[position]
+
+        holder.itemView.setOnClickListener { onDayClick(current) }
 
         holder.day.text = current.date.dayOfMonth.toString()
 

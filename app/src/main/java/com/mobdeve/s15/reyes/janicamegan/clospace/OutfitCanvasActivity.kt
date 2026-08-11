@@ -31,6 +31,7 @@ class OutfitCanvasActivity : AppCompatActivity() {
         const val EXTRA_SCALE = "scales"
         const val EXTRA_LAYER = "layers"
         const val EXTRA_OUTFIT_ID = "outfitId"
+        const val EXTRA_DATE = "selectedDate"
     }
 
     private lateinit var backend: BackendRepository
@@ -121,6 +122,10 @@ class OutfitCanvasActivity : AppCompatActivity() {
                     .putExtra(
                         OutfitDetailsActivity.EXTRA_LAYER,
                         placements.map { it.layer }.toIntArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_DATE,
+                        intent.getStringExtra(EXTRA_DATE)
                     )
 
                 startActivity(detail)

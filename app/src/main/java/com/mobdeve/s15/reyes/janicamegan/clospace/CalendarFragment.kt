@@ -1,11 +1,13 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.CalendarAdapter
 import com.mobdeve.s15.reyes.janicamegan.clospace.model.CalendarDay
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +29,7 @@ class CalendarFragment : Fragment() {
     private lateinit var recycler: RecyclerView
     private lateinit var monthText: TextView
     private var currentMonth = YearMonth.now()
+    private var byDateOutfits: Map<LocalDate, List<OutfitWithItems>> = emptyMap()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.fragment_calendar, container, false)
@@ -47,13 +51,61 @@ class CalendarFragment : Fragment() {
     private fun loadCalendar() {
         monthText.text = currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
         viewLifecycleOwner.lifecycleScope.launch {
-            runCatching { backend.getCalendarOutfits(currentMonth.toString()) }.onSuccess { byDateOutfits ->
+            runCatching { backend.getCalendarOutfits(currentMonth.toString()) }.onSuccess { result ->
+                byDateOutfits = result
                 val previews = withContext(Dispatchers.Default) {
                     byDateOutfits.mapValues { (_, outfits) ->
                         OutfitRenderer.render(outfits.first().placements, 180, 220)
                     }.filterValues { it != null }.mapValues { it.value!! }
                 }
-                recycler.adapter = CalendarAdapter(generateCalendar(byDateOutfits), previews)
+                recycler.adapter = CalendarAdapter(generateCalendar(byDateOutfits), previews) { day ->
+                    showDayOutfits(day.date)
+                }
+            }
+        }
+    }
+
+    private fun showDayOutfits(date: LocalDate) {
+        val outfits = byDateOutfits[date] ?: emptyList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            val previews = withContext(Dispatchers.Default) {
+                outfits.mapNotNull { wrapper ->
+                    val bitmap = OutfitRenderer.render(wrapper.placements, 220, 300)
+                    if (bitmap != null) wrapper.outfit.id to bitmap else null
+                }.toMap()
+            }
+            ClospaceBottomSheets.showDayOutfits(
+                requireContext(),
+                outfits,
+                previews,
+                onDelete = { wrapper -> confirmDeleteOutfit(date, wrapper.outfit.id) },
+                onAddAnother = { addAnotherOutfit(date) }
+            )
+        }
+    }
+
+    private fun addAnotherOutfit(date: LocalDate) {
+        startActivity(
+            Intent(requireContext(), SelectGarmentsActivity::class.java)
+                .putExtra(SelectGarmentsActivity.EXTRA_DATE, date.toString())
+        )
+    }
+
+    private fun confirmDeleteOutfit(date: LocalDate, outfitId: Int) {
+        ClospaceBottomSheets.showConfirm(
+            requireContext(),
+            R.string.delete_outfit_title,
+            R.string.delete_outfit_message,
+            R.string.delete
+        ) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                runCatching { backend.deleteOutfit(outfitId) }
+                    .onSuccess {
+                        OutfitPreviewCache.evict(outfitId)
+                        Toast.makeText(requireContext(), R.string.outfit_deleted, Toast.LENGTH_SHORT).show()
+                        loadCalendar()
+                    }
+                    .onFailure { Toast.makeText(requireContext(), it.message ?: "Unable to delete outfit", Toast.LENGTH_LONG).show() }
             }
         }
     }

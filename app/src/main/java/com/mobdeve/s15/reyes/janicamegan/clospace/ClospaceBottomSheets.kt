@@ -1,6 +1,7 @@
 package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
+import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.DayOutfitAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
@@ -171,6 +173,33 @@ object ClospaceBottomSheets {
         sheet.setContentView(content)
         cameraRow.setOnClickListener { sheet.dismiss(); onCamera() }
         galleryRow.setOnClickListener { sheet.dismiss(); onGallery() }
+        sheet.show()
+    }
+
+    /** Multi-outfit panel for a calendar day: 2-column grid of outfit cards with delete
+     *  buttons plus an "Add another outfit" action, in a dimmed, nearly full-width sheet. */
+    fun showDayOutfits(
+        context: Context,
+        outfits: List<OutfitWithItems>,
+        previews: Map<Int, Bitmap>,
+        onDelete: (OutfitWithItems) -> Unit,
+        onAddAnother: () -> Unit
+    ) {
+        val content = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_day_outfits, null)
+
+        val grid = content.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvDayOutfits)
+        grid.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+        grid.adapter = DayOutfitAdapter(outfits, previews) { outfit ->
+            onDelete(outfit)
+        }
+
+        val addButton = content.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAddAnotherOutfit)
+        addButton.setText(if (outfits.isEmpty()) R.string.create_outfit else R.string.add_another_outfit)
+        addButton.setOnClickListener { onAddAnother() }
+
+        val sheet = BottomSheetDialog(context)
+        sheet.setContentView(content)
+        sheet.window?.setDimAmount(0.4f)
         sheet.show()
     }
 

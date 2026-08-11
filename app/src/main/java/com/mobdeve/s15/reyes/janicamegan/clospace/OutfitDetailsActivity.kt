@@ -26,6 +26,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
         const val EXTRA_SCALE = "scales"
         const val EXTRA_LAYER = "layers"
         const val EXTRA_OUTFIT_ID = "outfitId"
+        const val EXTRA_DATE = "selectedDate"
     }
 
     private lateinit var backend: BackendRepository
@@ -62,6 +63,11 @@ class OutfitDetailsActivity : AppCompatActivity() {
         tvSelectedDate = findViewById(R.id.tvSelectedDate)
         tvOccasion = findViewById(R.id.tvOccasion)
         imgPreview = findViewById(R.id.imgOutfitPreview)
+
+        intent.getStringExtra(EXTRA_DATE)?.let { preset ->
+            selectedDate = preset
+            tvSelectedDate.text = preset
+        }
 
         findViewById<android.view.View>(R.id.layoutDate).setOnClickListener { pickDate() }
         findViewById<android.view.View>(R.id.layoutOccasion).setOnClickListener { pickOccasion() }
