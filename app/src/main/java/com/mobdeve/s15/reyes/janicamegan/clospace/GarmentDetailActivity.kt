@@ -36,6 +36,8 @@ class GarmentDetailActivity : AppCompatActivity() {
 
     private var currentCaption: String = ""
 
+    private var currentCategory: String = ""
+
     private var currentTags: List<String> = emptyList()
 
     private var currentColor: String = ""
@@ -58,6 +60,8 @@ class GarmentDetailActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.tvCaption).setOnClickListener { promptCaption() }
+
+        findViewById<View>(R.id.rowCategory).setOnClickListener { promptCategory() }
 
         findViewById<View>(R.id.rowTags).setOnClickListener { promptTags() }
 
@@ -101,6 +105,37 @@ class GarmentDetailActivity : AppCompatActivity() {
             runCatching { backend.updateClothing(clothingId, name = normalized ?: "") }
                 .onSuccess { bindCaption(normalized) }
                 .onFailure { Toast.makeText(this@GarmentDetailActivity, it.message ?: "Unable to save name", Toast.LENGTH_SHORT).show() }
+        }
+    }
+
+    private fun promptCategory() {
+
+        val categories = arrayOf(
+            getString(R.string.category_tops),
+            getString(R.string.category_bottoms),
+            getString(R.string.category_footwear),
+            getString(R.string.category_accessories)
+        )
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.category)
+            .setSingleChoiceItems(
+                categories,
+                categories.indexOf(currentCategory).takeIf { it >= 0 } ?: -1
+            ) { dialog, which ->
+                saveCategory(categories[which])
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun saveCategory(value: String?) {
+        val normalized = value?.trim()?.takeIf { it.isNotBlank() } ?: return
+        lifecycleScope.launch {
+            runCatching { backend.updateClothing(clothingId, category = normalized) }
+                .onSuccess { bindCategory(normalized) }
+                .onFailure { Toast.makeText(this@GarmentDetailActivity, it.message ?: "Unable to save category", Toast.LENGTH_SHORT).show() }
         }
     }
 
@@ -231,6 +266,15 @@ class GarmentDetailActivity : AppCompatActivity() {
         )
     }
 
+    private fun bindCategory(category: String?) {
+
+        currentCategory = category ?: ""
+
+        findViewById<TextView>(R.id.tvCategory).text =
+            currentCategory.takeIf { it.isNotBlank() }
+                ?: getString(R.string.no_category)
+    }
+
     private fun bindTags(rawTags: String?) {
 
         currentTags = rawTags
@@ -303,10 +347,10 @@ class GarmentDetailActivity : AppCompatActivity() {
             val bitmap = withContext(Dispatchers.IO) { ImageDecoder.decode(item.imagePath, 512) }
             if (bitmap != null) findViewById<ImageView>(R.id.imgGarmentPreview).setImageBitmap(bitmap)
             bindCaption(item.name)
+            bindCategory(item.category)
             bindTags(item.tags)
             bindColor(item.color)
             bindMaterial(item.material)
-            findViewById<TextView>(R.id.tvCategory).text = item.category.ifBlank { getString(R.string.no_category) }
             bindOutfits(backend.getOutfitsForClothing(clothingId))
         }
     }

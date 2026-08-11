@@ -82,6 +82,7 @@ class BackendRepository(private val context: Context) {
     suspend fun updateClothing(
         id: Int,
         name: String? = null,
+        category: String? = null,
         color: String? = null,
         material: String? = null,
         tags: String? = null
@@ -98,6 +99,7 @@ class BackendRepository(private val context: Context) {
         client.from("clothing").update(
             ClothingUpdate(
                 name = name ?: current.name.orEmpty(),
+                category = category ?: current.category.orEmpty(),
                 color = color ?: current.color.orEmpty(),
                 material = material ?: current.material.orEmpty(),
                 tags = tags ?: current.tags.orEmpty(),
@@ -369,6 +371,7 @@ data class ClothingInsert(
 @Serializable
 data class ClothingUpdate(
     val name: String,
+    val category: String,
     val color: String,
     val material: String,
     val tags: String,
