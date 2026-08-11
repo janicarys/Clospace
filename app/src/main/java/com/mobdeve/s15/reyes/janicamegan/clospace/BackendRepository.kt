@@ -29,19 +29,23 @@ class BackendRepository(private val context: Context) {
 
     suspend fun getClothing(): List<ClothingItem> {
         val userId = requireUserId()
-        return client.from("clothing").select {
+        val rows = client.from("clothing").select {
             filter { eq("user_id", userId) }
-        }.decodeList<ClothingRow>().map { it.toUi() }
+        }.decodeList<ClothingRow>()
+        val tagMap = clothingTagMap(userId)
+        return rows.map { it.toUi(tagMap[it.id]) }
     }
 
     suspend fun getClothingById(id: Int): ClothingItem? {
         val userId = requireUserId()
-        return client.from("clothing").select {
+        val row = client.from("clothing").select {
             filter {
                 eq("id", id)
                 eq("user_id", userId)
             }
-        }.decodeList<ClothingRow>().firstOrNull()?.toUi()
+        }.decodeList<ClothingRow>().firstOrNull() ?: return null
+        val tagMap = clothingTagMap(userId)
+        return row.toUi(tagMap[row.id])
     }
 
     suspend fun insertClothing(
@@ -50,7 +54,7 @@ class BackendRepository(private val context: Context) {
         name: String = "",
         color: String = "",
         material: String = "",
-        tags: String = ""
+        tags: List<String> = emptyList()
     ): ClothingItem {
         val userId = requireUserId()
         val extension = if (localImagePath.lowercase().endsWith(".png")) "png" else "jpg"
@@ -68,13 +72,15 @@ class BackendRepository(private val context: Context) {
                 category = category,
                 color = color,
                 material = material,
-                tags = tags,
+                tags = tags.joinToString(", "),
                 season = "",
                 imageUrl = publicUrl,
                 favorite = false,
                 timesWorn = 0
             )
         ) { select() }.decodeSingle<ClothingRow>()
+
+        replaceClothingTags(inserted.id.toInt(), tags)
 
         return inserted.toUi()
     }
@@ -124,12 +130,168 @@ class BackendRepository(private val context: Context) {
         }
     }
 
+    // ---- Reusable tags ----
+
+    suspend fun getTags(): List<Tag> {
+        val userId = requireUserId()
+        return client.from("tags").select {
+            filter { eq("user_id", userId) }
+        }.decodeList<TagRow>()
+            .map { it.toUi() }
+            .sortedBy { it.name.lowercase() }
+    }
+
+    suspend fun getClothingTags(clothingId: Int): List<String> {
+        val rows = client.from("clothing_tags").select {
+            filter { eq("clothing_id", clothingId.toLong()) }
+        }.decodeList<ClothingTagRow>()
+        if (rows.isEmpty()) return emptyList()
+        return tagNamesByIds(rows.map { it.tagId })
+    }
+
+    suspend fun getOutfitTags(outfitId: Int): List<String> {
+        val rows = client.from("outfit_tags").select {
+            filter { eq("outfit_id", outfitId.toLong()) }
+        }.decodeList<OutfitTagRow>()
+        if (rows.isEmpty()) return emptyList()
+        return tagNamesByIds(rows.map { it.tagId })
+    }
+
+    /** Ensures each name exists as a reusable tag, then syncs the join rows for this garment. */
+    suspend fun replaceClothingTags(clothingId: Int, names: List<String>) {
+        val userId = requireUserId()
+        val cleaned = names.map { it.trim() }.filter { it.isNotEmpty() }.distinct()
+        val tagIds = ensureTags(cleaned)
+        client.from("clothing_tags").delete { filter { eq("clothing_id", clothingId.toLong()) } }
+        if (tagIds.isNotEmpty()) {
+            client.from("clothing_tags").insert(tagIds.map { ClothingTagInsert(clothingId = clothingId.toLong(), tagId = it) })
+        }
+        updateClothing(clothingId, tags = cleaned.joinToString(", "))
+    }
+
+    /** Ensures each name exists as a reusable tag, then syncs the join rows for this outfit. */
+    suspend fun replaceOutfitTags(outfitId: Int, names: List<String>) {
+        val userId = requireUserId()
+        val cleaned = names.map { it.trim() }.filter { it.isNotEmpty() }.distinct()
+        val tagIds = ensureTags(cleaned)
+        client.from("outfit_tags").delete { filter { eq("outfit_id", outfitId.toLong()) } }
+        if (tagIds.isNotEmpty()) {
+            client.from("outfit_tags").insert(tagIds.map { OutfitTagInsert(outfitId = outfitId.toLong(), tagId = it) })
+        }
+    }
+
+    /** Creates a new reusable tag, returning it (id + normalized name). */
+    suspend fun createTag(name: String): Tag {
+        val userId = requireUserId()
+        val cleaned = name.trim()
+        val existing = client.from("tags").select {
+            filter {
+                eq("user_id", userId)
+                eq("name", cleaned)
+            }
+        }.decodeList<TagRow>().firstOrNull()
+        if (existing != null) return existing.toUi()
+        val inserted = client.from("tags").insert(
+            TagInsert(userId = userId, name = cleaned)
+        ) { select() }.decodeSingle<TagRow>()
+        return inserted.toUi()
+    }
+
+    /** Renames a reusable tag everywhere it is used. */
+    suspend fun renameTag(tagId: Long, newName: String) {
+        val userId = requireUserId()
+        client.from("tags").update(
+            TagUpdate(name = newName.trim())
+        ) {
+            filter {
+                eq("id", tagId)
+                eq("user_id", userId)
+            }
+        }
+    }
+
+    /** Deletes a reusable tag and its links from all garments/outfits. */
+    suspend fun deleteTag(tagId: Long) {
+        val userId = requireUserId()
+        client.from("tags").delete {
+            filter {
+                eq("id", tagId)
+                eq("user_id", userId)
+            }
+        }
+    }
+
+    private suspend fun ensureTags(names: List<String>): List<Long> {
+        val userId = requireUserId()
+        if (names.isEmpty()) return emptyList()
+        val existing = client.from("tags").select {
+            filter { eq("user_id", userId) }
+        }.decodeList<TagRow>()
+        val byName = existing.associate { it.name to it.id }
+        val result = mutableListOf<Long>()
+        for (name in names) {
+            val found = byName[name]
+            if (found != null) {
+                result += found
+            } else {
+                val inserted = client.from("tags").insert(
+                    TagInsert(userId = userId, name = name)
+                ) { select() }.decodeSingle<TagRow>()
+                result += inserted.id
+            }
+        }
+        return result
+    }
+
+    private suspend fun tagNamesByIds(ids: List<Long>): List<String> {
+        if (ids.isEmpty()) return emptyList()
+        val rows = client.from("tags").select().decodeList<TagRow>()
+        val byId = rows.associate { it.id to it.name }
+        return ids.mapNotNull { byId[it] }.sortedBy { it.lowercase() }
+    }
+
+    private suspend fun clothingTagMap(userId: String): Map<Long, List<String>> {
+        val links = client.from("clothing_tags").select().decodeList<ClothingTagRow>()
+        if (links.isEmpty()) return emptyMap()
+        val nameById = client.from("tags").select {
+            filter { eq("user_id", userId) }
+        }.decodeList<TagRow>().associate { it.id to it.name }
+        return links.groupBy { it.clothingId }.mapValues { (_, rows) ->
+            rows.mapNotNull { nameById[it.tagId] }.sortedBy { it.lowercase() }
+        }
+    }
+
+    private suspend fun outfitTagMap(userId: String): Map<Long, List<String>> {
+        val links = client.from("outfit_tags").select().decodeList<OutfitTagRow>()
+        if (links.isEmpty()) return emptyMap()
+        val nameById = client.from("tags").select {
+            filter { eq("user_id", userId) }
+        }.decodeList<TagRow>().associate { it.id to it.name }
+        return links.groupBy { it.outfitId }.mapValues { (_, rows) ->
+            rows.mapNotNull { nameById[it.tagId] }.sortedBy { it.lowercase() }
+        }
+    }
+
+    private suspend fun ClothingRow.toUi(tagNames: List<String>?): ClothingItem {
+        return ClothingItem(
+            id = id.toInt(),
+            ownerId = userId.hashCode(),
+            name = name.orEmpty(),
+            category = category.orEmpty(),
+            color = color.orEmpty(),
+            material = material.orEmpty(),
+            tags = tagNames?.joinToString(", ") ?: tags.orEmpty(),
+            imagePath = cacheImage(imageUrl).orEmpty(),
+            timesWorn = timesWorn
+        )
+    }
+
     suspend fun getOutfits(): List<OutfitWithItems> {
         val userId = requireUserId()
         val rows = client.from("outfits").select {
             filter { eq("user_id", userId) }
         }.decodeList<OutfitRow>()
-        return rows.sortedByDescending { it.id }.map { buildOutfitWithItems(it) }
+        return rows.sortedByDescending { it.id }.map { buildOutfitWithItems(it, userId) }
     }
 
     suspend fun getOutfitById(id: Int): OutfitWithItems? {
@@ -140,7 +302,7 @@ class BackendRepository(private val context: Context) {
                 eq("user_id", userId)
             }
         }.decodeList<OutfitRow>().firstOrNull() ?: return null
-        return buildOutfitWithItems(row)
+        return buildOutfitWithItems(row, userId)
     }
 
     suspend fun getOutfitsForClothing(clothingId: Int): List<Outfit> {
@@ -153,7 +315,8 @@ class BackendRepository(private val context: Context) {
         val rows = client.from("outfits").select {
             filter { eq("user_id", userId) }
         }.decodeList<OutfitRow>()
-        return rows.filter { it.id in ids }.map { it.toUi(getPlannedDate(it.id)) }
+        val tagMap = outfitTagMap(userId)
+        return rows.filter { it.id in ids }.map { it.toUi(getPlannedDate(it.id), tagMap[it.id]) }
     }
 
     suspend fun createOutfit(
@@ -167,9 +330,11 @@ class BackendRepository(private val context: Context) {
         val row = client.from("outfits").insert(
             OutfitInsert(userId = userId, name = caption, occasion = occasion, tags = tags)
         ) { select() }.decodeSingle<OutfitRow>()
-        replaceOutfitItems(row.id.toInt(), placements)
+        val id = row.id.toInt()
+        replaceOutfitItems(id, placements)
         setCalendarDate(row.id, selectedDate)
-        return row.id.toInt()
+        syncOutfitTags(id, tags)
+        return id
     }
 
     suspend fun updateOutfit(
@@ -191,6 +356,12 @@ class BackendRepository(private val context: Context) {
         }
         if (placements != null) replaceOutfitItems(id, placements)
         setCalendarDate(id.toLong(), selectedDate)
+        syncOutfitTags(id, tags)
+    }
+
+    private suspend fun syncOutfitTags(outfitId: Int, tags: String?) {
+        val names = tags?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+        replaceOutfitTags(outfitId, names)
     }
 
     suspend fun deleteOutfit(id: Int) {
@@ -257,20 +428,22 @@ class BackendRepository(private val context: Context) {
         )
     }
 
-    private suspend fun buildOutfitWithItems(row: OutfitRow): OutfitWithItems {
+    private suspend fun buildOutfitWithItems(row: OutfitRow, userId: String): OutfitWithItems {
         val itemRows = client.from("outfit_items").select {
             filter { eq("outfit_id", row.id) }
         }.decodeList<OutfitItemRow>()
 
         val clothingRows = if (itemRows.isEmpty()) emptyList() else client.from("clothing").select {
-            filter { eq("user_id", requireUserId()) }
+            filter { eq("user_id", userId) }
         }.decodeList<ClothingRow>()
         val clothingById = clothingRows.associateBy { it.id }
+        val clothingTags = clothingTagMap(userId)
+        val outfitTags = outfitTagMap(userId)
 
         val placements = itemRows.mapNotNull { item ->
             clothingById[item.clothingId]?.let { clothing ->
                 OutfitPlacement(
-                    item = clothing.toUi(),
+                    item = clothing.toUi(clothingTags[clothing.id]),
                     x = item.x.toFloat(),
                     y = item.y.toFloat(),
                     scale = item.scale.toFloat(),
@@ -280,7 +453,7 @@ class BackendRepository(private val context: Context) {
         }.sortedBy { it.layer }
 
         return OutfitWithItems(
-            outfit = row.toUi(getPlannedDate(row.id)),
+            outfit = row.toUi(getPlannedDate(row.id), outfitTags[row.id]),
             placements = placements
         )
     }
@@ -294,6 +467,8 @@ class BackendRepository(private val context: Context) {
             }
         }.decodeList<CalendarRow>().firstOrNull()?.wearDate
     }
+
+    private fun TagRow.toUi(): Tag = Tag(id = id, name = name)
 
     private suspend fun ClothingRow.toUi(): ClothingItem {
         return ClothingItem(
@@ -309,12 +484,12 @@ class BackendRepository(private val context: Context) {
         )
     }
 
-    private fun OutfitRow.toUi(plannedDate: String?): Outfit = Outfit(
+    private fun OutfitRow.toUi(plannedDate: String?, tagNames: List<String>?): Outfit = Outfit(
         id = id.toInt(),
         ownerId = userId.hashCode(),
         caption = name,
         occasion = occasion,
-        tags = tags,
+        tags = tagNames?.joinToString(", ") ?: tags,
         plannedDate = plannedDate
     )
 
@@ -435,4 +610,50 @@ data class CalendarInsert(
     @SerialName("user_id") val userId: String,
     @SerialName("outfit_id") val outfitId: Long,
     @SerialName("wear_date") val wearDate: String
+)
+
+// ---- Reusable tags (normalized) ----
+
+data class Tag(val id: Long, var name: String)
+
+@Serializable
+data class TagRow(
+    val id: Long,
+    @SerialName("user_id") val userId: String,
+    val name: String
+)
+
+@Serializable
+data class TagInsert(
+    @SerialName("user_id") val userId: String,
+    val name: String
+)
+
+@Serializable
+data class TagUpdate(
+    val name: String
+)
+
+@Serializable
+data class ClothingTagRow(
+    @SerialName("clothing_id") val clothingId: Long,
+    @SerialName("tag_id") val tagId: Long
+)
+
+@Serializable
+data class ClothingTagInsert(
+    @SerialName("clothing_id") val clothingId: Long,
+    @SerialName("tag_id") val tagId: Long
+)
+
+@Serializable
+data class OutfitTagRow(
+    @SerialName("outfit_id") val outfitId: Long,
+    @SerialName("tag_id") val tagId: Long
+)
+
+@Serializable
+data class OutfitTagInsert(
+    @SerialName("outfit_id") val outfitId: Long,
+    @SerialName("tag_id") val tagId: Long
 )

@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentCategory
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.GarmentClassifier
@@ -28,7 +27,6 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.app.AlertDialog
 
 class ClosetFragment : Fragment() {
     private lateinit var backend: BackendRepository
@@ -66,10 +64,11 @@ class ClosetFragment : Fragment() {
 
     private fun showSourceDialog(preset: GarmentCategory? = null) {
         pendingCategory = preset
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_source, null)
-        val dialog = MaterialAlertDialogBuilder(requireContext()).setView(dialogView).show()
-        dialogView.findViewById<View>(R.id.optionCamera).setOnClickListener { dialog.dismiss(); launchCamera() }
-        dialogView.findViewById<View>(R.id.optionGallery).setOnClickListener { dialog.dismiss(); launchGallery() }
+        ClospaceBottomSheets.showAddSource(
+            requireContext(),
+            onCamera = { launchCamera() },
+            onGallery = { launchGallery() }
+        )
     }
 
     private fun launchCamera() {
@@ -94,11 +93,7 @@ class ClosetFragment : Fragment() {
     } catch (_: Exception) { null }
 
     private fun removeBackground(imagePath: String) {
-        val progress = AlertDialog.Builder(requireContext())
-            .setView(android.widget.ProgressBar(requireContext()))
-            .setMessage(R.string.removing_background)
-            .setCancelable(false)
-            .show()
+        val progress = ClospaceBottomSheets.showProgress(requireContext(), R.string.removing_background)
 
         viewLifecycleOwner.lifecycleScope.launch {
             val (finalPath, detectedCategory) = withContext(Dispatchers.IO) {
@@ -125,8 +120,9 @@ class ClosetFragment : Fragment() {
     }
 
     private fun showCategoryPicker(imagePath: String, categories: Array<String>) {
-        MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.select_category)
-            .setItems(categories) { _, which -> saveGarment(imagePath, categories[which]) }.show()
+        ClospaceBottomSheets.showChoice(requireContext(), R.string.select_category, categories) { which ->
+            saveGarment(imagePath, categories[which])
+        }
     }
 
     private fun saveGarment(imagePath: String, category: String) {

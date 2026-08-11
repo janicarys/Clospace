@@ -13,9 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
@@ -83,20 +80,12 @@ class GarmentDetailActivity : AppCompatActivity() {
     }
 
     private fun promptCaption() {
-
-        val input = TextInputEditText(this)
-
-        input.hint = getString(R.string.hint_name)
-        input.text = currentCaption.toEditable()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.caption)
-            .setView(input)
-            .setPositiveButton(R.string.save) { _, _ ->
-                saveCaption(input.text?.toString())
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .show()
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.caption,
+            getString(R.string.hint_name),
+            currentCaption
+        ) { value -> saveCaption(value) }
     }
 
     private fun saveCaption(value: String?) {
@@ -117,17 +106,12 @@ class GarmentDetailActivity : AppCompatActivity() {
             getString(R.string.category_accessories)
         )
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.category)
-            .setSingleChoiceItems(
-                categories,
-                categories.indexOf(currentCategory).takeIf { it >= 0 } ?: -1
-            ) { dialog, which ->
-                saveCategory(categories[which])
-                dialog.dismiss()
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .show()
+        ClospaceBottomSheets.showChoice(
+            this,
+            R.string.category,
+            categories,
+            categories.indexOf(currentCategory)
+        ) { which -> saveCategory(categories[which]) }
     }
 
     private fun saveCategory(value: String?) {
@@ -140,46 +124,19 @@ class GarmentDetailActivity : AppCompatActivity() {
     }
 
     private fun promptTags() {
-
-        val input = TextInputEditText(this)
-
-        input.hint = getString(R.string.tags_hint)
-        input.text = currentTags.joinToString(", ").toEditable()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.tags_label)
-            .setView(input)
-            .setPositiveButton(R.string.save) { _, _ ->
-                saveTags(input.text?.toString())
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .show()
-    }
-
-    private fun saveTags(value: String?) {
-        val normalized = value?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }?.joinToString(", ")?.takeIf { it.isNotBlank() }
-        lifecycleScope.launch {
-            runCatching { backend.updateClothing(clothingId, tags = normalized ?: "") }
-                .onSuccess { bindTags(normalized) }
-                .onFailure { Toast.makeText(this@GarmentDetailActivity, it.message ?: "Unable to save tags", Toast.LENGTH_SHORT).show() }
+        TagPickerDialog.show(this, backend, currentTags) { names ->
+            backend.replaceClothingTags(clothingId, names)
+            bindTags(names.joinToString(", "))
         }
     }
 
     private fun promptColor() {
-
-        val input = TextInputEditText(this)
-
-        input.hint = getString(R.string.hint_color)
-        input.text = currentColor.toEditable()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.color_label)
-            .setView(input)
-            .setPositiveButton(R.string.save) { _, _ ->
-                saveColor(input.text?.toString())
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .show()
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.color_label,
+            getString(R.string.hint_color),
+            currentColor
+        ) { value -> saveColor(value) }
     }
 
     private fun saveColor(value: String?) {
@@ -192,20 +149,12 @@ class GarmentDetailActivity : AppCompatActivity() {
     }
 
     private fun promptMaterial() {
-
-        val input = TextInputEditText(this)
-
-        input.hint = getString(R.string.hint_material)
-        input.text = currentMaterial.toEditable()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.material_label)
-            .setView(input)
-            .setPositiveButton(R.string.save) { _, _ ->
-                saveMaterial(input.text?.toString())
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .show()
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.material_label,
+            getString(R.string.hint_material),
+            currentMaterial
+        ) { value -> saveMaterial(value) }
     }
 
     private fun saveMaterial(value: String?) {
@@ -217,16 +166,14 @@ class GarmentDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun String.toEditable() = android.text.Editable.Factory.getInstance().newEditable(this)
-
     private fun confirmDelete() {
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.delete_garment_title)
-            .setMessage(R.string.delete_garment_message)
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton(R.string.delete) { _, _ -> deleteGarment() }
-            .show()
+        ClospaceBottomSheets.showConfirm(
+            this,
+            R.string.delete_garment_title,
+            R.string.delete_garment_message,
+            R.string.delete
+        ) { deleteGarment() }
     }
 
     private fun deleteGarment() {

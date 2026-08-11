@@ -26,6 +26,7 @@ class SettingsFragment : Fragment() {
         val account = view.findViewById<LinearLayout>(R.id.layoutAccount)
         val about = view.findViewById<LinearLayout>(R.id.layoutAbout)
         val support = view.findViewById<LinearLayout>(R.id.layoutSupport)
+        val manageTags = view.findViewById<LinearLayout>(R.id.layoutManageTags)
 
         account.setOnClickListener {
             startActivity(Intent(requireContext(), AccountActivity::class.java))
@@ -37,6 +38,10 @@ class SettingsFragment : Fragment() {
 
         support.setOnClickListener {
             startActivity(Intent(requireContext(), SupportActivity::class.java))
+        }
+
+        manageTags.setOnClickListener {
+            startActivity(Intent(requireContext(), ManageTagsActivity::class.java))
         }
     }
 }

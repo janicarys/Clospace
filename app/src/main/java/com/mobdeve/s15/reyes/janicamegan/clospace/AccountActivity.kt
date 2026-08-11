@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 class AccountActivity : AppCompatActivity() {
@@ -47,12 +46,12 @@ class AccountActivity : AppCompatActivity() {
     }
 
     private fun confirmSignOut() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.sign_out_confirm_title)
-            .setMessage(R.string.sign_out_confirm_message)
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton(R.string.sign_out) { _, _ -> signOut() }
-            .show()
+        ClospaceBottomSheets.showConfirm(
+            this,
+            R.string.sign_out_confirm_title,
+            R.string.sign_out_confirm_message,
+            R.string.sign_out
+        ) { signOut() }
     }
 
     private fun signOut() {

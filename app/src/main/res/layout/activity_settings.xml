@@ -81,6 +81,27 @@
 
         </LinearLayout>
 
+        <!-- Manage Tags Row -->
+        <LinearLayout
+            android:id="@+id/layoutManageTags"
+            style="@style/ClospaceSettingsCard"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/ClospaceSettingLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/manage_tags"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_chevron_right"/>
+
+        </LinearLayout>
+
         <!-- About Row -->
         <LinearLayout
             android:id="@+id/layoutAbout"

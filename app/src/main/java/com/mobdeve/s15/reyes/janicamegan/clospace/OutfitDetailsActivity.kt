@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
@@ -106,10 +105,10 @@ class OutfitDetailsActivity : AppCompatActivity() {
 
     private fun pickOccasion() {
         val occasions = resources.getStringArray(R.array.occasions)
-        MaterialAlertDialogBuilder(this).setTitle(R.string.occasion).setItems(occasions) { _, which ->
+        ClospaceBottomSheets.showChoice(this, R.string.occasion, occasions) { which ->
             selectedOccasion = occasions[which]
             tvOccasion.text = selectedOccasion
-        }.show()
+        }
     }
 
     private fun saveOutfit() {

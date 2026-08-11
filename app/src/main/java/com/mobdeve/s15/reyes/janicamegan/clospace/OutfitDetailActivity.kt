@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
@@ -50,17 +49,16 @@ class OutfitDetailActivity : AppCompatActivity() {
     private fun openEditor() = startActivity(Intent(this, OutfitCanvasActivity::class.java).putExtra(OutfitCanvasActivity.EXTRA_OUTFIT_ID, outfitId))
 
     private fun promptTags() {
-        val input = com.google.android.material.textfield.TextInputEditText(this)
-        input.hint = getString(R.string.tags_hint)
-        input.text = currentTags.joinToString(", ").toEditable()
-        MaterialAlertDialogBuilder(this).setTitle(R.string.tags_label).setView(input)
-            .setPositiveButton(R.string.save) { _, _ -> saveTags(input.text?.toString()) }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }.show()
+        TagPickerDialog.show(this, backend, currentTags) { names ->
+            val outfit = backend.getOutfitById(outfitId)?.outfit ?: return@show
+            backend.updateOutfit(outfitId, outfit.caption, outfit.occasion, outfit.plannedDate, names.joinToString(", "))
+            bindTags(names.joinToString(", "))
+        }
     }
 
     private fun promptOccasion() {
         val occasions = resources.getStringArray(R.array.occasions)
-        MaterialAlertDialogBuilder(this).setTitle(R.string.occasion).setItems(occasions) { _, which -> saveOccasion(occasions[which]) }.show()
+        ClospaceBottomSheets.showChoice(this, R.string.occasion, occasions) { which -> saveOccasion(occasions[which]) }
     }
 
     private fun promptSchedule() {
@@ -82,16 +80,6 @@ class OutfitDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTags(value: String?) {
-        val normalized = value?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }?.joinToString(", ")?.takeIf { it.isNotBlank() }
-        lifecycleScope.launch {
-            runCatching {
-                val outfit = backend.getOutfitById(outfitId)?.outfit ?: return@runCatching
-                backend.updateOutfit(outfitId, outfit.caption, outfit.occasion, outfit.plannedDate, normalized)
-            }.onSuccess { bindTags(normalized) }
-        }
-    }
-
     private fun saveOccasion(occasion: String) {
         lifecycleScope.launch {
             runCatching {
@@ -102,12 +90,12 @@ class OutfitDetailActivity : AppCompatActivity() {
     }
 
     private fun promptCaption() {
-        val input = com.google.android.material.textfield.TextInputEditText(this)
-        input.hint = getString(R.string.hint_caption)
-        input.text = currentCaption.toEditable()
-        MaterialAlertDialogBuilder(this).setTitle(R.string.caption).setView(input)
-            .setPositiveButton(R.string.save) { _, _ -> saveCaption(input.text?.toString()) }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }.show()
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.caption,
+            getString(R.string.hint_caption),
+            currentCaption
+        ) { value -> saveCaption(value) }
     }
 
     private fun saveCaption(value: String?) {
@@ -120,12 +108,8 @@ class OutfitDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun String.toEditable() = android.text.Editable.Factory.getInstance().newEditable(this)
-
     private fun confirmDelete() {
-        MaterialAlertDialogBuilder(this).setTitle(R.string.delete_outfit_title).setMessage(R.string.delete_outfit_message)
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton(R.string.delete) { _, _ -> deleteOutfit() }.show()
+        ClospaceBottomSheets.showConfirm(this, R.string.delete_outfit_title, R.string.delete_outfit_message, R.string.delete) { deleteOutfit() }
     }
 
     private fun deleteOutfit() {

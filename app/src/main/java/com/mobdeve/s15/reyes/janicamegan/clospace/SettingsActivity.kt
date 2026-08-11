@@ -17,6 +17,7 @@ class SettingsActivity : AppCompatActivity() {
         val account = findViewById<LinearLayout>(R.id.layoutAccount)
         val about = findViewById<LinearLayout>(R.id.layoutAbout)
         val support = findViewById<LinearLayout>(R.id.layoutSupport)
+        val manageTags = findViewById<LinearLayout>(R.id.layoutManageTags)
 
         account.setOnClickListener {
             startActivity(Intent(this, AccountActivity::class.java))
@@ -28,6 +29,10 @@ class SettingsActivity : AppCompatActivity() {
 
         support.setOnClickListener {
             startActivity(Intent(this, SupportActivity::class.java))
+        }
+
+        manageTags.setOnClickListener {
+            startActivity(Intent(this, ManageTagsActivity::class.java))
         }
 
         // Bottom Navigation

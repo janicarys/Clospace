@@ -61,6 +61,8 @@
     <string name="signed_out">Signed out</string>
     <string name="about">About</string>
     <string name="contact_support">Contact Support</string>
+    <string name="manage_tags">Manage Tags</string>
+    <string name="manage_tags_description">Edit or delete reusable tags shared across your garments and outfits.</string>
 
     <string name="about_description">
 Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
@@ -129,6 +131,20 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="tags_hint">Add tags (separate with commas)</string>
     <string name="no_tags">No tags</string>
     <string name="add_tags">Add tags</string>
+    <string name="new_tag_hint">New tag name</string>
+    <string name="new_tag">New tag</string>
+    <string name="add">Add</string>
+    <string name="done">Done</string>
+    <string name="clear_selection">Clear selection</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag_title">Delete tag?</string>
+    <string name="delete_tag_message">This will remove the tag from all garments and outfits.</string>
+    <string name="tag_name_empty">Enter a tag name</string>
+    <string name="tag_add_failed">Unable to add tag</string>
+    <string name="tag_save_failed">Unable to save tags</string>
+    <string name="tag_rename_failed">Unable to rename tag</string>
+    <string name="tag_delete_failed">Unable to delete tag</string>
     <string name="add_occasion">Add occasion</string>
     <string name="not_scheduled">This outfit can be scheduled</string>
     <string name="no_category">—</string>
