@@ -26,7 +26,7 @@ class SignUpActivity : AppCompatActivity() {
         ivAvatarMale = findViewById(R.id.ivAvatarMale)
         ivAvatarFemale = findViewById(R.id.ivAvatarFemale)
 
-        val etUsername = findViewById<EditText>(R.id.etUsername)
+        val etEmail = findViewById<EditText>(R.id.etEmail)
         val etDisplayName = findViewById<EditText>(R.id.etDisplayName)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val etConfirmPassword = findViewById<EditText>(R.id.etConfirmPassword)
@@ -37,14 +37,14 @@ class SignUpActivity : AppCompatActivity() {
         ivAvatarFemale.setOnClickListener { selectAvatar(false) }
 
         btnSubmit.setOnClickListener {
-            val email = etUsername.text.toString().trim()
+            val email = etEmail.text.toString().trim()
             val displayName = etDisplayName.text.toString().trim()
             val password = etPassword.text.toString()
             val confirmPassword = etConfirmPassword.text.toString()
 
             when {
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    etUsername.error = "Enter a valid email address"
+                    etEmail.error = "Enter a valid email address"
                     return@setOnClickListener
                 }
                 displayName.isBlank() -> {
@@ -68,7 +68,7 @@ class SignUpActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 btnSubmit.isEnabled = false
                 val result = repository.register(
-                    User(username = email, displayName = displayName, password = password, avatar = selectedAvatar)
+                    User(email = email, displayName = displayName, password = password, avatar = selectedAvatar)
                 )
                 btnSubmit.isEnabled = true
 

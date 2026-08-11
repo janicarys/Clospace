@@ -28,13 +28,13 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        val etUsername = findViewById<EditText>(R.id.etUsername)
+        val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvSignUp = findViewById<TextView>(R.id.tvSignUp)
 
         btnLogin.setOnClickListener {
-            val email = etUsername.text.toString().trim()
+            val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString()
 
             if (email.isBlank() || password.isBlank()) {

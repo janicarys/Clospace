@@ -46,25 +46,25 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/tvUsername"
+            android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="@string/login_username"
             android:textSize="28sp"
             android:textColor="@color/violet"
             android:fontFamily="@font/rokkitt_regular"
-            android:labelFor="@id/etUsername"/>
+            android:labelFor="@id/etEmail"/>
 
         <EditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/edittext_background"
             android:paddingHorizontal="12dp"
-            android:hint="Enter username"
+            android:hint="@string/hint_username"
             android:textColorHint="@color/brown"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:autofillHints="emailAddress"
             android:imeOptions="actionNext"/>
 
@@ -79,18 +79,27 @@
             android:fontFamily="@font/rokkitt_regular"
             android:labelFor="@id/etPassword"/>
 
-        <EditText
-            android:id="@+id/etPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:background="@drawable/edittext_background"
-            android:paddingHorizontal="12dp"
-            android:hint="Enter password"
-            android:textColorHint="@color/brown"
-            android:inputType="textPassword"
-            android:autofillHints="password"
-            android:imeOptions="actionDone"/>
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/violet">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/edittext_background"
+                android:paddingHorizontal="12dp"
+                android:hint="Enter password"
+                android:textColorHint="@color/brown"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                android:imeOptions="actionDone"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

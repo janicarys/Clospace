@@ -46,24 +46,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Username -->
+        <!-- Email -->
 
         <TextView
-            android:id="@+id/tvUsername"
+            android:id="@+id/tvEmail"
             style="@style/ClospaceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
-            android:labelFor="@id/etUsername"/>
+            android:text="@string/login_username"
+            android:labelFor="@id/etEmail"/>
 
         <EditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etEmail"
             style="@style/ClospaceEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="2dp"
-            android:hint="Enter username"
-            android:inputType="text"
+            android:hint="@string/hint_username"
+            android:inputType="textEmailAddress"
             android:autofillHints="emailAddress"
             android:imeOptions="actionNext"/>
 
@@ -100,16 +100,25 @@
             android:text="Password"
             android:labelFor="@id/etPassword"/>
 
-        <EditText
-            android:id="@+id/etPassword"
-            style="@style/ClospaceEditText"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:hint="Enter password"
-            android:inputType="textPassword"
-            android:autofillHints="password"
-            android:imeOptions="actionNext"/>
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/violet">
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/ClospaceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter password"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                android:imeOptions="actionNext"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Confirm Password -->
 
@@ -122,15 +131,24 @@
             android:text="Confirm Password"
             android:labelFor="@id/etConfirmPassword"/>
 
-        <EditText
-            android:id="@+id/etConfirmPassword"
-            style="@style/ClospaceEditText"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:hint="Confirm password"
-            android:inputType="textPassword"
-            android:imeOptions="actionDone"/>
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/violet">
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                style="@style/ClospaceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Confirm password"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Avatar -->
 

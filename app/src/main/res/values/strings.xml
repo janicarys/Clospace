@@ -5,9 +5,9 @@
 
     <!-- Login -->
     <string name="login_title">Clospace</string>
-    <string name="login_username">Email</string>
+    <string name="login_username">Email Address</string>
     <string name="login_password">Password</string>
-    <string name="hint_username">Enter email</string>
+    <string name="hint_username">Enter your email address</string>
     <string name="hint_password">Enter password</string>
     <string name="login_button">LOG IN</string>
     <string name="login_no_account">Don\'t have an account?</string>
