@@ -1,0 +1,8 @@
+com.mobdeve.s15.reyes.janicamegan.clospace.app-pngs-0 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\build\generated\res\pngs\debug
+com.mobdeve.s15.reyes.janicamegan.clospace.app-updated_navigation_xml-1 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\build\generated\updated_navigation_xml\debug
+com.mobdeve.s15.reyes.janicamegan.clospace.app-packageDebugResources-2 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.mobdeve.s15.reyes.janicamegan.clospace.app-packageDebugResources-3 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-4 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-5 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\src\debug\res
+com.mobdeve.s15.reyes.janicamegan.clospace.app-main-6 C:\Users\Asus\Desktop\Clospace-Supabase-Frontend-Integrated-FIXED-REPAIRED\Clospace-Supabase-Frontend-Integrated-FIXED\app\src\main\res
+gradleHome-0 C:\Users\Asus\.gradle

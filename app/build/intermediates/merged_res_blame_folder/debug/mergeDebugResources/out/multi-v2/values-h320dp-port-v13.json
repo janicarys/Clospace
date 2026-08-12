@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mobdeve.s15.reyes.janicamegan.clospace.app-mergeDebugResources-45:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\9.4.1\\transforms\\ac2823ba55479637470b392c4073df61\\transformed\\material-1.14.0\\res\\values-h320dp-port-v13\\values-h320dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                }
+            ]
+        }
+    ]
+}

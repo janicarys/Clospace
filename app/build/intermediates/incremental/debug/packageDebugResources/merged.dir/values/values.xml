@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="occasions">
+        <item>Work</item>
+        <item>Casual</item>
+        <item>Home</item>
+        <item>School</item>
+        <item>Date</item>
+        <item>Party</item>
+        <item>Sports</item>
+        <item>Formal Event</item>
+        <item>Wedding</item>
+    </string-array>
+    <color name="black">#FF000000</color>
+    <color name="brown">#685959</color>
+    <color name="calendar_card">#F7F6F4</color>
+    <color name="calendar_day_disabled">#B7AFC2</color>
+    <color name="error_red">#C62828</color>
+    <color name="lavender">#A196D0</color>
+    <color name="lavender_light">#C9C1E4</color>
+    <color name="light_blue">#C6DCE4</color>
+    <color name="mint">#79D4CA</color>
+    <color name="violet">#3C3360</color>
+    <color name="white">#FFFFFFFF</color>
+    <plurals name="used_in_count">
+        <item quantity="one">Used in %d outfit</item>
+        <item quantity="other">Used in %d outfits</item>
+    </plurals>
+    <string name="about">About</string>
+    <string name="about_description">
+Clospace helps users organize their wardrobe, create outfits, and manage their clothing collection.
+</string>
+    <string name="accessories">ACCESSORIES</string>
+    <string name="add_accessory">Add Accessory</string>
+    <string name="add_bottom">Add Bottom</string>
+    <string name="add_caption">Add a caption...</string>
+    <string name="add_color">Add color</string>
+    <string name="add_footwear">Add Shoes</string>
+    <string name="add_item">Add garment</string>
+    <string name="add_material">Add material</string>
+    <string name="add_occasion">Add occasion</string>
+    <string name="add_source_title">Add a garment</string>
+    <string name="add_tags">Add tags</string>
+    <string name="add_top">Add Top</string>
+    <string name="app_name">Clospace</string>
+    <string name="app_tagline">Your digital wardrobe</string>
+    <string name="arrange_outfit_title">Arrange Outfit</string>
+    <string name="avatar_female">Female avatar</string>
+    <string name="avatar_male">Male avatar</string>
+    <string name="back">Back</string>
+    <string name="bottoms">BOTTOMS</string>
+    <string name="bring_forward">Bring Forward</string>
+    <string name="cancel">Cancel</string>
+    <string name="caption">Caption</string>
+    <string name="caption_required">Please enter a caption</string>
+    <string name="category">Category</string>
+    <string name="category_accessories">Accessories</string>
+    <string name="category_bottoms">Bottoms</string>
+    <string name="category_footwear">Footwear</string>
+    <string name="category_tops">Tops</string>
+    <string name="choose_from_library">Choose from Library</string>
+    <string name="clothes_included">Clothes in outfit</string>
+    <string name="color_label">Color</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="create_outfit">Create outfit</string>
+    <string name="delete">DELETE</string>
+    <string name="delete_garment_message">This garment will be permanently removed from your closet and any outfits using it.</string>
+    <string name="delete_garment_title">Delete garment?</string>
+    <string name="delete_outfit_message">This outfit will be permanently removed.</string>
+    <string name="delete_outfit_title">Delete outfit?</string>
+    <string name="developer">Developers</string>
+    <string name="developer_name">Janica Megan Reyes\nGabriel Esguerra\nYuyang Guo</string>
+    <string name="edit">EDIT</string>
+    <string name="edit_outfit_title">Edit Outfit</string>
+    <string name="footwear">FOOTWEAR</string>
+    <string name="garment_deleted">Garment deleted</string>
+    <string name="garment_detail_title">Garment</string>
+    <string name="garment_image">Garment image</string>
+    <string name="hint_caption">Give your outfit a name</string>
+    <string name="hint_color">e.g. Navy Blue</string>
+    <string name="hint_display_name">Enter display name</string>
+    <string name="hint_material">e.g. Cotton</string>
+    <string name="hint_name">Name this garment</string>
+    <string name="hint_occasion">Select an occasion</string>
+    <string name="hint_password">Enter password</string>
+    <string name="hint_username">Enter email</string>
+    <string name="image_load_failed">Could not load image</string>
+    <string name="login_button">LOG IN</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_password">Password</string>
+    <string name="login_sign_up">Sign Up</string>
+    <string name="login_title">Clospace</string>
+    <string name="login_username">Email</string>
+    <string name="material_label">Material</string>
+    <string name="next">NEXT</string>
+    <string name="no_category">—</string>
+    <string name="no_garments">Your closet is empty.\nAdd garments first.</string>
+    <string name="no_outfits">No outfits yet.\nTap the + button to create one.</string>
+    <string name="no_outfits_used">Not in any outfit yet</string>
+    <string name="no_tags">No tags</string>
+    <string name="not_scheduled">This outfit can be scheduled</string>
+    <string name="notifications">Notifications</string>
+    <string name="occasion">Occasion</string>
+    <string name="occasion_label">Occasion</string>
+    <string name="occasion_required">Please select an occasion</string>
+    <string name="outfit_deleted">Outfit deleted</string>
+    <string name="outfit_detail_title">Outfit</string>
+    <string name="outfit_details_title">Outfit Details</string>
+    <string name="outfit_saved">Outfit saved!</string>
+    <string name="outfit_title">Outfits</string>
+    <string name="outfit_updated">Outfit updated!</string>
+    <string name="pick_date">Pick a date</string>
+    <string name="planned_date">Planned to wear</string>
+    <string name="planned_date_set">Planned to wear: %1$s</string>
+    <string name="remove_garment">Remove garment</string>
+    <string name="removing_background">Removing background...</string>
+    <string name="save">SAVE</string>
+    <string name="schedule">Schedule</string>
+    <string name="schedule_outfit">Schedule outfit</string>
+    <string name="search_closet">Search your closet...</string>
+    <string name="select_at_least_one">Select at least one garment</string>
+    <string name="select_category">Which category does it belong to?</string>
+    <string name="select_garments_title">Select Garments</string>
+    <string name="selected_count">Selected: %1$d</string>
+    <string name="send_backward">Send Backward</string>
+    <string name="signup_button">CREATE ACCOUNT</string>
+    <string name="signup_choose_avatar">Choose an avatar</string>
+    <string name="signup_display_name">Display Name</string>
+    <string name="signup_have_account">Have an account?\ </string>
+    <string name="signup_sign_in">Sign In</string>
+    <string name="signup_subtitle">Create your Clospace account</string>
+    <string name="signup_title">Let\'s Get Started</string>
+    <string name="support_description">
+        Experiencing an issue?\nThis feature will allow users to contact the Clospace development team for technical support, bug reports, and feedback.\nSupport functionality will be available in a future update.</string>
+    <string name="support_title">Need Help?</string>
+    <string name="tags_hint">Add tags (separate with commas)</string>
+    <string name="tags_label">Tags</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="tap_garments_hint">Tap garments to build your outfit</string>
+    <string name="tap_to_select">Tap to select</string>
+    <string name="tops">TOPS</string>
+    <string name="version">Version</string>
+    <string name="version_number">v1.0.0</string>
+    <style name="Base.Theme.Clospace" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="ClospaceBody">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+    <style name="ClospaceCaption">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+    <style name="ClospaceEditText">
+
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+
+        <item name="android:textSize">18sp</item>
+
+        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColorHint">@color/brown</item>
+
+        <item name="android:background">@drawable/edittext_background</item>
+
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+
+    </style>
+    <style name="ClospaceLabel">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/violet</item>
+    </style>
+    <style name="ClospaceLink">
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/violet</item>
+    </style>
+    <style name="ClospacePlaceholderCard">
+        <item name="android:layout_width">110dp</item>
+        <item name="android:layout_height">110dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/garment_placeholder</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="ClospacePlaceholderIcon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:tint">@android:color/white</item>
+    </style>
+    <style name="ClospacePlaceholderText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/rokkitt_medium</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+    <style name="ClospacePrimaryButton">
+
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">56dp</item>
+
+        <item name="android:background">@drawable/button_background</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+    <style name="ClospaceSettingLabel">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/violet</item>
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+    </style>
+    <style name="ClospaceSettingsCard">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+
+        <item name="android:background">@drawable/settings_card</item>
+
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+
+        <item name="android:gravity">center_vertical</item>
+
+        <item name="android:orientation">horizontal</item>
+
+        <item name="android:layout_marginBottom">16dp</item>
+
+    </style>
+    <style name="ClospaceSquiggle">
+        <item name="android:fontFamily">@font/redactedscript_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/lavender</item>
+    </style>
+    <style name="ClospaceSubtitle">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+    <style name="ClospaceTitle">
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">42sp</item>
+        <item name="android:textColor">@color/violet</item>
+    </style>
+    <style name="Theme.Clospace" parent="Base.Theme.Clospace"/>
+</resources>

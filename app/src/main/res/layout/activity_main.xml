@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Page Content (fragments hosted here, behind the shared nav) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layoutBottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Bottom Navigation Bar (Custom implementation for exact visual match) -->
+    <LinearLayout
+        android:id="@+id/layoutBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Closet -->
+        <LinearLayout
+            android:id="@+id/navCloset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imgCloset"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_closet_outline" />
+            <TextView
+                android:id="@+id/tvCloset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closet"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/rokkitt_regular"/>
+            <View
+                android:id="@+id/indicatorCloset"
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lavender"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Outfit -->
+        <LinearLayout
+            android:id="@+id/navOutfit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imgOutfit"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_hanger" />
+            <TextView
+                android:id="@+id/tvOutfit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outfit"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/rokkitt_regular"/>
+            <View
+                android:id="@+id/indicatorOutfit"
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lavender"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Calendar -->
+        <LinearLayout
+            android:id="@+id/navCalendar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imgCalendar"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calendar" />
+            <TextView
+                android:id="@+id/tvCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calendar"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/rokkitt_regular"/>
+            <View
+                android:id="@+id/indicatorCalendar"
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lavender"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Settings -->
+        <LinearLayout
+            android:id="@+id/navSettings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imgSettings"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_settings" />
+            <TextView
+                android:id="@+id/tvSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/rokkitt_regular"/>
+            <View
+                android:id="@+id/indicatorSettings"
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lavender"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

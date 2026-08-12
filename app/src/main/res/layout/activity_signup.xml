@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvLetsGetStarted"
+        style="@style/ClospaceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Get Started!"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tvSubtitle"
+        style="@style/ClospaceSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create your Clospace account"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvLetsGetStarted"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Form -->
+    <LinearLayout
+        android:id="@+id/layoutSignUpForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginTop="36dp"
+
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Email -->
+
+        <TextView
+            android:id="@+id/tvUsername"
+            style="@style/ClospaceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:labelFor="@id/etUsername"/>
+
+        <EditText
+            android:id="@+id/etUsername"
+            style="@style/ClospaceEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp"
+            android:hint="Enter email"
+            android:inputType="text"
+            android:autofillHints="emailAddress"
+            android:imeOptions="actionNext"/>
+
+        <!-- Display Name -->
+
+        <TextView
+            android:id="@+id/tvDisplayName"
+            style="@style/ClospaceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Display Name"
+            android:labelFor="@id/etDisplayName"/>
+
+        <EditText
+            android:id="@+id/etDisplayName"
+            style="@style/ClospaceEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp"
+            android:hint="Enter display name"
+            android:inputType="textPersonName"
+            android:autofillHints="name"
+            android:imeOptions="actionNext"/>
+
+        <!-- Password -->
+
+        <TextView
+            android:id="@+id/tvPassword"
+            style="@style/ClospaceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Password"
+            android:labelFor="@id/etPassword"/>
+
+        <FrameLayout
+            android:id="@+id/layoutPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp">
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/ClospaceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="48dp"
+                android:hint="Enter password"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                android:imeOptions="actionNext"/>
+
+            <ImageButton
+                android:id="@+id/btnTogglePassword"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Toggle password visibility"
+                android:src="@drawable/ic_visibility"/>
+
+        </FrameLayout>
+
+        <!-- Confirm Password -->
+
+        <TextView
+            android:id="@+id/tvConfirmPassword"
+            style="@style/ClospaceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Confirm Password"
+            android:labelFor="@id/etConfirmPassword"/>
+
+        <FrameLayout
+            android:id="@+id/layoutConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp">
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                style="@style/ClospaceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingEnd="48dp"
+                android:hint="Confirm password"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"/>
+
+            <ImageButton
+                android:id="@+id/btnToggleConfirmPassword"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Toggle confirm password visibility"
+                android:src="@drawable/ic_visibility"/>
+
+        </FrameLayout>
+
+        <!-- Avatar -->
+
+        <TextView
+            android:id="@+id/tvChooseAvatar"
+            style="@style/ClospaceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Choose Avatar"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp">
+
+            <ImageButton
+                android:id="@+id/ivAvatarMale"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_avatar_male"
+                android:contentDescription="Male Avatar"/>
+
+            <ImageButton
+                android:id="@+id/ivAvatarFemale"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:background="@android:color/transparent"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_avatar_female"
+                android:contentDescription="Female Avatar"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Register Button -->
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/ClospacePrimaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CREATE ACCOUNT"
+
+        android:layout_marginTop="28dp"
+
+        app:layout_constraintTop_toBottomOf="@id/layoutSignUpForm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Bottom -->
+
+    <LinearLayout
+        android:id="@+id/layoutSignInRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="32dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            style="@style/ClospaceCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"/>
+
+        <TextView
+            android:id="@+id/tvSignIn"
+            style="@style/ClospaceLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Sign In"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

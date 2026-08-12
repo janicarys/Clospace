@@ -1,0 +1,446 @@
+[
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_medium.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_medium.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_mediumitalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_mediumitalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_arrow_back.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_calendar_day_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/calendar_day_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_tag.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_tag.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_menu.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_menu.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_toolbar_secondary.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/toolbar_secondary.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_chevron_left.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_chevron_left.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_info_card_outline.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/info_card_outline.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_settings.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_settings.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_calendar.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_calendar.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_signup.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_fragment_outfit.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/fragment_outfit.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_support.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_support.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_chevron_right.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_chevron_right.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_sample_outfit2.jpg.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/sample_outfit2.jpg"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_check_badge.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/check_badge.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_redactedscript_light.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/redactedscript_light.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_garment.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_garment.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_gallery.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_gallery.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_eventcalendar.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_eventcalendar.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_trash.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_trash.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_garment_placeholder.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/garment_placeholder.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/anim_slide_in_right.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/anim/slide_in_right.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_bold.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_bold.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_calendar_badge.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/calendar_badge.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/xml_file_paths.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_black.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_black.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_camera.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_camera.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_included_outfit.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_included_outfit.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_extrabold.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_extrabold.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_blackitalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_blackitalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_button_background_selector.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/button_background_selector.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_splash.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_pick_garment.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_pick_garment.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_category.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_category.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_hanger.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_hanger.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_outfit.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_outfit.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_button_disabled.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/button_disabled.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_garment_detail.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_garment_detail.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_redactedscript_regular.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/redactedscript_regular.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_close.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_extralightitalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_extralightitalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_sample_outfit3.jpg.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/sample_outfit3.jpg"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/xml_backup_rules.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_fragment_settings.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_garment_selected_border.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/garment_selected_border.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_edittext_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/edittext_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_lightitalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_lightitalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_settings.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_about.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_about.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_sample_outfit.jpg.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/sample_outfit.jpg"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_light.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_light.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_button_pill_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/button_pill_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_outfit_details.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_outfit_details.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_schedule_tile_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/schedule_tile_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_login.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_included_clothing.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_included_clothing.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/anim_slide_out_right.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/anim/slide_out_right.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_outfit_detail.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_outfit_detail.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_outfit_canvas.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_outfit_canvas.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_select_garments.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_select_garments.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_avatar_female.jpg.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_avatar_female.jpg"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_canvas_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/canvas_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_italic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_italic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_today_button.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/today_button.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_category_card.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/category_card.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_material.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_material.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_selected_garment.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_selected_garment.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/anim_slide_out_left.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/anim/slide_out_left.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_materials.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_materials.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_check.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_outfit.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_outfit.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_avatar_male.jpg.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_avatar_male.jpg"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_edit.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_edit.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_fragment_closet.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/fragment_closet.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_settings_card.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/settings_card.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_add.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/xml_data_extraction_rules.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_garment_card.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/garment_card.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_item_calendar_day.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/item_calendar_day.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_today_circle.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/today_circle.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/anim_slide_in_left.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/anim/slide_in_left.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_activity_main.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_extrabolditalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_extrabolditalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_color.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_color.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_regular.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_regular.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_fragment_calendar.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/fragment_calendar.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_search.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_search.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_calendar.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_calendar.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_closet_outline.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_closet_outline.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/layout_dialog_add_source.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/layout/dialog_add_source.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_ic_occasion.png.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/ic_occasion.png"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_button_background.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/button_background.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/drawable_avatar_selected.xml.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/drawable/avatar_selected.xml"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_bolditalic.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_bolditalic.ttf"
+    },
+    {
+        "merged": "com.mobdeve.s15.reyes.janicamegan.clospace.app-debug-47:/font_rokkitt_extralight.ttf.flat",
+        "source": "com.mobdeve.s15.reyes.janicamegan.clospace.app-main-49:/font/rokkitt_extralight.ttf"
+    }
+]

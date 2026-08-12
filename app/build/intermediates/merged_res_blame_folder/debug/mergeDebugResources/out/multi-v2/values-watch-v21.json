@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mobdeve.s15.reyes.janicamegan.clospace.app-mergeDebugResources-45:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Asus\\.gradle\\caches\\9.4.1\\transforms\\e79da2034188d7ebc1c1d913d59cc07d\\transformed\\appcompat-1.7.1\\res\\values-watch-v21\\values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}
