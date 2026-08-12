@@ -30,6 +30,7 @@ class CalendarFragment : Fragment() {
     private lateinit var monthText: TextView
     private var currentMonth = YearMonth.now()
     private var byDateOutfits: Map<LocalDate, List<OutfitWithItems>> = emptyMap()
+    private var pendingDate: LocalDate? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.fragment_calendar, container, false)
@@ -46,7 +47,23 @@ class CalendarFragment : Fragment() {
         loadCalendar()
     }
 
-    override fun onResume() { super.onResume(); if (::backend.isInitialized) loadCalendar() }
+    override fun onResume() {
+        super.onResume()
+        if (!::backend.isInitialized) return
+        requireActivity().intent.getStringExtra(MainActivity.EXTRA_OPEN_DATE)?.let { raw ->
+            runCatching { LocalDate.parse(raw) }.getOrNull()?.let { date ->
+                pendingDate = date
+                if (YearMonth.from(date) != currentMonth) currentMonth = YearMonth.from(date)
+            }
+            requireActivity().intent.removeExtra(MainActivity.EXTRA_OPEN_DATE)
+        }
+        loadCalendar()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        ClospaceBottomSheets.dismissDaySheet()
+    }
 
     private fun loadCalendar() {
         monthText.text = currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
@@ -67,6 +84,10 @@ class CalendarFragment : Fragment() {
         recycler.adapter = CalendarAdapter(generateCalendar(byDateOutfits), previews) { day ->
             showDayOutfits(day.date)
         }
+        pendingDate?.let { date ->
+            pendingDate = null
+            showDayOutfits(date)
+        }
     }
 
     private fun showDayOutfits(date: LocalDate) {
@@ -74,12 +95,13 @@ class CalendarFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val previews = withContext(Dispatchers.Default) {
                 outfits.mapNotNull { wrapper ->
-                    val bitmap = OutfitRenderer.render(wrapper.placements, 220, 300)
+                    val bitmap = OutfitRenderer.render(wrapper.placements, 220, 340)
                     if (bitmap != null) wrapper.outfit.id to bitmap else null
                 }.toMap()
             }
             ClospaceBottomSheets.showDayOutfits(
                 requireContext(),
+                date,
                 outfits,
                 previews,
                 onCardClick = { wrapper ->

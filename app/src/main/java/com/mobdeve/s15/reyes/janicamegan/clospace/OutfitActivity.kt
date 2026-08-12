@@ -131,7 +131,7 @@ class OutfitActivity : AppCompatActivity() {
 
                 val previews = withContext(Dispatchers.IO) {
                     full.mapNotNull { wrapper ->
-                        val bitmap = OutfitPreviewCache.render(wrapper.outfit.id, wrapper.placements, 400, 480)
+                        val bitmap = OutfitPreviewCache.render(wrapper.outfit.id, wrapper.placements, 400, 560)
                         if (bitmap != null) wrapper.outfit.id to bitmap else null
                     }.toMap()
                 }

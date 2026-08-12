@@ -16,12 +16,28 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.reyes.janicamegan.clospace.adapter.DayOutfitAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import java.time.LocalDate
 
 /** Material-style modal bottom sheets matching the Clospace design language (white sheet, purple/lavender palette). */
 object ClospaceBottomSheets {
+
+    // Single, authoritative day-outfit sheet so returning from the create flow
+    // refreshes (or replaces) the same dialog instead of stacking stale ones.
+    private var dayOutfitSheet: BottomSheetDialog? = null
+    private var dayOutfitAdapter: DayOutfitAdapter? = null
+    private var dayOutfitDate: LocalDate? = null
+
+    fun dismissDaySheet() {
+        dayOutfitSheet?.let { if (it.isShowing) it.dismiss() }
+        dayOutfitSheet = null
+        dayOutfitAdapter = null
+        dayOutfitDate = null
+    }
 
     /** Single-line text input with Save/Cancel actions. */
     fun showInput(
@@ -180,31 +196,47 @@ object ClospaceBottomSheets {
      *  buttons plus an "Add another outfit" action, in a dimmed, nearly full-width sheet. */
     fun showDayOutfits(
         context: Context,
+        date: LocalDate,
         outfits: List<OutfitWithItems>,
         previews: Map<Int, Bitmap>,
         onCardClick: (OutfitWithItems) -> Unit = {},
         onDelete: (OutfitWithItems) -> Unit,
         onAddAnother: () -> Unit
     ) {
+        if (dayOutfitSheet?.isShowing == true && dayOutfitDate == date && dayOutfitAdapter != null) {
+            dayOutfitAdapter?.update(outfits, previews)
+            dayOutfitSheet?.findViewById<MaterialButton>(R.id.btnAddAnotherOutfit)?.setText(
+                if (outfits.isEmpty()) R.string.create_outfit else R.string.add_another_outfit
+            )
+            return
+        }
+
+        dismissDaySheet()
+
         val content = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_day_outfits, null)
 
-        val sheet = BottomSheetDialog(context)
-        sheet.window?.setDimAmount(0.4f)
-
-        val grid = content.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvDayOutfits)
-        grid.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+        val grid = content.findViewById<RecyclerView>(R.id.rvDayOutfits)
+        grid.layoutManager = GridLayoutManager(context, 2)
         grid.adapter = DayOutfitAdapter(
             outfits,
             previews,
-            onClick = { wrapper -> sheet.dismiss(); onCardClick(wrapper) },
+            onClick = { wrapper ->
+                dismissDaySheet()
+                onCardClick(wrapper)
+            },
             onDelete = { wrapper -> onDelete(wrapper) }
         )
+        dayOutfitAdapter = grid.adapter as DayOutfitAdapter
 
-        val addButton = content.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAddAnotherOutfit)
+        val addButton = content.findViewById<MaterialButton>(R.id.btnAddAnotherOutfit)
         addButton.setText(if (outfits.isEmpty()) R.string.create_outfit else R.string.add_another_outfit)
         addButton.setOnClickListener { onAddAnother() }
 
+        val sheet = BottomSheetDialog(context)
+        sheet.window?.setDimAmount(0.4f)
         sheet.setContentView(content)
+        dayOutfitDate = date
+        dayOutfitSheet = sheet
         sheet.show()
     }
 

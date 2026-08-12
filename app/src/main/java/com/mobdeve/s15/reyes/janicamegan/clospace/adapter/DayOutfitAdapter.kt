@@ -14,11 +14,19 @@ import com.mobdeve.s15.reyes.janicamegan.clospace.OutfitWithItems
 import com.mobdeve.s15.reyes.janicamegan.clospace.R
 
 class DayOutfitAdapter(
-    private val outfits: List<OutfitWithItems>,
-    private val previews: Map<Int, Bitmap>,
+    outfits: List<OutfitWithItems>,
+    private var previews: Map<Int, Bitmap>,
     private val onClick: (OutfitWithItems) -> Unit,
     private val onDelete: (OutfitWithItems) -> Unit
 ) : RecyclerView.Adapter<DayOutfitAdapter.DayOutfitViewHolder>() {
+
+    private var outfits: List<OutfitWithItems> = outfits
+
+    fun update(newOutfits: List<OutfitWithItems>, newPreviews: Map<Int, Bitmap>) {
+        outfits = newOutfits
+        previews = newPreviews
+        notifyDataSetChanged()
+    }
 
     class DayOutfitViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val card: ConstraintLayout = view.findViewById(R.id.cardDayOutfit)

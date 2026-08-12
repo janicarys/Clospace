@@ -138,6 +138,21 @@ class BackendRepository(private val context: Context) {
         }
     }
 
+    /** Replaces an item's photo with an edited local image (uploaded to storage). */
+    suspend fun updateClothingImage(id: Int, localImagePath: String) {
+        val userId = requireUserId()
+        val extension = if (localImagePath.lowercase().endsWith(".png")) "png" else "jpg"
+        val storagePath = "$userId/${UUID.randomUUID()}.$extension"
+        client.storage.from("clothing-images").upload(storagePath, File(localImagePath).readBytes())
+        val publicUrl = client.storage.from("clothing-images").publicUrl(storagePath)
+        client.from("clothing").update(ClothingImageUpdate(imageUrl = publicUrl)) {
+            filter {
+                eq("id", id)
+                eq("user_id", userId)
+            }
+        }
+    }
+
     // ---- Reusable tags ----
 
     suspend fun getTags(): List<Tag> {
@@ -570,6 +585,11 @@ data class ClothingUpdate(
     val material: String,
     val tags: String,
     @SerialName("times_worn") val timesWorn: Int
+)
+
+@Serializable
+data class ClothingImageUpdate(
+    @SerialName("image_url") val imageUrl: String
 )
 
 @Serializable

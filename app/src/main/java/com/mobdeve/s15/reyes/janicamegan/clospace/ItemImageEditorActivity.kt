@@ -2,12 +2,12 @@ package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,9 +28,7 @@ class ItemImageEditorActivity : AppCompatActivity() {
 
         private const val OUTPUT_SIZE = 800
         private const val BASE_FILL = 0.8f
-        private const val ZOOM_MIN = 0.3f
-        private const val ZOOM_MAX = 2.0f
-        private const val ZOOM_STEP = 0.1f
+        private const val ANGLE_RANGE = 45
     }
 
     private lateinit var backend: BackendRepository
@@ -41,14 +39,21 @@ class ItemImageEditorActivity : AppCompatActivity() {
 
     private var quarterTurns = 0
 
-    private var zoom = 1f
+    private var angle = 0f
 
-    private data class EditState(val quarterTurns: Int, val zoom: Float)
+    private var flipped = false
 
-    private val history = ArrayDeque<EditState>()
+    private data class EditState(val quarterTurns: Int, val angle: Float, val flipped: Boolean)
+
+    private val undoStack = ArrayDeque<EditState>()
+
+    private val redoStack = ArrayDeque<EditState>()
+
+    private var dragStartAngle = 0f
 
     private fun commit() {
-        history.addLast(EditState(quarterTurns, zoom))
+        undoStack.addLast(EditState(quarterTurns, angle, flipped))
+        redoStack.clear()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,24 +63,58 @@ class ItemImageEditorActivity : AppCompatActivity() {
         backend = BackendRepository(this)
         clothingId = intent.getIntExtra(EXTRA_CLOTHING_ID, 0)
 
-        findViewById<TextView>(R.id.tvToolbarTitle).text = getString(R.string.image_editor_title)
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<View>(R.id.btnCancel).setOnClickListener { finish() }
+        findViewById<View>(R.id.btnDone).setOnClickListener { save() }
+
+        val tvAngle = findViewById<TextView>(R.id.tvAngle)
+        val seekRotate = findViewById<SeekBar>(R.id.seekRotate)
+        seekRotate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (!fromUser) return
+                val newAngle = (progress - ANGLE_RANGE).toFloat()
+                if (newAngle != angle) {
+                    angle = newAngle
+                    tvAngle.text = angle.toInt().toString()
+                    refresh()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                dragStartAngle = angle
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if (angle != dragStartAngle) {
+                    undoStack.addLast(EditState(quarterTurns, dragStartAngle, flipped))
+                    redoStack.clear()
+                }
+            }
+        })
 
         findViewById<View>(R.id.btnUndo).setOnClickListener {
-            if (history.isNotEmpty()) {
-                val state = history.removeLast()
+            if (undoStack.isNotEmpty()) {
+                redoStack.addLast(EditState(quarterTurns, angle, flipped))
+                val state = undoStack.removeLast()
                 quarterTurns = state.quarterTurns
-                zoom = state.zoom
+                angle = state.angle
+                flipped = state.flipped
+                syncRotation()
+                refresh()
+            }
+        }
+        findViewById<View>(R.id.btnRedo).setOnClickListener {
+            if (redoStack.isNotEmpty()) {
+                undoStack.addLast(EditState(quarterTurns, angle, flipped))
+                val state = redoStack.removeLast()
+                quarterTurns = state.quarterTurns
+                angle = state.angle
+                flipped = state.flipped
+                syncRotation()
                 refresh()
             }
         }
         findViewById<View>(R.id.btnRotateLeft).setOnClickListener { commit(); quarterTurns--; refresh() }
-        findViewById<View>(R.id.btnRotateRight).setOnClickListener { commit(); quarterTurns++; refresh() }
-        findViewById<View>(R.id.btnZoomOut).setOnClickListener { commit(); zoom = (zoom - ZOOM_STEP).coerceAtLeast(ZOOM_MIN); refresh() }
-        findViewById<View>(R.id.btnZoomIn).setOnClickListener { commit(); zoom = (zoom + ZOOM_STEP).coerceAtMost(ZOOM_MAX); refresh() }
-        findViewById<View>(R.id.btnReset).setOnClickListener { history.clear(); quarterTurns = 0; zoom = 1f; refresh() }
-
-        findViewById<View>(R.id.btnSave).setOnClickListener { save() }
+        findViewById<View>(R.id.btnFlip).setOnClickListener { commit(); flipped = !flipped; refresh() }
 
         lifecycleScope.launch {
             val item = runCatching { backend.getClothingById(clothingId) }.getOrNull()
@@ -92,51 +131,66 @@ class ItemImageEditorActivity : AppCompatActivity() {
         }
     }
 
-    /** Rebuilds the preview from the original with the current rotation and zoom. */
+    /** Rebuilds the preview from the original with the current rotation and flip. */
     private fun refresh() {
         val source = original ?: return
         val imageView = findViewById<ImageView>(R.id.imgPreview)
         val size = imageView.width.takeIf { it > 0 }?.coerceIn(300, OUTPUT_SIZE) ?: OUTPUT_SIZE
-        imageView.setImageBitmap(buildEdited(source, quarterTurns, zoom, size))
+        imageView.setImageBitmap(buildEdited(source, quarterTurns, angle, flipped, size))
     }
 
-    /** Renders the source rotated 90° in quarter-turns and zoomed, centered in a square canvas. */
-    private fun buildEdited(source: Bitmap, turns: Int, zoom: Float, size: Int): Bitmap {
-        val src = rotateQuarterTurns(source, turns)
-        val maxSide = max(src.width, src.height)
+    /** Keeps the slider and angle label in sync with the current rotation. */
+    private fun syncRotation() {
+        findViewById<SeekBar>(R.id.seekRotate).progress = angle.toInt() + ANGLE_RANGE
+        findViewById<TextView>(R.id.tvAngle).text = angle.toInt().toString()
+    }
+
+    /** Renders the source flipped and rotated (90° quarter-turns + fine angle), centered with a small uniform margin. */
+    private fun buildEdited(source: Bitmap, turns: Int, angle: Float, flipped: Boolean, size: Int): Bitmap {
+        val maxSide = max(source.width, source.height)
         val fit = (BASE_FILL * size) / maxSide
         val maxScale = size.toFloat() / maxSide
-        val scale = min(fit * zoom, maxScale).coerceAtLeast(size * 0.1f / maxSide)
+        val scale = min(fit, maxScale).coerceAtLeast(size * 0.1f / maxSide)
 
-        val width = (src.width * scale).toInt().coerceAtLeast(2)
-        val height = (src.height * scale).toInt().coerceAtLeast(2)
+        val aspect = source.width.toFloat() / source.height
+        val outW: Int
+        val outH: Int
+        if (aspect >= 1f) {
+            outW = size
+            outH = (size / aspect).toInt().coerceAtLeast(1)
+        } else {
+            outH = size
+            outW = (size * aspect).toInt().coerceAtLeast(1)
+        }
 
-        val out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val out = Bitmap.createBitmap(outW, outH, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(out)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { isFilterBitmap = true }
 
-        val left = (size - width) / 2f
-        val top = (size - height) / 2f
+        val centerX = outW / 2f
+        val centerY = outH / 2f
+        canvas.rotate(90f * turns + angle, centerX, centerY)
+        if (flipped) {
+            canvas.scale(-1f, 1f, centerX, centerY)
+        }
 
-        canvas.drawBitmap(src, null, RectF(left, top, left + width, top + height), paint)
+        val width = source.width * scale
+        val height = source.height * scale
+        val left = (outW - width) / 2f
+        val top = (outH - height) / 2f
+
+        canvas.drawBitmap(source, null, RectF(left, top, left + width, top + height), paint)
         return out
-    }
-
-    private fun rotateQuarterTurns(source: Bitmap, turns: Int): Bitmap {
-        val normal = ((turns % 4) + 4) % 4
-        if (normal == 0) return source
-        val matrix = Matrix().apply { postRotate(90f * normal) }
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
     private fun save() {
         val source = original ?: return
-        val saveButton = findViewById<View>(R.id.btnSave)
+        val saveButton = findViewById<View>(R.id.btnDone)
         saveButton.isEnabled = false
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val finalBitmap = buildEdited(source, quarterTurns, zoom, OUTPUT_SIZE)
+                    val finalBitmap = buildEdited(source, quarterTurns, angle, flipped, OUTPUT_SIZE)
                     val dir = File(cacheDir, "edited").apply { mkdirs() }
                     val file = File(dir, "edited_${System.currentTimeMillis()}.png")
                     FileOutputStream(file).use { out ->

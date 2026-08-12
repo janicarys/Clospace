@@ -129,7 +129,7 @@ class OutfitDetailActivity : AppCompatActivity() {
             val outfit = wrapper.outfit
             bindFields(outfit)
             bindClothes(wrapper.placements.map { it.item })
-            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 360, 420) }
+            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 360, 480) }
             if (preview != null) findViewById<ImageView>(R.id.imgOutfitPreview).setImageBitmap(preview)
         }
     }

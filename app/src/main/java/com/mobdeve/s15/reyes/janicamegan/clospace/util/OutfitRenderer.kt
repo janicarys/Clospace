@@ -81,13 +81,26 @@ object OutfitRenderer {
             val drawWidth = baseWidth * placement.scale * fit
             val drawHeight = baseHeight * placement.scale * fit
 
-            val left = placement.x * fit + offsetX - drawWidth / 2f
-            val top = placement.y * fit + offsetY - drawHeight / 2f
+            val centerX = placement.x * fit + offsetX
+            val centerY = placement.y * fit + offsetY
+
+            // Fit the garment photo inside its placement box and keep its own
+            // aspect ratio (same as the canvas's FIT_CENTER) instead of
+            // stretching it, so previews match what was actually composed.
+            val srcAspect = garmentBitmap.width.toFloat() / garmentBitmap.height.toFloat()
+
+            val shownWidth = minOf(drawWidth, drawHeight * srcAspect)
+            val shownHeight = minOf(drawHeight, drawWidth / srcAspect)
 
             canvas.drawBitmap(
                 garmentBitmap,
                 null,
-                RectF(left, top, left + drawWidth, top + drawHeight),
+                RectF(
+                    centerX - shownWidth / 2f,
+                    centerY - shownHeight / 2f,
+                    centerX + shownWidth / 2f,
+                    centerY + shownHeight / 2f
+                ),
                 paint
             )
         }
