@@ -58,6 +58,13 @@ class GarmentDetailActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.tvCaption).setOnClickListener { promptCaption() }
 
+        findViewById<View>(R.id.btnEditImage).setOnClickListener {
+            startActivity(
+                Intent(this, ItemImageEditorActivity::class.java)
+                    .putExtra(ItemImageEditorActivity.EXTRA_CLOTHING_ID, clothingId)
+            )
+        }
+
         findViewById<View>(R.id.rowCategory).setOnClickListener { promptCategory() }
 
         findViewById<View>(R.id.rowTags).setOnClickListener { promptTags() }
