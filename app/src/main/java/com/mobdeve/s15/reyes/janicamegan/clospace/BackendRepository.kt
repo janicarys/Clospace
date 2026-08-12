@@ -411,6 +411,17 @@ class BackendRepository(private val context: Context) {
         }
     }
 
+    suspend fun removeFromCalendar(outfitId: Long, date: String) {
+        val userId = requireUserId()
+        client.from("calendar_entries").delete {
+            filter {
+                eq("outfit_id", outfitId)
+                eq("wear_date", date)
+                eq("user_id", userId)
+            }
+        }
+    }
+
     private suspend fun replaceOutfitItems(outfitId: Int, placements: List<OutfitItem>) {
         client.from("outfit_items").delete { filter { eq("outfit_id", outfitId) } }
         if (placements.isEmpty()) return

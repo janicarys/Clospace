@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.InsetUtils
+
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Keep the custom bottom nav above the system navigation bar (gesture / 3-button).
+        InsetUtils.applyBottomBar(findViewById(R.id.layoutBottomNav), dp(72))
 
         viewPager = findViewById(R.id.viewPager)
         viewPager.adapter = MainPagerAdapter()
@@ -51,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         selectTabFromIntent(intent)
     }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     private fun selectTabFromIntent(intent: Intent) {
 

@@ -182,24 +182,29 @@ object ClospaceBottomSheets {
         context: Context,
         outfits: List<OutfitWithItems>,
         previews: Map<Int, Bitmap>,
+        onCardClick: (OutfitWithItems) -> Unit = {},
         onDelete: (OutfitWithItems) -> Unit,
         onAddAnother: () -> Unit
     ) {
         val content = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_day_outfits, null)
 
+        val sheet = BottomSheetDialog(context)
+        sheet.window?.setDimAmount(0.4f)
+
         val grid = content.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvDayOutfits)
         grid.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
-        grid.adapter = DayOutfitAdapter(outfits, previews) { outfit ->
-            onDelete(outfit)
-        }
+        grid.adapter = DayOutfitAdapter(
+            outfits,
+            previews,
+            onClick = { wrapper -> sheet.dismiss(); onCardClick(wrapper) },
+            onDelete = { wrapper -> onDelete(wrapper) }
+        )
 
         val addButton = content.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAddAnotherOutfit)
         addButton.setText(if (outfits.isEmpty()) R.string.create_outfit else R.string.add_another_outfit)
         addButton.setOnClickListener { onAddAnother() }
 
-        val sheet = BottomSheetDialog(context)
         sheet.setContentView(content)
-        sheet.window?.setDimAmount(0.4f)
         sheet.show()
     }
 

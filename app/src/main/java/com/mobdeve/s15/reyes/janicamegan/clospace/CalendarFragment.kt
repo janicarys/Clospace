@@ -51,17 +51,21 @@ class CalendarFragment : Fragment() {
     private fun loadCalendar() {
         monthText.text = currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
         viewLifecycleOwner.lifecycleScope.launch {
-            runCatching { backend.getCalendarOutfits(currentMonth.toString()) }.onSuccess { result ->
-                byDateOutfits = result
-                val previews = withContext(Dispatchers.Default) {
-                    byDateOutfits.mapValues { (_, outfits) ->
-                        OutfitRenderer.render(outfits.first().placements, 180, 220)
-                    }.filterValues { it != null }.mapValues { it.value!! }
-                }
-                recycler.adapter = CalendarAdapter(generateCalendar(byDateOutfits), previews) { day ->
-                    showDayOutfits(day.date)
-                }
+            runCatching { backend.getCalendarOutfits(currentMonth.toString()) }.onSuccess {
+                bindCalendar(it)
             }
+        }
+    }
+
+    private suspend fun bindCalendar(result: Map<LocalDate, List<OutfitWithItems>>) {
+        byDateOutfits = result
+        val previews = withContext(Dispatchers.Default) {
+            byDateOutfits.mapValues { (_, outfits) ->
+                OutfitRenderer.render(outfits.first().placements, 180, 220)
+            }.filterValues { it != null }.mapValues { it.value!! }
+        }
+        recycler.adapter = CalendarAdapter(generateCalendar(byDateOutfits), previews) { day ->
+            showDayOutfits(day.date)
         }
     }
 
@@ -78,7 +82,13 @@ class CalendarFragment : Fragment() {
                 requireContext(),
                 outfits,
                 previews,
-                onDelete = { wrapper -> confirmDeleteOutfit(date, wrapper.outfit.id) },
+                onCardClick = { wrapper ->
+                    startActivity(
+                        Intent(requireContext(), OutfitDetailActivity::class.java)
+                            .putExtra(OutfitDetailActivity.EXTRA_OUTFIT_ID, wrapper.outfit.id)
+                    )
+                },
+                onDelete = { wrapper -> confirmRemoveFromDate(date, wrapper.outfit.id) },
                 onAddAnother = { addAnotherOutfit(date) }
             )
         }
@@ -91,21 +101,25 @@ class CalendarFragment : Fragment() {
         )
     }
 
-    private fun confirmDeleteOutfit(date: LocalDate, outfitId: Int) {
+    private fun confirmRemoveFromDate(date: LocalDate, outfitId: Int) {
         ClospaceBottomSheets.showConfirm(
             requireContext(),
-            R.string.delete_outfit_title,
-            R.string.delete_outfit_message,
-            R.string.delete
+            R.string.remove_from_date_title,
+            R.string.remove_from_date_message,
+            R.string.remove
         ) {
             viewLifecycleOwner.lifecycleScope.launch {
-                runCatching { backend.deleteOutfit(outfitId) }
+                runCatching { backend.removeFromCalendar(outfitId.toLong(), date.toString()) }
                     .onSuccess {
                         OutfitPreviewCache.evict(outfitId)
-                        Toast.makeText(requireContext(), R.string.outfit_deleted, Toast.LENGTH_SHORT).show()
-                        loadCalendar()
+                        Toast.makeText(requireContext(), R.string.removed_from_date, Toast.LENGTH_SHORT).show()
+                        runCatching { backend.getCalendarOutfits(currentMonth.toString()) }
+                            .onSuccess { result ->
+                                bindCalendar(result)
+                                showDayOutfits(date)
+                            }
                     }
-                    .onFailure { Toast.makeText(requireContext(), it.message ?: "Unable to delete outfit", Toast.LENGTH_LONG).show() }
+                    .onFailure { Toast.makeText(requireContext(), it.message ?: "Unable to remove outfit", Toast.LENGTH_LONG).show() }
             }
         }
     }
