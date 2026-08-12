@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.TransitionUtil
+
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,8 +14,14 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         // Settings cards
+        val account = findViewById<LinearLayout>(R.id.layoutAccount)
         val about = findViewById<LinearLayout>(R.id.layoutAbout)
         val support = findViewById<LinearLayout>(R.id.layoutSupport)
+        val manageTags = findViewById<LinearLayout>(R.id.layoutManageTags)
+
+        account.setOnClickListener {
+            startActivity(Intent(this, AccountActivity::class.java))
+        }
 
         about.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
@@ -23,25 +31,46 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, SupportActivity::class.java))
         }
 
+        manageTags.setOnClickListener {
+            startActivity(Intent(this, ManageTagsActivity::class.java))
+        }
+
         // Bottom Navigation
         val navCloset = findViewById<LinearLayout>(R.id.navCloset)
         val navOutfit = findViewById<LinearLayout>(R.id.navOutfit)
         val navCalendar = findViewById<LinearLayout>(R.id.navCalendar)
 
         navCloset.setOnClickListener {
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_SETTINGS,
+                TransitionUtil.TAB_CLOSET
+            )
             startActivity(Intent(this, MainActivity::class.java))
-            overridePendingTransition(0, 0)
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         navOutfit.setOnClickListener {
-            //startActivity(Intent(this, OutfitActivity::class.java))
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_SETTINGS,
+                TransitionUtil.TAB_OUTFIT
+            )
+            startActivity(Intent(this, OutfitActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
         navCalendar.setOnClickListener {
-            //startActivity(Intent(this, CalendarActivity::class.java))
+            val (enter, exit) = TransitionUtil.slide(
+                TransitionUtil.TAB_SETTINGS,
+                TransitionUtil.TAB_CALENDAR
+            )
+            startActivity(Intent(this, CalendarActivity::class.java))
+            overridePendingTransition(enter, exit)
             finish()
+            overridePendingTransition(enter, exit)
         }
 
     }

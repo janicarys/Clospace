@@ -9,7 +9,7 @@
     <style name="ClospaceTitle">
         <item name="android:fontFamily">@font/rokkitt_bold</item>
         <item name="android:textSize">42sp</item>
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/purple</item>
     </style>
 
     <!-- Decorative app name -->
@@ -30,7 +30,7 @@
     <style name="ClospaceLabel">
         <item name="android:fontFamily">@font/rokkitt_regular</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/purple</item>
     </style>
 
     <!-- Normal paragraph text -->
@@ -52,7 +52,7 @@
     <style name="ClospaceLink">
         <item name="android:fontFamily">@font/rokkitt_bold</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/purple</item>
     </style>
 
     <!-- EditText -->
@@ -62,7 +62,7 @@
 
         <item name="android:textSize">18sp</item>
 
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/purple</item>
         <item name="android:textColorHint">@color/brown</item>
 
         <item name="android:background">@drawable/edittext_background</item>
@@ -79,6 +79,22 @@
         <item name="android:layout_height">56dp</item>
 
         <item name="android:background">@drawable/button_background</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <!-- Secondary / lavender button -->
+    <style name="ClospaceSecondaryButton">
+
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">56dp</item>
+
+        <item name="backgroundTint">@color/lavender</item>
 
         <item name="android:textAllCaps">true</item>
 
@@ -116,7 +132,7 @@
 
     <style name="ClospaceSettingLabel">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/violet</item>
+        <item name="android:textColor">@color/purple</item>
         <item name="android:fontFamily">@font/rokkitt_regular</item>
     </style>
 

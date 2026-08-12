@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".ClospaceApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Clospace"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="subject_segment" />
 
         <!-- Splash -->
         <activity
@@ -39,21 +46,64 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Outfits -->
         <activity
-            android:name=".SettingsActivity"
+            android:name=".SelectGarmentsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".OutfitCanvasActivity"
+            android:exported="false"
+            android:parentActivityName=".SelectGarmentsActivity" />
+
+        <activity
+            android:name=".OutfitDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".OutfitCanvasActivity" />
+
+        <activity
+            android:name=".OutfitDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".GarmentDetailActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 
         <!-- Secondary Pages -->
         <activity
+            android:name=".AccountActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".AboutActivity"
             android:exported="false"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".SupportActivity"
             android:exported="false"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ManageTagsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
 
     </application>
 

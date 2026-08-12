@@ -23,7 +23,7 @@
         android:src="@drawable/ic_arrow_back"
         android:contentDescription="@string/back"
 
-        app:tint="@color/violet"
+        app:tint="@color/purple"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
 
         android:text=""
+        android:textSize="28sp"
         tools:text="Title"
 
         android:layout_marginStart="12dp"
@@ -43,5 +44,22 @@
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+
+    <ImageButton
+        android:id="@+id/btnAddTag"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_marginEnd="16dp"
+
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_small"
+        android:contentDescription="@string/add_tag"
+        android:visibility="gone"
+
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
