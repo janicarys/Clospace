@@ -112,6 +112,51 @@ object ClospaceBottomSheets {
         sheet.show()
     }
 
+    /** Multi-select list of options; rows toggle and Done returns the selected indices. */
+    fun showMultiChoice(
+        context: Context,
+        @StringRes titleRes: Int,
+        items: Array<String>,
+        selectedIndices: Set<Int> = emptySet(),
+        onSelect: (Set<Int>) -> Unit
+    ) {
+        val content = base(context)
+        content.title().setText(titleRes)
+
+        val selected = selectedIndices.toMutableSet()
+        val list = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
+        val checks = mutableListOf<Pair<View, AppCompatImageView>>()
+        items.forEachIndexed { index, label ->
+            val row = choiceRow(context, label, selected = index in selected)
+            val check = (row as ViewGroup).getChildAt(1) as AppCompatImageView
+            row.setOnClickListener {
+                if (index in selected) {
+                    selected.remove(index)
+                    check.visibility = View.INVISIBLE
+                } else {
+                    selected.add(index)
+                    check.visibility = View.VISIBLE
+                }
+            }
+            checks.add(row to check)
+            list.addView(
+                row,
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    .apply { bottomMargin = dp(context, 10) }
+            )
+        }
+        val scroll = ScrollView(context).apply {
+            addView(list)
+            overScrollMode = View.OVER_SCROLL_NEVER
+        }
+        content.container().addView(scroll, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
+        val sheet = BottomSheetDialog(context)
+        sheet.setContentView(content)
+        showWithActions(content, sheet, R.string.done) { onSelect(selected) }
+        sheet.show()
+    }
+
     /** Confirmation sheet with a message and Cancel/positive actions. */
     fun showConfirm(
         context: Context,

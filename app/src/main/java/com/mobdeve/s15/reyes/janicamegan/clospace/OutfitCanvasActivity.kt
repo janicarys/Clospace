@@ -32,6 +32,7 @@ class OutfitCanvasActivity : AppCompatActivity() {
         const val EXTRA_LAYER = "layers"
         const val EXTRA_OUTFIT_ID = "outfitId"
         const val EXTRA_DATE = "selectedDate"
+        const val EXTRA_CANVAS_RATIO = "canvasRatio"
     }
 
     private lateinit var backend: BackendRepository
@@ -122,6 +123,10 @@ class OutfitCanvasActivity : AppCompatActivity() {
                     .putExtra(
                         OutfitDetailsActivity.EXTRA_LAYER,
                         placements.map { it.layer }.toIntArray()
+                    )
+                    .putExtra(
+                        OutfitDetailsActivity.EXTRA_CANVAS_RATIO,
+                        canvasRatio()
                     )
                     .putExtra(
                         OutfitDetailsActivity.EXTRA_DATE,
@@ -292,6 +297,7 @@ class OutfitCanvasActivity : AppCompatActivity() {
     }
 
     private fun saveEditedOutfit() {
+        val ratio = canvasRatio()
         val placements = computePlacements().map {
             OutfitItem(
                 outfitId = editOutfitId,
@@ -299,7 +305,8 @@ class OutfitCanvasActivity : AppCompatActivity() {
                 x = it.x,
                 y = it.y,
                 scale = it.scale,
-                layer = it.layer
+                layer = it.layer,
+                canvasRatio = ratio
             )
         }
 
@@ -345,6 +352,12 @@ class OutfitCanvasActivity : AppCompatActivity() {
                 layer = garments.indexOf(view)
             )
         }
+    }
+
+    private fun canvasRatio(): Float {
+        val width = canvas.width.coerceAtLeast(1)
+        val height = canvas.height.coerceAtLeast(1)
+        return height.toFloat() / width.toFloat()
     }
 
     private data class GarmentPlacement(

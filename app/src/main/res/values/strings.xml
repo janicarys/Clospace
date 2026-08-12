@@ -163,7 +163,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="tag_rename_failed">Unable to rename tag</string>
     <string name="tag_delete_failed">Unable to delete tag</string>
     <string name="add_occasion">Add occasion</string>
-    <string name="not_scheduled">This outfit can be scheduled</string>
+    <string name="not_scheduled">No date for this outfit yet</string>
     <string name="no_category">—</string>
     <string name="remove_garment">Remove garment</string>
     <string name="tap_to_select">Tap to select</string>

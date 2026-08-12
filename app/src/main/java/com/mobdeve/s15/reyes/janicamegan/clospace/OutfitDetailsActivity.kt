@@ -32,6 +32,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
         const val EXTRA_LAYER = "layers"
         const val EXTRA_OUTFIT_ID = "outfitId"
         const val EXTRA_DATE = "selectedDate"
+        const val EXTRA_CANVAS_RATIO = "canvasRatio"
     }
 
     private lateinit var backend: BackendRepository
@@ -42,7 +43,8 @@ class OutfitDetailsActivity : AppCompatActivity() {
     private var scales = floatArrayOf()
     private var layers = intArrayOf()
     private var selectedDate: String? = null
-    private var selectedOccasion: String? = null
+    private var selectedOccasions: List<String> = emptyList()
+    private var canvasRatio = 1f
     private var currentCaption = ""
     private var currentTags: List<String> = emptyList()
 
@@ -60,6 +62,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
         layers = intent.getIntArrayExtra(EXTRA_LAYER) ?: IntArray(clothingIds.size) { it }
         editOutfitId = intent.getIntExtra(EXTRA_OUTFIT_ID, 0)
         selectedDate = intent.getStringExtra(EXTRA_DATE)
+        canvasRatio = intent.getFloatExtra(EXTRA_CANVAS_RATIO, 1f)
 
         findViewById<View>(R.id.tvCaption).setOnClickListener { promptCaption() }
         findViewById<View>(R.id.rowTags).setOnClickListener { promptTags() }
@@ -76,13 +79,14 @@ class OutfitDetailsActivity : AppCompatActivity() {
                 val outfit = backend.getOutfitById(editOutfitId)?.outfit
                 if (outfit != null) {
                     bindCaption(outfit.caption)
-                    bindTags(outfit.tags)
-                    selectedOccasion = outfit.occasion?.takeIf { it.isNotBlank() }
+bindTags(outfit.tags)
+                selectedOccasions = splitOccasions(outfit.occasion)
                     outfit.plannedDate?.takeIf { it.isNotBlank() }?.let { selectedDate = it }
                 }
             }
             bindCaption(currentCaption)
-            bindOccasion(selectedOccasion)
+            bindTags(currentTags.joinToString(", "))
+            bindOccasion(selectedOccasions)
             bindSchedule(selectedDate?.takeIf { it.isNotBlank() })
             loadPreview()
             bindClothes()
@@ -104,7 +108,8 @@ class OutfitDetailsActivity : AppCompatActivity() {
                     x = xPositions.getOrElse(index) { .5f },
                     y = yPositions.getOrElse(index) { .5f },
                     scale = scales.getOrElse(index) { 1f },
-                    layer = layers.getOrElse(index) { index }
+                    layer = layers.getOrElse(index) { index },
+                    canvasRatio = canvasRatio
                 )
             }
         }
@@ -161,19 +166,29 @@ class OutfitDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindOccasion(occasion: String?) {
-        selectedOccasion = occasion?.takeIf { it.isNotBlank() }
-        findViewById<TextView>(R.id.tvOccasion).text = selectedOccasion ?: getString(R.string.add_occasion)
+    private fun splitOccasions(raw: String?): List<String> =
+        raw?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+
+    private fun joinOccasions(occasions: List<String>): String =
+        occasions.joinToString(", ")
+
+    private fun bindOccasion(occasions: List<String>) {
+        selectedOccasions = occasions
+        findViewById<TextView>(R.id.tvOccasion).text =
+            if (occasions.isEmpty()) getString(R.string.add_occasion) else occasions.joinToString(" · ")
     }
 
     private fun promptOccasion() {
         val occasions = resources.getStringArray(R.array.occasions)
-        ClospaceBottomSheets.showChoice(
+        val selected = selectedOccasions.mapNotNull { occasion ->
+            occasions.indexOfFirst { it.equals(occasion, ignoreCase = true) }.takeIf { it >= 0 }
+        }.toSet()
+        ClospaceBottomSheets.showMultiChoice(
             this,
             R.string.occasion,
             occasions,
-            selectedIndex = occasions.indexOf(selectedOccasion.orEmpty())
-        ) { which -> bindOccasion(occasions[which]) }
+            selected
+        ) { indices -> bindOccasion(indices.sorted().map { occasions[it] }) }
     }
 
     private fun promptSchedule() {
@@ -210,7 +225,8 @@ class OutfitDetailsActivity : AppCompatActivity() {
                 x = xPositions.getOrElse(index) { .5f },
                 y = yPositions.getOrElse(index) { .5f },
                 scale = scales.getOrElse(index) { 1f },
-                layer = layers.getOrElse(index) { index }
+                layer = layers.getOrElse(index) { index },
+                canvasRatio = canvasRatio
             )
         }
 
@@ -222,7 +238,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
                     backend.updateOutfit(
                         id = editOutfitId,
                         caption = currentCaption.ifBlank { null },
-                        occasion = selectedOccasion ?: existing.occasion,
+                        occasion = joinOccasions(selectedOccasions),
                         selectedDate = selectedDate ?: existing.plannedDate,
                         tags = currentTags.joinToString(", "),
                         placements = placements
@@ -231,7 +247,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
                 } else {
                     backend.createOutfit(
                         currentCaption.ifBlank { null },
-                        selectedOccasion,
+                        joinOccasions(selectedOccasions).ifEmpty { null },
                         selectedDate,
                         currentTags.joinToString(", "),
                         placements

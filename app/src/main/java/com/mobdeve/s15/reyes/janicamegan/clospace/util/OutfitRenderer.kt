@@ -10,6 +10,9 @@ import com.mobdeve.s15.reyes.janicamegan.clospace.OutfitPlacement
 
 object OutfitRenderer {
 
+    /** Fraction of the smallest card side left as breathing room around the outfit. */
+    private const val PADDING_FRACTION = 0.07f
+
     fun render(
         placements: List<OutfitPlacement>,
         widthPx: Int,
@@ -24,14 +27,21 @@ object OutfitRenderer {
         val baseWidth = 0.42f
         val baseHeight = baseWidth * 1.2f
 
-        // Decode each garment and record its rectangle in layout space so we
-        // can extend the bounds over only the garments that are actually shown.
+        // Placements store x/y as fractions of the canvas WIDTH/HEIGHT. The
+        // canvas is a tall portrait frame, so the y-axis must be stretched by
+        // the canvas aspect (height / width) to reproduce the real layout
+        // instead of collapsing it into a square.
+        val portraitScale = orderedRatio(placements)
+
+        // Decode each garment and record the rect of the *visible* photo (after
+        // FIT_CENTER letterboxing) in layout space, so the crop hugs the actual
+        // drawn content instead of the nominal placement box.
         var minX = 1f
         var minY = 1f
         var maxX = 0f
         var maxY = 0f
 
-        val drawn = mutableListOf<Pair<OutfitPlacement, Bitmap>>()
+        val drawn = mutableListOf<Triple<OutfitPlacement, Bitmap, RectF>>()
 
         val ordered = placements.sortedBy { it.layer }
 
@@ -42,12 +52,26 @@ object OutfitRenderer {
             val drawWidth = baseWidth * placement.scale
             val drawHeight = baseHeight * placement.scale
 
-            minX = minOf(minX, placement.x - drawWidth / 2f)
-            maxX = maxOf(maxX, placement.x + drawWidth / 2f)
-            minY = minOf(minY, placement.y - drawHeight / 2f)
-            maxY = maxOf(maxY, placement.y + drawHeight / 2f)
+            val centerX = placement.x
+            val centerY = placement.y * portraitScale
 
-            drawn.add(placement to bitmap)
+            val srcAspect = bitmap.width.toFloat() / bitmap.height.toFloat()
+            val shownWidth = minOf(drawWidth, drawHeight * srcAspect)
+            val shownHeight = minOf(drawHeight, drawWidth / srcAspect)
+
+            val shown = RectF(
+                centerX - shownWidth / 2f,
+                centerY - shownHeight / 2f,
+                centerX + shownWidth / 2f,
+                centerY + shownHeight / 2f
+            )
+
+            minX = minOf(minX, shown.left)
+            maxX = maxOf(maxX, shown.right)
+            minY = minOf(minY, shown.top)
+            maxY = maxOf(maxY, shown.bottom)
+
+            drawn.add(Triple(placement, bitmap, shown))
         }
 
         if (drawn.isEmpty()) {
@@ -57,11 +81,13 @@ object OutfitRenderer {
         val boundsWidth = (maxX - minX).coerceAtLeast(0.0001f)
         val boundsHeight = (maxY - minY).coerceAtLeast(0.0001f)
 
-        // Compute the scale that fits the whole outfit into the card.
-        val fit = minOf(
-            widthPx / boundsWidth,
-            heightPx / boundsHeight
-        )
+        val paddingPx = PADDING_FRACTION * minOf(widthPx, heightPx)
+        val availWidth = (widthPx - 2 * paddingPx).coerceAtLeast(1f)
+        val availHeight = (heightPx - 2 * paddingPx).coerceAtLeast(1f)
+
+        // Scale the outfit so it fills as much of the card as possible while
+        // staying entirely inside the padded frame, then center it.
+        val fit = minOf(availWidth / boundsWidth, availHeight / boundsHeight)
 
         val centeredWidth = boundsWidth * fit
         val centeredHeight = boundsHeight * fit
@@ -76,30 +102,24 @@ object OutfitRenderer {
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-        for ((placement, garmentBitmap) in drawn) {
-
-            val drawWidth = baseWidth * placement.scale * fit
-            val drawHeight = baseHeight * placement.scale * fit
+        for ((placement, garmentBitmap, shown) in drawn) {
 
             val centerX = placement.x * fit + offsetX
-            val centerY = placement.y * fit + offsetY
+            val centerY = placement.y * portraitScale * fit + offsetY
 
-            // Fit the garment photo inside its placement box and keep its own
-            // aspect ratio (same as the canvas's FIT_CENTER) instead of
-            // stretching it, so previews match what was actually composed.
-            val srcAspect = garmentBitmap.width.toFloat() / garmentBitmap.height.toFloat()
-
-            val shownWidth = minOf(drawWidth, drawHeight * srcAspect)
-            val shownHeight = minOf(drawHeight, drawWidth / srcAspect)
+            // The photo is centered on the same spot and keeps its own aspect
+            // ratio exactly as FIT_CENTER does, so nothing stretches.
+            val drawWidth = shown.width() * fit
+            val drawHeight = shown.height() * fit
 
             canvas.drawBitmap(
                 garmentBitmap,
                 null,
                 RectF(
-                    centerX - shownWidth / 2f,
-                    centerY - shownHeight / 2f,
-                    centerX + shownWidth / 2f,
-                    centerY + shownHeight / 2f
+                    centerX - drawWidth / 2f,
+                    centerY - drawHeight / 2f,
+                    centerX + drawWidth / 2f,
+                    centerY + drawHeight / 2f
                 ),
                 paint
             )
@@ -107,4 +127,7 @@ object OutfitRenderer {
 
         return bitmap
     }
+
+    private fun orderedRatio(placements: List<OutfitPlacement>): Float =
+        placements.asSequence().map { it.canvasRatio }.filter { it > 0f }.minOrNull() ?: 1f
 }

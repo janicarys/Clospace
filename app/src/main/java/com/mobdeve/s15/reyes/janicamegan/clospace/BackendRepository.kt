@@ -456,7 +456,8 @@ class BackendRepository(private val context: Context) {
                     x = it.x.toDouble(),
                     y = it.y.toDouble(),
                     scale = it.scale.toDouble(),
-                    layer = it.layer
+                    layer = it.layer,
+                    canvasRatio = it.canvasRatio.toDouble()
                 )
             }
         )
@@ -481,7 +482,8 @@ class BackendRepository(private val context: Context) {
                     x = item.x.toFloat(),
                     y = item.y.toFloat(),
                     scale = item.scale.toFloat(),
-                    layer = item.layer
+                    layer = item.layer,
+                    canvasRatio = item.canvasRatio.toFloat()
                 )
             }
         }.sortedBy { it.layer }
@@ -623,7 +625,8 @@ data class OutfitItemRow(
     val x: Double = 0.5,
     val y: Double = 0.5,
     val scale: Double = 1.0,
-    val layer: Int = 0
+    val layer: Int = 0,
+    @SerialName("canvas_ratio") val canvasRatio: Double = 1.0
 )
 
 @Serializable
@@ -633,7 +636,8 @@ data class OutfitItemInsert(
     val x: Double,
     val y: Double,
     val scale: Double,
-    val layer: Int
+    val layer: Int,
+    @SerialName("canvas_ratio") val canvasRatio: Double = 1.0
 )
 
 @Serializable
