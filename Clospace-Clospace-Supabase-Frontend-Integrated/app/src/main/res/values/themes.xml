@@ -1,0 +1,159 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Clospace" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <!-- Large page title -->
+    <style name="ClospaceTitle">
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">42sp</item>
+        <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <!-- Decorative app name -->
+    <style name="ClospaceSquiggle">
+        <item name="android:fontFamily">@font/redactedscript_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/lavender</item>
+    </style>
+
+    <!-- Short subtitle -->
+    <style name="ClospaceSubtitle">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+    <!-- Section headings -->
+    <style name="ClospaceLabel">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <!-- Normal paragraph text -->
+    <style name="ClospaceBody">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <!-- Secondary / helper text -->
+    <style name="ClospaceCaption">
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+    <!-- Links -->
+    <style name="ClospaceLink">
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="ClospaceEditText">
+
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+
+        <item name="android:textSize">18sp</item>
+
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textColorHint">@color/brown</item>
+
+        <item name="android:background">@drawable/edittext_background</item>
+
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+
+    </style>
+
+    <!-- Button -->
+    <style name="ClospacePrimaryButton">
+
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">56dp</item>
+
+        <item name="android:background">@drawable/button_background</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <!-- Secondary / lavender button -->
+    <style name="ClospaceSecondaryButton">
+
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">56dp</item>
+
+        <item name="backgroundTint">@color/lavender</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:fontFamily">@font/rokkitt_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <!-- Empty Garment Placeholder -->
+    <style name="ClospacePlaceholderCard">
+        <item name="android:layout_width">110dp</item>
+        <item name="android:layout_height">110dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/garment_placeholder</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Placeholder Icon -->
+    <style name="ClospacePlaceholderIcon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:tint">@android:color/white</item>
+    </style>
+
+    <!-- Placeholder Text -->
+    <style name="ClospacePlaceholderText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/rokkitt_medium</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+
+    <style name="ClospaceSettingLabel">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:fontFamily">@font/rokkitt_regular</item>
+    </style>
+
+    <style name="ClospaceSettingsCard">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+
+        <item name="android:background">@drawable/settings_card</item>
+
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+
+        <item name="android:gravity">center_vertical</item>
+
+        <item name="android:orientation">horizontal</item>
+
+        <item name="android:layout_marginBottom">16dp</item>
+
+    </style>
+
+    <style name="Theme.Clospace" parent="Base.Theme.Clospace" />
+
+</resources>
