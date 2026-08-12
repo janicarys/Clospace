@@ -36,6 +36,14 @@ class BackendRepository(private val context: Context) {
         return rows.map { it.toUi(tagMap[it.id]) }
     }
 
+    /** Pre-fetches the main data sets (and caches their images) so the first
+     *  screen after login loads instantly. */
+    suspend fun warmUp() {
+        getClothing()
+        getOutfits()
+        getTags()
+    }
+
     suspend fun getClothingById(id: Int): ClothingItem? {
         val userId = requireUserId()
         val row = client.from("clothing").select {

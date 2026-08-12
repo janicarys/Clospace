@@ -78,7 +78,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun openMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+        // Route through the splash so the database has time to load first.
+        startActivity(Intent(this, SplashActivity::class.java))
         finish()
     }
 }
