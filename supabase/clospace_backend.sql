@@ -14,7 +14,8 @@ alter table public.outfit_items
     add column if not exists x double precision not null default 0.5,
     add column if not exists y double precision not null default 0.5,
     add column if not exists scale double precision not null default 1.0,
-    add column if not exists layer integer not null default 0;
+    add column if not exists layer integer not null default 0,
+    add column if not exists canvas_ratio double precision not null default 1.0;
 
 -- 2) RLS policies for the user's own application data.
 -- The app always sends the Supabase Auth UUID as user_id.

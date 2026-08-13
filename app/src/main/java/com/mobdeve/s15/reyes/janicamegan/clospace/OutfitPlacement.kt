@@ -5,5 +5,8 @@ data class OutfitPlacement(
     val x: Float,
     val y: Float,
     val scale: Float,
-    val layer: Int
+    val layer: Int,
+    // Canvas aspect ratio (height / width) the outfit was composed in, so
+    // previews preserve the tall portrait layout instead of a square space.
+    val canvasRatio: Float = 1f
 )

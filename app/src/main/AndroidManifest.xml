@@ -72,6 +72,11 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 
+        <activity
+            android:name=".ItemImageEditorActivity"
+            android:exported="false"
+            android:parentActivityName=".GarmentDetailActivity" />
+
         <!-- Secondary Pages -->
         <activity
             android:name=".AccountActivity"

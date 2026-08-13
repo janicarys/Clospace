@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Toolbar -->
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_pill_background"
+        android:fontFamily="@font/rokkitt_bold"
+        android:minWidth="96dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/undoRedoRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnCancel"
+        app:layout_constraintBottom_toBottomOf="@id/btnCancel">
+
+        <ImageButton
+            android:id="@+id/btnUndo"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/back_circle_background"
+            android:padding="10dp"
+            android:src="@drawable/ic_undo"
+            android:contentDescription="@string/undo"
+            app:tint="@color/purple"/>
+
+        <ImageButton
+            android:id="@+id/btnRedo"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/back_circle_background"
+            android:padding="10dp"
+            android:src="@drawable/ic_redo"
+            android:contentDescription="@string/redo"
+            app:tint="@color/purple"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_pill_background"
+        android:backgroundTint="@color/purple"
+        android:fontFamily="@font/rokkitt_bold"
+        android:minWidth="96dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/done"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@id/btnCancel"
+        app:layout_constraintBottom_toBottomOf="@id/btnCancel"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Square preview -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardPreview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="@color/calendar_card"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toBottomOf="@id/btnCancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:padding="16dp"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Image controls -->
+
+    <LinearLayout
+        android:id="@+id/controlsBlock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/cardPreview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnRotateLeft"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/back_circle_background"
+                android:padding="12dp"
+                android:src="@drawable/ic_rotate_left"
+                android:contentDescription="@string/rotate_left"
+                app:tint="@color/purple"/>
+
+            <ImageView
+                android:id="@+id/ivRotate"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/back_circle_background"
+                android:padding="16dp"
+                android:src="@drawable/ic_rotate"
+                android:contentDescription="@string/rotate"
+                app:tint="@color/purple"/>
+
+            <ImageButton
+                android:id="@+id/btnFlip"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/back_circle_background"
+                android:padding="12dp"
+                android:src="@drawable/ic_flip"
+                android:contentDescription="@string/flip"
+                app:tint="@color/purple"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRotateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/rokkitt_medium"
+            android:text="@string/rotate"
+            android:textColor="@color/purple"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAngle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rokkitt_bold"
+                android:text="0"
+                android:textColor="@color/purple"
+                android:textSize="16sp"/>
+
+            <SeekBar
+                android:id="@+id/seekRotate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="90"
+                android:progress="45"
+                android:progressTint="@color/purple"
+                android:thumbTint="@color/purple"
+                android:contentDescription="@string/rotate"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

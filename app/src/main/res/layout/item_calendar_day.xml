@@ -6,9 +6,9 @@
 
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
 
-    app:cardCornerRadius="18dp"
+    app:cardCornerRadius="14dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="@color/calendar_card">
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="4dp">
 
         <!-- Day Number -->
 

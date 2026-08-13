@@ -30,6 +30,7 @@ class OutfitDetailActivity : AppCompatActivity() {
     private var outfitId = 0
     private var currentTags = emptyList<String>()
     private var currentCaption = ""
+    private var currentOccasions = emptyList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,16 @@ class OutfitDetailActivity : AppCompatActivity() {
 
     private fun promptOccasion() {
         val occasions = resources.getStringArray(R.array.occasions)
-        ClospaceBottomSheets.showChoice(this, R.string.occasion, occasions) { which -> saveOccasion(occasions[which]) }
+        val current = currentOccasions
+        val selected = current.mapNotNull { occasion ->
+            occasions.indexOfFirst { it.equals(occasion, ignoreCase = true) }.takeIf { it >= 0 }
+        }.toSet()
+        ClospaceBottomSheets.showMultiChoice(
+            this,
+            R.string.occasion,
+            occasions,
+            selected
+        ) { indices -> saveOccasion(indices.sorted().map { occasions[it] }) }
     }
 
     private fun promptSchedule() {
@@ -80,12 +90,13 @@ class OutfitDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveOccasion(occasion: String) {
+    private fun saveOccasion(occasions: List<String>) {
+        val joined = occasions.joinToString(", ")
         lifecycleScope.launch {
             runCatching {
                 val outfit = backend.getOutfitById(outfitId)?.outfit ?: return@runCatching
-                backend.updateOutfit(outfitId, outfit.caption, occasion, outfit.plannedDate, outfit.tags)
-            }.onSuccess { findViewById<TextView>(R.id.tvOccasion).text = occasion }
+                backend.updateOutfit(outfitId, outfit.caption, joined, outfit.plannedDate, outfit.tags)
+            }.onSuccess { bindOccasion(joined) }
         }
     }
 
@@ -129,7 +140,7 @@ class OutfitDetailActivity : AppCompatActivity() {
             val outfit = wrapper.outfit
             bindFields(outfit)
             bindClothes(wrapper.placements.map { it.item })
-            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 360, 420) }
+            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 720, 960) }
             if (preview != null) findViewById<ImageView>(R.id.imgOutfitPreview).setImageBitmap(preview)
         }
     }
@@ -144,8 +155,14 @@ class OutfitDetailActivity : AppCompatActivity() {
     private fun bindFields(outfit: Outfit) {
         bindCaption(outfit.caption)
         bindTags(outfit.tags)
-        findViewById<TextView>(R.id.tvOccasion).text = outfit.occasion?.takeIf { it.isNotBlank() } ?: getString(R.string.add_occasion)
+        bindOccasion(outfit.occasion)
         bindSchedule(outfit.plannedDate?.takeIf { it.isNotBlank() })
+    }
+
+    private fun bindOccasion(rawOccasion: String?) {
+        currentOccasions = rawOccasion?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+        findViewById<TextView>(R.id.tvOccasion).text =
+            if (currentOccasions.isEmpty()) getString(R.string.add_occasion) else currentOccasions.joinToString(" · ")
     }
 
     private fun bindTags(rawTags: String?) {
@@ -173,10 +190,16 @@ class OutfitDetailActivity : AppCompatActivity() {
             val card = layoutInflater.inflate(R.layout.item_included_clothing, container, false)
             val image = card.findViewById<ImageView>(R.id.imgClothing)
             lifecycleScope.launch(Dispatchers.IO) {
-                val bitmap = ImageDecoder.decode(item.imagePath, 120)
+                val bitmap = ImageDecoder.decode(item.imagePath, 220)
                 withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
             }
             card.findViewById<TextView>(R.id.tvClothingCategory).text = item.category
+            card.setOnClickListener {
+                startActivity(
+                    Intent(this, GarmentDetailActivity::class.java)
+                        .putExtra(GarmentDetailActivity.EXTRA_CLOTHING_ID, item.id)
+                )
+            }
             container.addView(card)
         }
         findViewById<TextView>(R.id.tvCategory).text = if (categories.isEmpty()) getString(R.string.no_category) else categories.sorted().joinToString(" · ")

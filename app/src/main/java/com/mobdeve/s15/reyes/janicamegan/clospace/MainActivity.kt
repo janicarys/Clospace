@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_OPEN_TAB = "openTab"
+        const val EXTRA_OPEN_DATE = "openDate"
 
         const val TAB_CLOSET = 0
         const val TAB_OUTFIT = 1
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         selectTabFromIntent(intent)
     }
 

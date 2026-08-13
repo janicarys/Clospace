@@ -24,6 +24,8 @@ class SelectGarmentsActivity : AppCompatActivity() {
         const val EXTRA_CLOTHING_IDS = "clothingIds"
         const val EXTRA_RETURN_SELECTION = "returnSelection"
         const val EXTRA_DATE = "selectedDate"
+
+        private const val REQ_OPEN_CANVAS = 2001
     }
 
     private lateinit var backend: BackendRepository
@@ -100,7 +102,7 @@ class SelectGarmentsActivity : AppCompatActivity() {
 
             } else {
 
-                startActivity(
+                startActivityForResult(
                     Intent(this, OutfitCanvasActivity::class.java)
                         .putExtra(
                             OutfitCanvasActivity.EXTRA_CLOTHING_IDS,
@@ -109,12 +111,29 @@ class SelectGarmentsActivity : AppCompatActivity() {
                         .putExtra(
                             OutfitCanvasActivity.EXTRA_DATE,
                             intent.getStringExtra(EXTRA_DATE)
-                        )
+                        ),
+                    REQ_OPEN_CANVAS
                 )
             }
         }
 
         loadGarments()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode != REQ_OPEN_CANVAS || resultCode != RESULT_OK) return
+
+        val survivors = data?.getIntArrayExtra(EXTRA_CLOTHING_IDS)?.toSet() ?: return
+
+        selected.removeAll { it.id !in survivors }
+        selectedIds.clear()
+        selectedIds.addAll(selected.map { it.id })
+
+        updateCount()
+        gridAdapter.notifyDataSetChanged()
+        selectedAdapter.notifyDataSetChanged()
     }
 
     private fun loadGarments() {

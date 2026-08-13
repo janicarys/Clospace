@@ -20,5 +20,9 @@ data class OutfitItem(
     val scale: Float = 1f,
 
     // Layer order, 0 = bottom
-    val layer: Int = 0
+    val layer: Int = 0,
+
+    // Canvas aspect (height / width) this placement was composed in; previews
+    // use it to reproduce the tall portrait canvas layout.
+    val canvasRatio: Float = 1f
 )

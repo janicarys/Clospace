@@ -2,21 +2,26 @@ package com.mobdeve.s15.reyes.janicamegan.clospace
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputEditText
-import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.ImageDecoder
 import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitPreviewCache
+import com.mobdeve.s15.reyes.janicamegan.clospace.util.OutfitRenderer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class OutfitDetailsActivity : AppCompatActivity() {
     companion object {
@@ -27,6 +32,7 @@ class OutfitDetailsActivity : AppCompatActivity() {
         const val EXTRA_LAYER = "layers"
         const val EXTRA_OUTFIT_ID = "outfitId"
         const val EXTRA_DATE = "selectedDate"
+        const val EXTRA_CANVAS_RATIO = "canvasRatio"
     }
 
     private lateinit var backend: BackendRepository
@@ -37,12 +43,10 @@ class OutfitDetailsActivity : AppCompatActivity() {
     private var scales = floatArrayOf()
     private var layers = intArrayOf()
     private var selectedDate: String? = null
-    private var selectedOccasion: String? = null
-    private lateinit var etCaption: TextInputEditText
-    private lateinit var etTags: TextInputEditText
-    private lateinit var tvSelectedDate: TextView
-    private lateinit var tvOccasion: TextView
-    private lateinit var imgPreview: ImageView
+    private var selectedOccasions: List<String> = emptyList()
+    private var canvasRatio = 1f
+    private var currentCaption = ""
+    private var currentTags: List<String> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,30 +61,42 @@ class OutfitDetailsActivity : AppCompatActivity() {
         scales = intent.getFloatArrayExtra(EXTRA_SCALE) ?: FloatArray(clothingIds.size) { 1f }
         layers = intent.getIntArrayExtra(EXTRA_LAYER) ?: IntArray(clothingIds.size) { it }
         editOutfitId = intent.getIntExtra(EXTRA_OUTFIT_ID, 0)
+        selectedDate = intent.getStringExtra(EXTRA_DATE)
+        canvasRatio = intent.getFloatExtra(EXTRA_CANVAS_RATIO, 1f)
 
-        etCaption = findViewById(R.id.etCaption)
-        etTags = findViewById(R.id.etTags)
-        tvSelectedDate = findViewById(R.id.tvSelectedDate)
-        tvOccasion = findViewById(R.id.tvOccasion)
-        imgPreview = findViewById(R.id.imgOutfitPreview)
+        findViewById<View>(R.id.tvCaption).setOnClickListener { promptCaption() }
+        findViewById<View>(R.id.rowTags).setOnClickListener { promptTags() }
+        findViewById<View>(R.id.rowOccasion).setOnClickListener { promptOccasion() }
+        findViewById<View>(R.id.rowSchedule).setOnClickListener { promptSchedule() }
+        findViewById<View>(R.id.btnSaveOutfit).setOnClickListener { saveOutfit() }
 
-        intent.getStringExtra(EXTRA_DATE)?.let { preset ->
-            selectedDate = preset
-            tvSelectedDate.text = preset
-        }
-
-        findViewById<android.view.View>(R.id.layoutDate).setOnClickListener { pickDate() }
-        findViewById<android.view.View>(R.id.layoutOccasion).setOnClickListener { pickOccasion() }
-        findViewById<android.view.View>(R.id.btnSaveOutfit).setOnClickListener { saveOutfit() }
-        loadPreview()
+        loadDetail()
     }
 
-    private fun loadPreview() {
+    private fun loadDetail() {
         lifecycleScope.launch {
-            val placements = buildPlacements()
-            val bitmap = withContext(Dispatchers.Default) { placements?.let { OutfitRenderer.render(it, 330, 450) } }
-            if (bitmap != null) imgPreview.setImageBitmap(bitmap)
+            if (editOutfitId > 0) {
+                val outfit = backend.getOutfitById(editOutfitId)?.outfit
+                if (outfit != null) {
+                    bindCaption(outfit.caption)
+bindTags(outfit.tags)
+                selectedOccasions = splitOccasions(outfit.occasion)
+                    outfit.plannedDate?.takeIf { it.isNotBlank() }?.let { selectedDate = it }
+                }
+            }
+            bindCaption(currentCaption)
+            bindTags(currentTags.joinToString(", "))
+            bindOccasion(selectedOccasions)
+            bindSchedule(selectedDate?.takeIf { it.isNotBlank() })
+            loadPreview()
+            bindClothes()
         }
+    }
+
+    private suspend fun loadPreview() {
+        val placements = buildPlacements()
+        val bitmap = withContext(Dispatchers.Default) { placements?.let { OutfitRenderer.render(it, 660, 960) } }
+        if (bitmap != null) findViewById<ImageView>(R.id.imgOutfitPreview).setImageBitmap(bitmap)
     }
 
     private suspend fun buildPlacements(): List<OutfitPlacement>? {
@@ -92,34 +108,116 @@ class OutfitDetailsActivity : AppCompatActivity() {
                     x = xPositions.getOrElse(index) { .5f },
                     y = yPositions.getOrElse(index) { .5f },
                     scale = scales.getOrElse(index) { 1f },
-                    layer = layers.getOrElse(index) { index }
+                    layer = layers.getOrElse(index) { index },
+                    canvasRatio = canvasRatio
                 )
             }
         }
         return result.ifEmpty { null }
     }
 
-    private fun pickDate() {
+    private suspend fun bindClothes() {
+        val container = findViewById<LinearLayout>(R.id.containerClothes)
+        container.removeAllViews()
+        val categories = mutableSetOf<String>()
+        for (id in clothingIds) {
+            val item = backend.getClothingById(id) ?: continue
+            if (item.category.isNotBlank()) categories += item.category
+            val card = layoutInflater.inflate(R.layout.item_included_clothing, container, false)
+            val image = card.findViewById<ImageView>(R.id.imgClothing)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val bitmap = ImageDecoder.decode(item.imagePath, 220)
+                withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
+            }
+            card.findViewById<TextView>(R.id.tvClothingCategory).text = item.category
+            container.addView(card)
+        }
+        findViewById<TextView>(R.id.tvCategory).text =
+            if (categories.isEmpty()) getString(R.string.no_category) else categories.sorted().joinToString(" · ")
+    }
+
+    private fun bindCaption(caption: String?) {
+        currentCaption = caption?.trim().orEmpty()
+        val tv = findViewById<TextView>(R.id.tvCaption)
+        tv.text = currentCaption.ifEmpty { getString(R.string.add_caption) }
+        tv.setTextColor(resources.getColor(if (currentCaption.isEmpty()) R.color.brown else R.color.purple, null))
+    }
+
+    private fun promptCaption() {
+        ClospaceBottomSheets.showInput(
+            this,
+            R.string.caption,
+            getString(R.string.hint_caption),
+            currentCaption
+        ) { value -> bindCaption(value) }
+    }
+
+    private fun bindTags(rawTags: String?) {
+        currentTags = rawTags?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+        findViewById<TextView>(R.id.tvTags).text =
+            if (currentTags.isEmpty()) getString(R.string.add_tags) else currentTags.joinToString(" · ")
+    }
+
+    private fun promptTags() {
+        TagPickerDialog.show(this, backend, currentTags) { names ->
+            currentTags = names
+            findViewById<TextView>(R.id.tvTags).text =
+                if (names.isEmpty()) getString(R.string.add_tags) else names.joinToString(" · ")
+        }
+    }
+
+    private fun splitOccasions(raw: String?): List<String> =
+        raw?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+
+    private fun joinOccasions(occasions: List<String>): String =
+        occasions.joinToString(", ")
+
+    private fun bindOccasion(occasions: List<String>) {
+        selectedOccasions = occasions
+        findViewById<TextView>(R.id.tvOccasion).text =
+            if (occasions.isEmpty()) getString(R.string.add_occasion) else occasions.joinToString(" · ")
+    }
+
+    private fun promptOccasion() {
+        val occasions = resources.getStringArray(R.array.occasions)
+        val selected = selectedOccasions.mapNotNull { occasion ->
+            occasions.indexOfFirst { it.equals(occasion, ignoreCase = true) }.takeIf { it >= 0 }
+        }.toSet()
+        ClospaceBottomSheets.showMultiChoice(
+            this,
+            R.string.occasion,
+            occasions,
+            selected
+        ) { indices -> bindOccasion(indices.sorted().map { occasions[it] }) }
+    }
+
+    private fun promptSchedule() {
         MaterialDatePicker.Builder.datePicker().setTitleText(R.string.pick_date).build().also { picker ->
             picker.addOnPositiveButtonClickListener { selection ->
                 selectedDate = Instant.ofEpochMilli(selection).atZone(ZoneId.systemDefault()).toLocalDate().toString()
-                tvSelectedDate.text = selectedDate
+                bindSchedule(selectedDate)
             }
             picker.show(supportFragmentManager, "date_picker")
         }
     }
 
-    private fun pickOccasion() {
-        val occasions = resources.getStringArray(R.array.occasions)
-        ClospaceBottomSheets.showChoice(this, R.string.occasion, occasions) { which ->
-            selectedOccasion = occasions[which]
-            tvOccasion.text = selectedOccasion
+    private fun bindSchedule(plannedDate: String?) {
+        val tile = findViewById<View>(R.id.tileDate)
+        val empty = findViewById<TextView>(R.id.tvScheduleEmpty)
+        val date = plannedDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
+        if (date == null) {
+            tile.visibility = View.GONE
+            empty.visibility = View.VISIBLE
+            return
         }
+        empty.visibility = View.GONE
+        tile.visibility = View.VISIBLE
+        findViewById<TextView>(R.id.tvScheduleDay).text = date.format(DateTimeFormatter.ofPattern("EEE", Locale.ENGLISH))
+        findViewById<TextView>(R.id.tvScheduleNumber).text = date.dayOfMonth.toString()
+        findViewById<TextView>(R.id.tvScheduleMonth).text = date.format(DateTimeFormatter.ofPattern("MMM", Locale.ENGLISH))
     }
 
     private fun saveOutfit() {
-        val caption = etCaption.text?.toString()?.trim()?.ifBlank { null }
-        val tags = etTags.text?.toString()?.trim()?.ifBlank { null }
         val placements = clothingIds.mapIndexed { index, clothingId ->
             OutfitItem(
                 outfitId = editOutfitId,
@@ -127,7 +225,8 @@ class OutfitDetailsActivity : AppCompatActivity() {
                 x = xPositions.getOrElse(index) { .5f },
                 y = yPositions.getOrElse(index) { .5f },
                 scale = scales.getOrElse(index) { 1f },
-                layer = layers.getOrElse(index) { index }
+                layer = layers.getOrElse(index) { index },
+                canvasRatio = canvasRatio
             )
         }
 
@@ -138,24 +237,33 @@ class OutfitDetailsActivity : AppCompatActivity() {
                         ?: throw IllegalArgumentException("Outfit not found")
                     backend.updateOutfit(
                         id = editOutfitId,
-                        caption = caption,
-                        occasion = selectedOccasion ?: existing.occasion,
+                        caption = currentCaption.ifBlank { null },
+                        occasion = joinOccasions(selectedOccasions),
                         selectedDate = selectedDate ?: existing.plannedDate,
-                        tags = tags,
+                        tags = currentTags.joinToString(", "),
                         placements = placements
                     )
                     editOutfitId
                 } else {
-                    backend.createOutfit(caption, selectedOccasion, selectedDate, tags, placements)
+                    backend.createOutfit(
+                        currentCaption.ifBlank { null },
+                        joinOccasions(selectedOccasions).ifEmpty { null },
+                        selectedDate,
+                        currentTags.joinToString(", "),
+                        placements
+                    )
                 }
                 OutfitPreviewCache.evict(savedId)
             }.onSuccess {
                 Toast.makeText(this@OutfitDetailsActivity, if (editOutfitId > 0) R.string.outfit_updated else R.string.outfit_saved, Toast.LENGTH_SHORT).show()
-                startActivity(
-                    Intent(this@OutfitDetailsActivity, MainActivity::class.java)
-                        .putExtra(MainActivity.EXTRA_OPEN_TAB, MainActivity.TAB_OUTFIT)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                )
+                val main = Intent(this@OutfitDetailsActivity, MainActivity::class.java)
+                    .putExtra(
+                        MainActivity.EXTRA_OPEN_TAB,
+                        if (selectedDate.isNullOrBlank()) MainActivity.TAB_OUTFIT else MainActivity.TAB_CALENDAR
+                    )
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                if (!selectedDate.isNullOrBlank()) main.putExtra(MainActivity.EXTRA_OPEN_DATE, selectedDate)
+                startActivity(main)
                 finish()
             }.onFailure {
                 Toast.makeText(this@OutfitDetailsActivity, it.message ?: "Unable to save outfit", Toast.LENGTH_LONG).show()

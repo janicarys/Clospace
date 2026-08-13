@@ -34,7 +34,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="32dp">
 
-            <!-- Garment image -->
+            <!-- Item image -->
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardPreview"
@@ -51,6 +51,28 @@
                     android:padding="16dp"/>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Edit image -->
+
+            <Button
+                android:id="@+id/btnEditImage"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_pill_background"
+                android:drawableStart="@drawable/ic_image_edit"
+                android:drawableTint="@android:color/white"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/rokkitt_bold"
+                android:gravity="center"
+                android:minWidth="140dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="@string/edit"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"/>
 
             <!-- Caption / name -->
 

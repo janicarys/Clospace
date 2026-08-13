@@ -138,6 +138,21 @@ class BackendRepository(private val context: Context) {
         }
     }
 
+    /** Replaces an item's photo with an edited local image (uploaded to storage). */
+    suspend fun updateClothingImage(id: Int, localImagePath: String) {
+        val userId = requireUserId()
+        val extension = if (localImagePath.lowercase().endsWith(".png")) "png" else "jpg"
+        val storagePath = "$userId/${UUID.randomUUID()}.$extension"
+        client.storage.from("clothing-images").upload(storagePath, File(localImagePath).readBytes())
+        val publicUrl = client.storage.from("clothing-images").publicUrl(storagePath)
+        client.from("clothing").update(ClothingImageUpdate(imageUrl = publicUrl)) {
+            filter {
+                eq("id", id)
+                eq("user_id", userId)
+            }
+        }
+    }
+
     // ---- Reusable tags ----
 
     suspend fun getTags(): List<Tag> {
@@ -441,7 +456,8 @@ class BackendRepository(private val context: Context) {
                     x = it.x.toDouble(),
                     y = it.y.toDouble(),
                     scale = it.scale.toDouble(),
-                    layer = it.layer
+                    layer = it.layer,
+                    canvasRatio = it.canvasRatio.toDouble()
                 )
             }
         )
@@ -466,7 +482,8 @@ class BackendRepository(private val context: Context) {
                     x = item.x.toFloat(),
                     y = item.y.toFloat(),
                     scale = item.scale.toFloat(),
-                    layer = item.layer
+                    layer = item.layer,
+                    canvasRatio = item.canvasRatio.toFloat()
                 )
             }
         }.sortedBy { it.layer }
@@ -573,6 +590,11 @@ data class ClothingUpdate(
 )
 
 @Serializable
+data class ClothingImageUpdate(
+    @SerialName("image_url") val imageUrl: String
+)
+
+@Serializable
 data class OutfitRow(
     val id: Long,
     @SerialName("user_id") val userId: String,
@@ -603,7 +625,8 @@ data class OutfitItemRow(
     val x: Double = 0.5,
     val y: Double = 0.5,
     val scale: Double = 1.0,
-    val layer: Int = 0
+    val layer: Int = 0,
+    @SerialName("canvas_ratio") val canvasRatio: Double = 1.0
 )
 
 @Serializable
@@ -613,7 +636,8 @@ data class OutfitItemInsert(
     val x: Double,
     val y: Double,
     val scale: Double,
-    val layer: Int
+    val layer: Int,
+    @SerialName("canvas_ratio") val canvasRatio: Double = 1.0
 )
 
 @Serializable

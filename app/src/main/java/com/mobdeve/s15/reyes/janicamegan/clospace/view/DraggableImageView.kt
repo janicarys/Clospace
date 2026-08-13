@@ -21,8 +21,18 @@ class DraggableImageView @JvmOverloads constructor(
 
     var onSelected: ((DraggableImageView) -> Unit)? = null
 
+    var onDragStart: ((DraggableImageView) -> Unit)? = null
+
+    var onPositionChanged: (() -> Unit)? = null
+
+    var onDragEnd: ((DraggableImageView) -> Unit)? = null
+
     private var lastX = 0f
     private var lastY = 0f
+
+    private var dragEnded = false
+
+    private var wasDragging = false
 
     private val scaleDetector = ScaleGestureDetector(
         context,
@@ -54,6 +64,8 @@ class DraggableImageView @JvmOverloads constructor(
 
                 lastX = event.rawX
                 lastY = event.rawY
+                dragEnded = false
+                wasDragging = false
 
                 onSelected?.invoke(this)
             }
@@ -70,6 +82,13 @@ class DraggableImageView @JvmOverloads constructor(
 
                     lastX = event.rawX
                     lastY = event.rawY
+
+                    if (!wasDragging) {
+                        wasDragging = true
+                        onDragStart?.invoke(this)
+                    }
+
+                    onPositionChanged?.invoke()
                 }
             }
 
@@ -77,6 +96,15 @@ class DraggableImageView @JvmOverloads constructor(
             MotionEvent.ACTION_CANCEL -> {
 
                 parent?.requestDisallowInterceptTouchEvent(false)
+
+                if (dragEnded) {
+                    return true
+                }
+
+                dragEnded = true
+                wasDragging = false
+
+                onDragEnd?.invoke(this)
             }
         }
 
@@ -89,6 +117,8 @@ class DraggableImageView @JvmOverloads constructor(
         scaleX = scale
         scaleY = scale
     }
+
+    fun isDragging(): Boolean = wasDragging
 
     fun setSelectedVisual(selected: Boolean) {
 

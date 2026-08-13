@@ -124,6 +124,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="occasion_required">Please select an occasion</string>
     <string name="outfit_saved">Outfit saved!</string>
     <string name="outfit_updated">Outfit updated!</string>
+    <string name="save_outfit">Save Outfit</string>
 
     <!-- Outfit Detail -->
     <string name="outfit_detail_title">Outfit</string>
@@ -135,6 +136,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="remove_from_date_title">Remove from this date?</string>
     <string name="remove_from_date_message">This outfit stays saved in your collection, but will no longer be scheduled on this date.</string>
     <string name="removed_from_date">Removed from this date</string>
+    <string name="removed_from_canvas">Item removed from outfit</string>
     <string name="cancel">Cancel</string>
     <string name="outfit_deleted">Outfit deleted</string>
     <string name="clothes_included">Clothes in outfit</string>
@@ -162,7 +164,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="tag_rename_failed">Unable to rename tag</string>
     <string name="tag_delete_failed">Unable to delete tag</string>
     <string name="add_occasion">Add occasion</string>
-    <string name="not_scheduled">This outfit can be scheduled</string>
+    <string name="not_scheduled">No date for this outfit yet</string>
     <string name="no_category">—</string>
     <string name="remove_garment">Remove garment</string>
     <string name="tap_to_select">Tap to select</string>
@@ -186,6 +188,21 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="garment_deleted">Item deleted</string>
     <string name="delete_garment_title">Delete item?</string>
     <string name="delete_garment_message">This item will be permanently removed from your closet and any outfits using it.</string>
+
+    <!-- Image Editor -->
+    <string name="image_editor_title">Edit Image</string>
+    <string name="edit_image">Edit image</string>
+    <string name="rotate_left">Rotate left</string>
+    <string name="rotate_right">Rotate right</string>
+    <string name="zoom_in_btn">Zoom in</string>
+    <string name="zoom_out_btn">Zoom out</string>
+    <string name="reset_image">Reset</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="rotate">Rotate</string>
+    <string name="flip">Flip</string>
+    <string name="image_saved">Image updated</string>
+    <string name="image_save_failed">Unable to save image</string>
 
     <string-array name="occasions">
         <item>Work</item>
