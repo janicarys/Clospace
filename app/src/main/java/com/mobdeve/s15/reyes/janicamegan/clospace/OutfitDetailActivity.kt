@@ -140,7 +140,7 @@ class OutfitDetailActivity : AppCompatActivity() {
             val outfit = wrapper.outfit
             bindFields(outfit)
             bindClothes(wrapper.placements.map { it.item })
-            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 360, 480) }
+            val preview = withContext(Dispatchers.Default) { OutfitRenderer.render(wrapper.placements, 720, 960) }
             if (preview != null) findViewById<ImageView>(R.id.imgOutfitPreview).setImageBitmap(preview)
         }
     }
@@ -190,10 +190,16 @@ class OutfitDetailActivity : AppCompatActivity() {
             val card = layoutInflater.inflate(R.layout.item_included_clothing, container, false)
             val image = card.findViewById<ImageView>(R.id.imgClothing)
             lifecycleScope.launch(Dispatchers.IO) {
-                val bitmap = ImageDecoder.decode(item.imagePath, 120)
+                val bitmap = ImageDecoder.decode(item.imagePath, 220)
                 withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
             }
             card.findViewById<TextView>(R.id.tvClothingCategory).text = item.category
+            card.setOnClickListener {
+                startActivity(
+                    Intent(this, GarmentDetailActivity::class.java)
+                        .putExtra(GarmentDetailActivity.EXTRA_CLOTHING_ID, item.id)
+                )
+            }
             container.addView(card)
         }
         findViewById<TextView>(R.id.tvCategory).text = if (categories.isEmpty()) getString(R.string.no_category) else categories.sorted().joinToString(" · ")

@@ -95,7 +95,7 @@ bindTags(outfit.tags)
 
     private suspend fun loadPreview() {
         val placements = buildPlacements()
-        val bitmap = withContext(Dispatchers.Default) { placements?.let { OutfitRenderer.render(it, 330, 480) } }
+        val bitmap = withContext(Dispatchers.Default) { placements?.let { OutfitRenderer.render(it, 660, 960) } }
         if (bitmap != null) findViewById<ImageView>(R.id.imgOutfitPreview).setImageBitmap(bitmap)
     }
 
@@ -126,7 +126,7 @@ bindTags(outfit.tags)
             val card = layoutInflater.inflate(R.layout.item_included_clothing, container, false)
             val image = card.findViewById<ImageView>(R.id.imgClothing)
             lifecycleScope.launch(Dispatchers.IO) {
-                val bitmap = ImageDecoder.decode(item.imagePath, 120)
+                val bitmap = ImageDecoder.decode(item.imagePath, 220)
                 withContext(Dispatchers.Main) { image.setImageBitmap(bitmap) }
             }
             card.findViewById<TextView>(R.id.tvClothingCategory).text = item.category

@@ -47,7 +47,7 @@ object OutfitRenderer {
 
         for (placement in ordered) {
 
-            val bitmap = ImageDecoder.decode(placement.item.imagePath, 200) ?: continue
+            val bitmap = ImageDecoder.decode(placement.item.imagePath, 512) ?: continue
 
             val drawWidth = baseWidth * placement.scale
             val drawHeight = baseHeight * placement.scale
