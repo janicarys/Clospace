@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -47,6 +48,25 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
     private var selectedGarment: DraggableImageView? = null
 
+    private var trashZone: View? = null
+
+    private fun isOverTrashZone(view: DraggableImageView): Boolean {
+
+        val zone = trashZone ?: return false
+
+        val zoneLeft = zone.left.toFloat()
+        val zoneTop = zone.top.toFloat()
+        val zoneRight = zone.right.toFloat()
+        val zoneBottom = zone.bottom.toFloat()
+
+        val left = view.left + view.translationX
+        val top = view.top + view.translationY
+        val right = left + view.width
+        val bottom = top + view.height
+
+        return left < zoneRight && right > zoneLeft && top < zoneBottom && bottom > zoneTop
+    }
+
     private val addClothesLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
@@ -64,7 +84,11 @@ class OutfitCanvasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_outfit_canvas)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            finish()
+            finishOutfitFlow()
+        }
+
+        onBackPressedDispatcher.addCallback(this) {
+            finishOutfitFlow()
         }
 
         backend = BackendRepository(this)
@@ -73,6 +97,8 @@ class OutfitCanvasActivity : AppCompatActivity() {
         editOutfitId = intent.getIntExtra(EXTRA_OUTFIT_ID, 0)
 
         canvas = findViewById(R.id.canvasContainer)
+        trashZone = findViewById(R.id.trashZone)
+        trashZone?.elevation = 1000f
 
         findViewById<View>(R.id.btnAddClothes).setOnClickListener {
             addClothesLauncher.launch(
@@ -218,7 +244,60 @@ class OutfitCanvasActivity : AppCompatActivity() {
 
         view.onSelected = { selectGarment(it) }
 
+        view.onDragStart = { updateTrashHighlight() }
+
+        view.onPositionChanged = { updateTrashHighlight() }
+
+        view.onDragEnd = { v -> handleDrop(v) }
+
         return view
+    }
+
+    private fun updateTrashHighlight() {
+
+        val zone = trashZone ?: return
+
+        val anyDragging = garments.any { it.isDragging() }
+
+        if (!anyDragging) {
+            zone.visibility = View.GONE
+            return
+        }
+
+        zone.visibility = View.VISIBLE
+
+        val anyOver = garments.any { isOverTrashZone(it) }
+
+        zone.alpha = if (anyOver) 1f else 0.4f
+
+        zone.scaleX = if (anyOver) 1.15f else 1f
+        zone.scaleY = if (anyOver) 1.15f else 1f
+    }
+
+    private fun handleDrop(view: DraggableImageView) {
+
+        if (canvas.indexOfChild(view) < 0) {
+            return
+        }
+
+        updateTrashHighlight()
+
+        if (!isOverTrashZone(view)) {
+            return
+        }
+
+        canvas.removeView(view)
+        garments.remove(view)
+
+        if (selectedGarment == view) {
+            selectedGarment = null
+        }
+
+        reindexLayers()
+
+        updateTrashHighlight()
+
+        Toast.makeText(this, R.string.removed_from_canvas, Toast.LENGTH_SHORT).show()
     }
 
     private fun restorePlace(
@@ -371,5 +450,17 @@ class OutfitCanvasActivity : AppCompatActivity() {
     private fun dp(value: Int): Int {
 
         return (value * resources.displayMetrics.density).toInt()
+    }
+
+    private fun finishOutfitFlow() {
+
+        val survivors = garments.mapNotNull { it.tag as? Int }.toIntArray()
+
+        setResult(
+            RESULT_OK,
+            Intent().putExtra(EXTRA_CLOTHING_IDS, survivors)
+        )
+
+        finish()
     }
 }

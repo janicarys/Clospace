@@ -39,6 +39,29 @@
             android:textSize="14sp"
             android:visibility="gone"/>
 
+        <!-- Drop-to-delete zone: dragging a garment over this removes it. -->
+
+        <FrameLayout
+            android:id="@+id/trashZone"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:alpha="0.4"
+            android:background="@drawable/bg_trash_zone"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/trashIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_trash"
+                app:tint="@color/purple"/>
+
+        </FrameLayout>
     </FrameLayout>
 
     <!-- Back button (overlaps canvas) -->

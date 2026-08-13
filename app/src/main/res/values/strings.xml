@@ -136,6 +136,7 @@ Clospace helps users organize their wardrobe, create outfits, and manage their c
     <string name="remove_from_date_title">Remove from this date?</string>
     <string name="remove_from_date_message">This outfit stays saved in your collection, but will no longer be scheduled on this date.</string>
     <string name="removed_from_date">Removed from this date</string>
+    <string name="removed_from_canvas">Item removed from outfit</string>
     <string name="cancel">Cancel</string>
     <string name="outfit_deleted">Outfit deleted</string>
     <string name="clothes_included">Clothes in outfit</string>
